@@ -25,7 +25,7 @@ const menuData = [{
   }, {
     name: '出库扫描',
     path: 'outbound-scanning',
-  }]
+  }],
 }];
 
 function formatter(data, parentPath = '/', parentAuthority) {
