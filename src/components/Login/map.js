@@ -11,7 +11,7 @@ const map = {
       placeholder: 'admin',
     },
     rules: [{
-      required: true, message: 'Please enter username!',
+      required: true, message: '请输入用户名!',
     }],
   },
   Password: {
@@ -23,7 +23,7 @@ const map = {
       placeholder: '888888',
     },
     rules: [{
-      required: true, message: 'Please enter password!',
+      required: true, message: '请输入密码!',
     }],
   },
   Mobile: {
@@ -31,7 +31,7 @@ const map = {
     props: {
       size: 'large',
       prefix: <Icon type="mobile" className={styles.prefixIcon} />,
-      placeholder: 'mobile number',
+      placeholder: '即将上线',
     },
     rules: [{
       required: true, message: 'Please enter mobile number!',
@@ -44,10 +44,21 @@ const map = {
     props: {
       size: 'large',
       prefix: <Icon type="mail" className={styles.prefixIcon} />,
-      placeholder: 'captcha',
+      placeholder: '即将上线',
     },
     rules: [{
-      required: true, message: 'Please enter Captcha!',
+      required: true, message: '请输入验证码!',
+    }],
+  },
+  ImageVerify: {
+    component: Input,
+    props: {
+      size: 'large',
+      prefix: <Icon type="mail" className={styles.prefixIcon} />,
+      placeholder: '图片验证码',
+    },
+    rules: [{
+      required: true, message: '请输入验证码!',
     }],
   },
 };

@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { fakeAccountLogin } from '../services/api';
+import { accountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -12,13 +12,40 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      // right payload
+      // imageCode:"11"
+      // password:"888888"
+      // type:"account"
+      // username:"admin"
+      const newOptions = { ...payload };
+      if (payload.type === 'account') {
+        newOptions.uuid = window.localStorage.getItem('login-uuid');
+      }
+      const response = yield call(accountLogin, newOptions);
+      // right response
+      // currentAuthority:"admin"
+      // status:"ok"
+      // type:"account"
+      let loginStatus = {};
+      if (response.code !== 200) {
+        loginStatus = {
+          currentAuthority: 'guest',
+          status: 'error',
+          type: payload.type,
+        };
+      } else {
+        loginStatus = {
+          currentAuthority: 'admin',
+          status: 'ok',
+          type: payload.type,
+        };
+      }
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: loginStatus,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (loginStatus.status === 'ok') {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
       }

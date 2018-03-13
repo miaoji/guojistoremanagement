@@ -43,9 +43,7 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  const defaultOptions = {
-    credentials: 'include',
-  };
+  const defaultOptions = {};
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     if (!(newOptions.body instanceof FormData)) {
@@ -65,7 +63,22 @@ export default function request(url, options) {
     }
   }
 
-  return fetch(url, newOptions)
+  let newUrl = url;
+  if (newOptions.withParams) {
+    const { params } = newOptions;
+    if (params) {
+      const paramsArray = [];
+      // 拼接参数
+      Object.keys(params).forEach(key => paramsArray.push(`${key}=${params[key]}`));
+      if (newUrl.search(/\?/) === -1) {
+        newUrl += `?${paramsArray.join('&')}`;
+      } else {
+        newUrl += `&${paramsArray.join('&')}`;
+      }
+    }
+  }
+
+  return fetch(newUrl, newOptions)
     .then(checkStatus)
     .then((response) => {
       if (newOptions.method === 'DELETE' || response.status === 204) {

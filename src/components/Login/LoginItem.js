@@ -4,8 +4,10 @@ import { Form, Button, Row, Col } from 'antd';
 import omit from 'omit.js';
 import styles from './index.less';
 import map from './map';
+import { login as loginApi } from '../../utils/api';
 
 const FormItem = Form.Item;
+const { getVerifyImage } = loginApi;
 
 function generator({ defaultProps, defaultRules, type }) {
   return (WrappedComponent) => {
@@ -18,6 +20,7 @@ function generator({ defaultProps, defaultRules, type }) {
         super(props);
         this.state = {
           count: 0,
+          uuid: new Date().getTime(),
         };
       }
       componentDidMount() {
@@ -42,12 +45,19 @@ function generator({ defaultProps, defaultRules, type }) {
           }
         }, 1000);
       }
+      onGetImageVerify = () => {
+        const uuid = new Date().getTime();
+        this.setState({ uuid });
+        if (this.props.onGetImageVerify) {
+          this.props.onGetImageVerify();
+        }
+      }
       render() {
         const { getFieldDecorator } = this.context.form;
         const options = {};
         let otherProps = {};
         const { onChange, defaultValue, rules, name, ...restProps } = this.props;
-        const { count } = this.state;
+        const { count, uuid } = this.state;
         options.rules = rules || defaultRules;
         if (onChange) {
           options.onChange = onChange;
@@ -75,6 +85,29 @@ function generator({ defaultProps, defaultRules, type }) {
                   >
                     {count ? `${count} s` : '获取验证码'}
                   </Button>
+                </Col>
+              </Row>
+            </FormItem>
+          );
+        }
+        if (type === 'ImageVerify') {
+          window.localStorage.setItem('login-uuid', uuid);
+          const inputProps = omit(otherProps, ['onGetImageVerify']);
+          return (
+            <FormItem>
+              <Row gutter={8}>
+                <Col span={16}>
+                  {getFieldDecorator(name, options)(
+                    <WrappedComponent {...defaultProps} {...inputProps} />
+                  )}
+                </Col>
+                <Col span={8}>
+                  <img
+                    src={`${getVerifyImage}?uuid=${uuid}`}
+                    alt="点击刷新"
+                    className={styles.getImage}
+                    onClick={this.onGetImageVerify}
+                  />
                 </Col>
               </Row>
             </FormItem>

@@ -28,5 +28,6 @@ export default class Login extends React.Component<LoginProps, any> {
   static Password: typeof LoginItem;
   static Mobile: typeof LoginItem;
   static Captcha: typeof LoginItem;
+  static ImageVerify: typeof LoginItem;
   static Submit: typeof Button;
 }
