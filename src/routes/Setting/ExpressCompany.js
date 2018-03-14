@@ -10,31 +10,23 @@ const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
-    title: '客户编码',
+    title: '快递公司名称',
     dataIndex: 'no',
   },
   {
-    title: '客户姓名',
+    title: '快递公司代码',
     dataIndex: 'no',
   },
   {
-    title: '客户手机号',
+    title: '备注',
     dataIndex: 'no',
   },
   {
-    title: '客户邮编',
+    title: '快递公司类型',
     dataIndex: 'no',
   },
   {
-    title: '充值金额',
-    dataIndex: 'no',
-  },
-  {
-    title: '剩余金额',
-    dataIndex: 'no',
-  },
-  {
-    title: '创建时间',
+    title: '录入时间',
     dataIndex: 'no',
   },
   {
@@ -62,7 +54,7 @@ const CreateForm = Form.create()((props) => {
   };
   return (
     <Modal
-      title="新建客户"
+      title="新建快递公司"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -70,7 +62,7 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户名称"
+        label="快递公司名称"
       >
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -81,40 +73,7 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户手机号"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="客户公司"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="客户邮编"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="客户地址"
+        label="快递公司代码"
       >
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -265,20 +224,20 @@ export default class TableList extends PureComponent {
     });
   }
 
-  renderSimpleForm() {
+  renderForm() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="客户编码">
+            <FormItem label="快递公司名称">
               {getFieldDecorator('no')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
+            <FormItem label="快递公司代码">
               {getFieldDecorator('no')(
                 <Input placeholder="请输入" />
               )}
@@ -288,58 +247,11 @@ export default class TableList extends PureComponent {
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
             </span>
           </Col>
         </Row>
       </Form>
     );
-  }
-
-  renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="客户编码">
-              {getFieldDecorator('no')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
-              {getFieldDecorator('name')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="客户手机号">
-              {getFieldDecorator('phone')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </span>
-        </div>
-      </Form>
-    );
-  }
-
-  renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
   render() {
@@ -356,15 +268,6 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-    };
-
-    const expandedRowRender = (record) => {
-      return (
-        <div>
-          <p>客户公司:{record.MOBILE}</p>
-          <p>客户地址:{record.OPENID}</p>
-        </div>
-      );
     };
 
     return (
@@ -398,7 +301,6 @@ export default class TableList extends PureComponent {
               columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              expandedRowRender={expandedRowRender}
             />
           </div>
         </Card>

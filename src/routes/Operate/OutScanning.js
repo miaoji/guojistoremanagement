@@ -4,7 +4,7 @@ import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, Inpu
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './TableList.less';
+import styles from './OutScanning.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -43,22 +43,6 @@ const columns = [
     dataIndex: 'no',
   },
   {
-    title: '体积重',
-    dataIndex: 'no',
-  },
-  {
-    title: '长',
-    dataIndex: 'description',
-  },
-  {
-    title: '宽',
-    dataIndex: 'description',
-  },
-  {
-    title: '高',
-    dataIndex: 'description',
-  },
-  {
     title: '操作',
     render: () => (
       <Fragment>
@@ -86,6 +70,17 @@ const CreateForm = Form.create()((props) => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="描述"
+      >
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(
+          <Input placeholder="请输入" />
+        )}
+      </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
@@ -368,6 +363,17 @@ export default class TableList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    const expandedRowRender = (record) => {
+      return (
+        <div>
+          <p>体积重:{record.OPENID}</p>
+          <p>长:{record.MOBILE ? `${record.MOBILE.toString().substr(0, 3)}***${record.MOBILE.toString().substr(7, 10)}` : '未绑定手机号'}</p>
+          <p>宽:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
+          <p>高:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
+        </div>
+      );
+    };
+
     return (
       <PageHeaderLayout title="查询表格">
         <Card bordered={false}>
@@ -399,6 +405,7 @@ export default class TableList extends PureComponent {
               columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
+              expandedRowRender={expandedRowRender}
             />
           </div>
         </Card>

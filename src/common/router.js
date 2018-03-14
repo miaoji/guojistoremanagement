@@ -101,10 +101,19 @@ export const getRouterData = (app) => {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
     '/operate/entry-scanning': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/Operate/TableList')),
+      component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/EntryScanning')),
     },
     '/operate/outbound-scanning': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/Operate/TableList')),
+      component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/OutScanning')),
+    },
+    '/setting/customer': {
+      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/CustomerList')),
+    },
+    '/setting/warehouse-fee': {
+      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/WarehouseFee')),
+    },
+    '/setting/express-company': {
+      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/ExpressCompany')),
     },
   };
   // Get name from ./menu.js or just set it in the router data.

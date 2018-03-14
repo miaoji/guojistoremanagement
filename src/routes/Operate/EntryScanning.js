@@ -1,51 +1,54 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Icon, Button, Dropdown, Menu, Modal, message, Divider } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Icon, Button, Dropdown, Menu, DatePicker, Modal, message, Divider } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './CustomerList.less';
+import styles from './EntryScanning.less';
 
 const FormItem = Form.Item;
+const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
-    title: '客户编码',
+    title: '单号',
     dataIndex: 'no',
   },
   {
-    title: '客户姓名',
+    title: '扫描时间',
     dataIndex: 'no',
   },
   {
-    title: '客户手机号',
+    title: '仓管费',
     dataIndex: 'no',
   },
   {
-    title: '客户邮编',
+    title: '快递费',
     dataIndex: 'no',
   },
   {
-    title: '充值金额',
+    title: '客户名称',
     dataIndex: 'no',
   },
   {
-    title: '剩余金额',
+    title: '货架号',
     dataIndex: 'no',
   },
   {
-    title: '创建时间',
+    title: '快递公司',
+    dataIndex: 'no',
+  },
+  {
+    title: '重量',
     dataIndex: 'no',
   },
   {
     title: '操作',
     render: () => (
       <Fragment>
+        <a href="">更新</a>
+        <Divider type="vertical" />
         <a href="">删除</a>
-        <Divider type="vertical" />
-        <a href="">修改</a>
-        <Divider type="vertical" />
-        <a href="">打印编码</a>
       </Fragment>
     ),
   },
@@ -62,7 +65,7 @@ const CreateForm = Form.create()((props) => {
   };
   return (
     <Modal
-      title="新建客户"
+      title="新建入库"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -70,7 +73,18 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户名称"
+        label="单号"
+      >
+        {form.getFieldDecorator('orderno', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(
+          <Input placeholder="请输入" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="客户编码"
       >
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -81,7 +95,22 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户手机号"
+        label="作者"
+      >
+        {form.getFieldDecorator('author', {})(
+          <Select
+            onChange={this.handleFormSubmit}
+            placeholder="不限"
+            style={{ maxWidth: 200, width: '100%' }}
+          >
+            <Option value="lisa">王昭君</Option>
+          </Select>
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="快递公司"
       >
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -92,29 +121,7 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户公司"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="客户邮编"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(
-          <Input placeholder="请输入" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="客户地址"
+        label="货架号"
       >
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -126,9 +133,9 @@ const CreateForm = Form.create()((props) => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ cargo, loading }) => ({
+  cargo,
+  loading: loading.models.cargo,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -142,7 +149,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'cargo/fetch',
     });
   }
 
@@ -167,7 +174,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'cargo/fetch',
       payload: params,
     });
   }
@@ -179,7 +186,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'cargo/fetch',
       payload: {},
     });
   }
@@ -199,7 +206,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'cargo/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -239,7 +246,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'cargo/fetch',
         payload: values,
       });
     });
@@ -253,7 +260,7 @@ export default class TableList extends PureComponent {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'cargo/add',
       payload: {
         description: fields.desc,
       },
@@ -271,16 +278,19 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="客户编码">
+            <FormItem label="规则编号">
               {getFieldDecorator('no')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
-              {getFieldDecorator('no')(
-                <Input placeholder="请输入" />
+            <FormItem label="使用状态">
+              {getFieldDecorator('status')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">关闭</Option>
+                  <Option value="1">运行中</Option>
+                </Select>
               )}
             </FormItem>
           </Col>
@@ -304,46 +314,36 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="客户编码">
+            <FormItem label="规则编号">
               {getFieldDecorator('no')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
-              {getFieldDecorator('name')(
-                <Input placeholder="请输入" />
+            <FormItem label="扫描日期">
+              {getFieldDecorator('date')(
+                <DatePicker style={{ width: '100%' }} placeholder="请输入扫描日期" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="客户手机号">
-              {getFieldDecorator('phone')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+            </span>
           </Col>
         </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </span>
-        </div>
       </Form>
     );
   }
 
   renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    return this.renderAdvancedForm();
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { cargo: { data }, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
     const menu = (
@@ -361,8 +361,10 @@ export default class TableList extends PureComponent {
     const expandedRowRender = (record) => {
       return (
         <div>
-          <p>客户公司:{record.MOBILE}</p>
-          <p>客户地址:{record.OPENID}</p>
+          <p>体积重:{record.OPENID}</p>
+          <p>长:{record.MOBILE ? `${record.MOBILE.toString().substr(0, 3)}***${record.MOBILE.toString().substr(7, 10)}` : '未绑定手机号'}</p>
+          <p>宽:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
+          <p>高:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
         </div>
       );
     };

@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { accountLogin } from '../services/api';
-import { setAuthority } from '../utils/authority';
+import { setAuthority, setToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
 export default {
@@ -46,7 +46,13 @@ export default {
       });
       // Login successfully
       if (loginStatus.status === 'ok') {
+        // yield put({
+        //   type: 'user/saveCurrentUser',
+        //   payload: response.data,
+        // });
         reloadAuthorized();
+        const { token } = response;
+        setToken(token);
         yield put(routerRedux.push('/'));
       }
     },

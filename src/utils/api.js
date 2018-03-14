@@ -20,9 +20,19 @@ export const login = {
   // param= username, password, imageCode, uuid
   // method=post
   account: `${APIV3}/login`,
-  // param=uuid
-  // method=get
+  // param=uuid, method=get
   getVerifyImage: `${APIV3}/login/image_code`,
+};
+
+export const user = {
+  // param=token, method=post
+  getUserInfoByToken: `${APIV3}/api/common/getUserInfoByToken`,
+};
+
+export const cargo = {
+  list: `${APIV3}/api/cargo/list`,
+  add: `${APIV3}/api/cargo/add`,
+  update: `${APIV3}/api/cargo/edit`,
 };
 
 export const freight = {

@@ -63,6 +63,13 @@ export default function request(url, options) {
     }
   }
 
+  // if (newOptions.method === 'PARAMPOST') {
+  //   let param = new URLSearchParams()
+  //   param.append(paramkey, cloneData)
+  //   newOptions.body = param
+  //   newOptions.method = 'POS'
+  // }
+
   let newUrl = url;
   if (newOptions.withParams) {
     const { params } = newOptions;
