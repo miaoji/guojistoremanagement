@@ -1,21 +1,58 @@
+import modelExtend from 'dva-model-extend';
+import { notification } from 'antd';
+import { pageModel } from './common';
 import { queryRule, removeRule, addRule } from '../services/api';
 
-export default {
+export default modelExtend(pageModel, {
   namespace: 'expre',
 
-  state: {
-    data: {
-      list: [],
-      pagination: {},
-    },
-  },
+  state: {},
 
   effects: {
+    *query({ payload }, { call, put }) {
+      const response = yield call(queryRule, payload);
+      yield put({
+        type: 'setStates',
+        payload: {
+          data: response,
+        },
+      });
+    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryRule, payload);
       yield put({
-        type: 'save',
-        payload: response,
+        type: 'setStates',
+        payload: {
+          data: response,
+        },
+      });
+    },
+    *create({ payload }, { put }) {
+      // const response = yield call(addRule, payload);
+      console.log('payload', payload);
+      notification.success({
+        message: '创建成功',
+        description: '这个信息只是用来提示用户创建成功了',
+      });
+      yield put({
+        type: 'setStates',
+        payload: {
+          modalVisible: false,
+          // payload: response,
+        },
+      });
+    },
+    *updata({ payload }, { put }) {
+      console.log('payload', payload);
+      notification.success({
+        message: '数据修改成功',
+        description: '这个信息只是用来提示用户数据修改成功了',
+      });
+      yield put({
+        type: 'setStates',
+        payload: {
+          modalVisible: false,
+        },
       });
     },
     *add({ payload, callback }, { call, put }) {
@@ -44,4 +81,4 @@ export default {
       };
     },
   },
-};
+});

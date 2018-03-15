@@ -37,7 +37,7 @@ export default class TableList extends PureComponent {
       loading,
       dispatch,
     } = this.props;
-    const { selectedRows } = this.state;
+    const { selectedRows, formValues } = this.state;
     const mythis = this;
 
     const filterProps = {
@@ -136,7 +136,7 @@ export default class TableList extends PureComponent {
         });
       },
       onChange(pagination, filtersArg, sorter) {
-        const { formValues } = this.state;
+        // const { formValues } = mythis.state;
 
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };
