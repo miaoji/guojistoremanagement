@@ -107,7 +107,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/OutScanning')),
     },
     '/setting/customer': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/CustomerList')),
+      component: dynamicWrapper(app, ['customer'], () => import('../routes/Setting/CustomerList')),
     },
     '/setting/warehouse-fee': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/WarehouseFee')),

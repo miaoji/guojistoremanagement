@@ -8,34 +8,35 @@ import styles from './CustomerList.less';
 
 const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+
 const columns = [
   {
     title: '客户编码',
-    dataIndex: 'no',
+    dataIndex: 'customerNo',
   },
   {
     title: '客户姓名',
-    dataIndex: 'no',
+    dataIndex: 'customer_name',
   },
   {
     title: '客户手机号',
-    dataIndex: 'no',
+    dataIndex: 'customer_mobile',
   },
   {
     title: '客户邮编',
-    dataIndex: 'no',
+    dataIndex: 'customer_postcode',
   },
   {
     title: '充值金额',
-    dataIndex: 'no',
+    dataIndex: 'total_amount',
   },
   {
     title: '剩余金额',
-    dataIndex: 'no',
+    dataIndex: 'balance',
   },
   {
     title: '创建时间',
-    dataIndex: 'no',
+    dataIndex: 'CreateTime',
   },
   {
     title: '操作',
@@ -72,10 +73,10 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户名称"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerName', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Input placeholder="请输入" />
+          <Input placeholder="请输入客户名称" />
         )}
       </FormItem>
       <FormItem
@@ -83,10 +84,10 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户手机号"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerMobile', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Input placeholder="请输入" />
+          <Input placeholder="请输入客户手机号" />
         )}
       </FormItem>
       <FormItem
@@ -94,10 +95,10 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户公司"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerCompany', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Input placeholder="请输入" />
+          <Input placeholder="请输入客户公司" />
         )}
       </FormItem>
       <FormItem
@@ -105,10 +106,10 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户邮编"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerPostcode', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Input placeholder="请输入" />
+          <Input placeholder="请输入客户邮编" />
         )}
       </FormItem>
       <FormItem
@@ -116,19 +117,19 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户地址"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerAddress', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
-          <Input placeholder="请输入" />
+          <Input placeholder="请输入客户地址" />
         )}
       </FormItem>
     </Modal>
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ customer, loading }) => ({
+  customer,
+  loading: loading.models.customer,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -142,7 +143,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'customer/fetch',
     });
   }
 
@@ -167,7 +168,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'customer/fetch',
       payload: params,
     });
   }
@@ -179,7 +180,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'customer/fetch',
       payload: {},
     });
   }
@@ -199,7 +200,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'customer/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -239,7 +240,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'customer/fetch',
         payload: values,
       });
     });
@@ -253,9 +254,13 @@ export default class TableList extends PureComponent {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'customer/add',
       payload: {
-        description: fields.desc,
+        customerName: fields.customerName,
+        customerMobile: fields.customerMobile,
+        customerCompany: fields.customerCompany,
+        customerPostcode: fields.customerPostcode,
+        customerAddress: fields.customerAddress,
       },
     });
 
@@ -343,7 +348,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { customer: { data }, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
     const menu = (

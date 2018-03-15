@@ -35,10 +35,10 @@ export const cargo = {
   update: `${APIV3}/api/cargo/edit`,
 };
 
-export const freight = {
-  all: `${APIV3}/api/intlPrice/index`,
-  show: `${APIV3}/api/intlPrice/getIntlPriceById`,
-  create: `${APIV3}/api/intlPrice/add`,
-  update: `${APIV3}/api/intlPrice/modIntlPriceById`,
-  hide: `${APIV3}/api/intlPrice/delIntlPriceById`,
+// 客户信息
+export const customer = {
+  list: `${APIV3}/api/customer/list`,
+  add: `${APIV3}/api/customer/add`,
+  update: `${APIV3}/api/customer/edit`,
+  remove: `${APIV3}/api/customer/del`,
 };
