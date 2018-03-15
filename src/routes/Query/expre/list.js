@@ -23,11 +23,11 @@ const List = ({
       dataIndex: 'no',
     },
     {
-      title: '客户编码',
+      title: '内单号',
       dataIndex: 'description',
     },
     {
-      title: '客户名称',
+      title: '货架号',
       dataIndex: 'callNo',
       sorter: true,
       align: 'right',
@@ -35,15 +35,15 @@ const List = ({
       needTotal: true,
     },
     {
-      title: '货架号',
+      title: '客户编码',
       dataIndex: 'status',
     },
     {
-      title: '仓管费',
+      title: '客户名称',
       dataIndex: 'no1',
     },
     {
-      title: '快递公司',
+      title: '客户手机号',
       dataIndex: 'no2',
     },
     {

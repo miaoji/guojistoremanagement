@@ -1,64 +1,42 @@
-import { stringify } from 'qs';
+import { expre } from '../../utils/api';
 import request from '../../utils/request';
-import { login as loginApi } from '../../utils/api';
 
-export async function queryRule(params) {
-  return request(`/api/expre?${stringify(params)}`);
-}
-
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
+export async function query() {
+  return request(expre.list, {
+    method: 'post',
     body: {
-      ...params,
-      method: 'delete',
+      page: 1,
+      pageSize: 10,
+      pagination: 1,
+      rownum: 10,
     },
   });
 }
 
-export async function addRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'post',
-    },
-  });
-}
-
-export async function fakeSubmitForm(params) {
-  return request('/api/forms', {
-    method: 'POST',
+export async function create(params) {
+  return request(expre.create, {
+    method: 'post',
     body: params,
   });
 }
 
-export async function queryTags() {
-  return request('/api/tags');
-}
-
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
+export async function update(params) {
+  return request(expre.update, {
+    method: 'post',
     body: params,
   });
 }
 
-export async function fakeRegister(params) {
-  return request('/api/register', {
-    method: 'POST',
+export async function hide(params) {
+  return request(expre.hide, {
+    method: 'post',
     body: params,
   });
 }
 
-export async function queryNotices() {
-  return request('/api/notices');
-}
-
-export async function accountLogin(params) {
-  return request(loginApi.account, {
-    method: 'POST',
-    withParams: true,
-    params,
+export async function getById(params) {
+  return request(expre.getById, {
+    method: 'post',
+    body: params,
   });
 }

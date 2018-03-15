@@ -42,3 +42,11 @@ export const customer = {
   update: `${APIV3}/api/customer/edit`,
   remove: `${APIV3}/api/customer/del`,
 };
+
+export const expre = {
+  list: 'http://app.quandikeji.com:8288/quandiExpressSiteManager/blackList',
+  create: `${APIV3}/api/cargo/add`,
+  update: `${APIV3}/api/cargo/edit`,
+  hide: `${APIV3}/api/cargo/del`,
+  getById: `${APIV3}/api/cargo/get`,
+};

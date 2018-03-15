@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
 import { notification } from 'antd';
 import { pageModel } from './common';
-import { queryRule, removeRule, addRule } from '../services/api';
+import { query, hide, create } from '../services/query/expre';
 
 export default modelExtend(pageModel, {
   namespace: 'expre',
@@ -10,25 +10,33 @@ export default modelExtend(pageModel, {
 
   effects: {
     *query({ payload }, { call, put }) {
-      const response = yield call(queryRule, payload);
-      yield put({
-        type: 'setStates',
-        payload: {
-          data: response,
-        },
-      });
+      const data = yield call(query, payload);
+      if (data.code === 200) {
+        yield put({
+          type: 'setStates',
+          payload: {
+            data: data.obj,
+          },
+        });
+      } else {
+        throw data.msg || '网络连接失败';
+      }
     },
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRule, payload);
-      yield put({
-        type: 'setStates',
-        payload: {
-          data: response,
-        },
-      });
+      const data = yield call(query, payload);
+      if (data.code === 200) {
+        yield put({
+          type: 'setStates',
+          payload: {
+            data: data.obj,
+          },
+        });
+      } else {
+        throw data.msg || '网络连接失败';
+      }
     },
     *create({ payload }, { put }) {
-      // const response = yield call(addRule, payload);
+      // const response = yield call(create, payload);
       console.log('payload', payload);
       notification.success({
         message: '创建成功',
@@ -56,7 +64,7 @@ export default modelExtend(pageModel, {
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRule, payload);
+      const response = yield call(create, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -64,7 +72,7 @@ export default modelExtend(pageModel, {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRule, payload);
+      const response = yield call(hide, payload);
       yield put({
         type: 'save',
         payload: response,
