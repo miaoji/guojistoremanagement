@@ -6,7 +6,16 @@ import { queryRule, removeRule, addRule } from '../services/api';
 export default modelExtend(pageModel, {
   namespace: 'test',
 
-  state: {},
+  state: {
+    list: [],
+    total: 0,
+    data: {
+      pagination: {},
+    },
+    currentItem: {},
+    modalType: 'create',
+    modalVisible: false,
+  },
 
   effects: {
     *query({ payload }, { call, put }) {

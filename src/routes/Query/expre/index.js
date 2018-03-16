@@ -27,13 +27,14 @@ export default class TableList extends PureComponent {
   render() {
     const {
       form,
+      location,
       expre: { data, list, total, modalVisible, modalType, currentItem },
       loading,
       dispatch,
     } = this.props;
     const selectedRows = [];
     const formValues = {};
-
+    console.log('location', location);
     const filterProps = {
       filter: {
         ...location.query,
