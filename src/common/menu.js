@@ -46,6 +46,40 @@ const menuData = [{
     name: '出库类型配置',
     path: 'outbound-scanning',
   }],
+}, {
+  name: '查询统计',
+  icon: 'table',
+  path: 'query',
+  children: [{
+    name: '货架查询',
+    path: 'shelves',
+  }, {
+    name: '快件查询',
+    path: 'expre',
+  }, {
+    name: '出库查询',
+    path: 'getout',
+  }, {
+    name: '入库查询',
+    path: 'getinto',
+  }],
+}, {
+  name: '测试单元',
+  icon: 'table',
+  path: 'demo',
+  children: [{
+    name: '测试1',
+    path: 'test1',
+  }, {
+    name: '测试2',
+    path: 'test2',
+  }, {
+    name: '测试3',
+    path: 'test3',
+  }, {
+    name: '测试4',
+    path: 'test4',
+  }],
 }];
 
 function formatter(data, parentPath = '/', parentAuthority) {

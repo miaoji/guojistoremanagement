@@ -115,6 +115,26 @@ export const getRouterData = (app) => {
     '/setting/express-company': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/ExpressCompany')),
     },
+    // 货架查询
+    '/query/shelves': {
+      component: dynamicWrapper(app, ['shelves'], () => import('../routes/Query/shelves')),
+    },
+    // 快件查询
+    '/query/expre': {
+      component: dynamicWrapper(app, ['expre'], () => import('../routes/Query/expre')),
+    },
+    // 快件查询
+    '/query/getout': {
+      component: dynamicWrapper(app, ['getout'], () => import('../routes/Query/getout')),
+    },
+    // 快件查询
+    '/query/getinto': {
+      component: dynamicWrapper(app, ['getinto'], () => import('../routes/Query/getinto')),
+    },
+    // 测试单元
+    '/demo/test1': {
+      component: dynamicWrapper(app, ['test'], () => import('../routes/Demo/test1')),
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
