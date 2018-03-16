@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Form, message } from 'antd';
+import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
@@ -17,12 +17,6 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 @Form.create()
 
 export default class TableList extends PureComponent {
-  state = {
-    // modalVisible: this.props.modalVisible,
-    selectedRows: [],
-    formValues: {},
-  };
-  // 生命周期的构造函数
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -37,39 +31,23 @@ export default class TableList extends PureComponent {
       loading,
       dispatch,
     } = this.props;
-    const { selectedRows, formValues } = this.state;
-    const mythis = this;
+    const selectedRows = [];
+    const formValues = {};
 
     const filterProps = {
+      filter: {
+        ...location.query,
+      },
       handleFormReset() {
-        form.resetFields();
-        mythis.setState({
-          formValues: {},
-        });
         dispatch({
-          type: 'expre/fetch',
+          type: 'expre/query',
           payload: {},
         });
       },
-      handleSearch(e) {
-        e.preventDefault();
-
-        form.validateFields((err, fieldsValue) => {
-          if (err) return;
-
-          const values = {
-            ...fieldsValue,
-            updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-          };
-
-          mythis.setState({
-            formValues: values,
-          });
-
-          dispatch({
-            type: 'expre/fetch',
-            payload: values,
-          });
+      handleSearch(values) {
+        dispatch({
+          type: 'expre/query',
+          payload: values,
         });
       },
       showModal() {
@@ -96,11 +74,6 @@ export default class TableList extends PureComponent {
           payload: {
             ...item,
           },
-        });
-
-        message.success('添加成功');
-        mythis.setState({
-          modalVisible: false,
         });
       },
       hideModal() {
@@ -134,9 +107,6 @@ export default class TableList extends PureComponent {
       },
       onSelectRow(rows) {
         console.log('row', rows);
-        mythis.setState({
-          selectedRows: rows,
-        });
       },
       onChange(pagination, filtersArg, sorter) {
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -169,9 +139,7 @@ export default class TableList extends PureComponent {
                 no: selectedRows.map(row => row.no).join(','),
               },
               callback: () => {
-                mythis.setState({
-                  selectedRows: [],
-                });
+                console.log(12);
               },
             });
             break;

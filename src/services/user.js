@@ -1,14 +1,16 @@
-import request from '../utils/request';
+import request from '../utils/query';
 import { user as userApi } from '../utils/api';
+import { getToken } from '../utils/authority';
 
 export async function query() {
   return request('/api/users');
 }
 
-export async function queryCurrent(params) {
-  return request(userApi.getUserInfoByToken, {
+export async function queryCurrent() {
+  return request({
+    url: userApi.getUserInfoByToken,
     method: 'POST',
-    body: params,
+    data: getToken(),
   });
 }
 

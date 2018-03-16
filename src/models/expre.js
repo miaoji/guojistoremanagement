@@ -12,6 +12,9 @@ export default modelExtend(pageModel, {
     data: {
       pagination: {},
     },
+    currentItem: {},
+    modalType: 'create',
+    modalVisible: false,
   },
 
   effects: {
@@ -20,10 +23,10 @@ export default modelExtend(pageModel, {
       pageSize: 10,
     } }, { call, put }) {
       const data = yield call(query, {
+        ...payload,
         currentPage: Number(payload.currentPage) || 1,
         pageSize: Number(payload.pageSize) || 10,
       });
-      console.log('data', data);
       if (data.code === 200) {
         yield put({
           type: 'setStates',
@@ -50,7 +53,6 @@ export default modelExtend(pageModel, {
       }
     },
     *create({ payload }, { put }) {
-      // const response = yield call(create, payload);
       console.log('payload', payload);
       notification.success({
         message: '创建成功',
@@ -60,7 +62,6 @@ export default modelExtend(pageModel, {
         type: 'setStates',
         payload: {
           modalVisible: false,
-          // payload: response,
         },
       });
     },

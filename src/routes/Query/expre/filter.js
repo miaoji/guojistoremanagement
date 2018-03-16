@@ -5,8 +5,23 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
   const { getFieldDecorator } = form;
+  const onFormReset = () => {
+    form.resetFields();
+    handleFormReset();
+  };
+  const onSearch = (e) => {
+    e.preventDefault();
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      const values = {
+        ...fieldsValue,
+        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+      };
+      handleSearch(values);
+    });
+  };
   return (
-    <Form onSubmit={handleSearch} layout="inline">
+    <Form onSubmit={onSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
           <FormItem label="单号">
@@ -17,14 +32,14 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
         </Col>
         <Col md={6} sm={24}>
           <FormItem label="客户编码">
-            {getFieldDecorator('no')(
+            {getFieldDecorator('no1')(
               <Input placeholder="请输入客户编码" />
             )}
           </FormItem>
         </Col>
         <Col md={6} sm={24}>
           <FormItem label="手机号">
-            {getFieldDecorator('no')(
+            {getFieldDecorator('no3')(
               <Input placeholder="请输入手机号" />
             )}
           </FormItem>
@@ -32,7 +47,7 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
         <Col md={6} sm={24}>
           <span className={styles.submitButtons}>
             <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>重置</Button>
+            <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
             <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
               新建
             </Button>
