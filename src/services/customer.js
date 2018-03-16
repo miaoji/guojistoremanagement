@@ -4,7 +4,8 @@ import { customer } from '../utils/api';
 export async function query(params) {
   return request(customer.list, {
     method: 'GET',
-    body: params,
+    withParams: true,
+    params,
   });
 }
 

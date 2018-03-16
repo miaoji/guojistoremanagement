@@ -19,16 +19,10 @@ export default {
           pageSize: 10,
         };
       }
-      const { pageSize, currentPage } = payload;
-      const newOPtions = {
-        rows: pageSize || 10,
-        page: currentPage || 1,
-      };
-      const response = yield call(query, newOPtions);
+      const response = yield call(query, payload);
       const { data, total } = response;
       const pagination = {
-        current: currentPage,
-        pageSize,
+        ...payload,
         total,
       };
       yield put({
