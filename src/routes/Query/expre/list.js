@@ -85,9 +85,11 @@ const List = ({
         selectedRows={selectedRows}
         loading={loading}
         data={data}
+        pagination={data.pagination}
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
+        total={30}
       />
     </div>
   );

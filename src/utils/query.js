@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { storage } from './index';
 // import router from '@/router';
 
 const fetch = (options) => {
@@ -38,7 +37,7 @@ const fetch = (options) => {
         data,
         params,
         timeout,
-        headers: auth ? { token } : {},
+        // headers: auth ? { token } : {},
       });
     case 'put':
       return axios.put(url, data);
@@ -50,16 +49,15 @@ const fetch = (options) => {
 };
 
 export default function request(options) {
+  console.log('options', options);
   const newOption = { ...options };
-  newOption.token = storage({ key: 'token' });
+  newOption.token = 123123123;
   return fetch(newOption).then((response) => {
-    const { status } = response;
-    // let data = response.data;
-    // data = typeof data === 'object' ? data : { 'stringData': data };
+    const { status, data } = response;
     return {
       success: true,
       statusCode: status,
-      // ...data,
+      ...data,
     };
   }).catch((error) => {
     console.error(error);
@@ -70,28 +68,7 @@ export default function request(options) {
       const { data, statusText } = response;
       statusCode = response.status;
       if (Number(statusCode) === 401) {
-        storage({
-          key: ['redirect_uri', 'appid'],
-          type: 'removeexcept',
-        });
-        // const fromPath = router.history.current;
-        // const redirectUri = fromPath.fullPath;
-        // const { appid } = fromPath.query;
-        // if (redirectUri !== '/init') {
-        //   storage({
-        //     key: 'redirect_uri',
-        //     val: redirectUri,
-        //     type: 'set',
-        //   });
-        //   storage({
-        //     key: 'appid',
-        //     val: appid || 'typeisappidis00000000',
-        //     type: 'set',
-        //   });
-        // }
-        // return router.push({
-        //   path: '/init',
-        // });
+        console.log('1231');
       }
       msg = data.message || statusText;
     } else {

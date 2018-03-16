@@ -33,7 +33,7 @@ export default class TableList extends PureComponent {
   render() {
     const {
       form,
-      expre: { data, modalVisible, modalType, currentItem },
+      expre: { data, list, total, modalVisible, modalType, currentItem },
       loading,
       dispatch,
     } = this.props;
@@ -117,7 +117,10 @@ export default class TableList extends PureComponent {
     const listProps = {
       selectedRows,
       loading,
-      data,
+      data: {
+        list,
+        pagination: { ...data.pagination, total },
+      },
       showModal(item) {
         console.log('updata', item);
         dispatch({
@@ -136,14 +139,11 @@ export default class TableList extends PureComponent {
         });
       },
       onChange(pagination, filtersArg, sorter) {
-        // const { formValues } = mythis.state;
-
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };
           newObj[key] = getValue(filtersArg[key]);
           return newObj;
         }, {});
-
         const params = {
           currentPage: pagination.current,
           pageSize: pagination.pageSize,
@@ -153,9 +153,9 @@ export default class TableList extends PureComponent {
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
-
+        console.log('params', params);
         dispatch({
-          type: 'expre/fetch',
+          type: 'expre/query',
           payload: params,
         });
       },

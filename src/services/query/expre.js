@@ -1,15 +1,12 @@
 import { expre } from '../../utils/api';
-import request from '../../utils/request';
+import request from '../../utils/query';
 
-export async function query() {
-  return request(expre.list, {
-    method: 'post',
-    body: {
-      page: 1,
-      pageSize: 10,
-      pagination: 1,
-      rownum: 10,
-    },
+export async function query(params) {
+  console.log('params', params);
+  return request({
+    url: expre.list,
+    method: 'get',
+    data: params,
   });
 }
 

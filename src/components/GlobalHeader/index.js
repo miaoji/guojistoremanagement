@@ -23,7 +23,9 @@ export default class GlobalHeader extends PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, isMobile, logo, onMenuClick,
+      currentUser = {
+        user_name: 123456,
+      }, collapsed, isMobile, logo, onMenuClick,
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>

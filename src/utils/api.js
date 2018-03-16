@@ -4,7 +4,7 @@ let APIV3 = '';
 
 // 重构API
 // 线下地址
-APIV3 = 'http://192.168.231.222:8055';
+APIV3 = 'http://192.168.231.222:8000';
 // 线上地址(测试)
 // APIV3 = 'http://api.didalive.net/mzkd'
 // 正式地址(生产)
@@ -44,7 +44,8 @@ export const customer = {
 };
 
 export const expre = {
-  list: 'http://app.quandikeji.com:8288/quandiExpressSiteManager/blackList',
+  // list: 'http://app.quandikeji.com:8288/quandiExpressSiteManager/blackList',
+  list: `${APIV3}/api/cargo/list`,
   create: `${APIV3}/api/cargo/add`,
   update: `${APIV3}/api/cargo/edit`,
   hide: `${APIV3}/api/cargo/del`,

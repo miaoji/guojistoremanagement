@@ -6,16 +6,30 @@ import { query, hide, create } from '../services/query/expre';
 export default modelExtend(pageModel, {
   namespace: 'expre',
 
-  state: {},
+  state: {
+    list: [],
+    total: 0,
+    data: {
+      pagination: {},
+    },
+  },
 
   effects: {
-    *query({ payload }, { call, put }) {
-      const data = yield call(query, payload);
+    *query({ payload = {
+      currentPage: 1,
+      pageSize: 10,
+    } }, { call, put }) {
+      const data = yield call(query, {
+        currentPage: Number(payload.currentPage) || 1,
+        pageSize: Number(payload.pageSize) || 10,
+      });
+      console.log('data', data);
       if (data.code === 200) {
         yield put({
           type: 'setStates',
           payload: {
-            data: data.obj,
+            list: data.obj,
+            total: data.total,
           },
         });
       } else {
