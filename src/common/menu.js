@@ -48,7 +48,7 @@ const menuData = [{
   }],
 }, {
   name: '查询统计',
-  icon: 'table',
+  icon: 'book',
   path: 'query',
   children: [{
     name: '货架查询',
@@ -65,7 +65,7 @@ const menuData = [{
   }],
 }, {
   name: '测试单元',
-  icon: 'table',
+  icon: 'book',
   path: 'demo',
   children: [{
     name: '测试1',

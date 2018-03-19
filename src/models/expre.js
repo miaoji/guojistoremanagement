@@ -30,11 +30,13 @@ export default modelExtend(pageModel, {
         pageSize: Number(payload.pageSize) || 10,
       });
       if (data.code === 200) {
+        const list = data.data.map((item) => {
+          return { key: item.id, ...item };
+        });
         yield put({
           type: 'setStates',
           payload: {
-            // loading: false,
-            list: data.data,
+            list,
             total: data.total,
           },
         });

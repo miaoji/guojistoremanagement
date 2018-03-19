@@ -53,8 +53,8 @@ const List = ({
     },
     {
       title: '操作',
-      key: 'option',
-      name: 'id',
+      key: 'id',
+      dataIndex: 'id',
       render: (text, record) => (
         <Fragment>
           <a href="">查看</a>
