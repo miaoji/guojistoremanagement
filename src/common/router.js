@@ -115,6 +115,9 @@ export const getRouterData = (app) => {
     '/setting/express-company': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/ExpressCompany')),
     },
+    // '/setting/freight': {
+    //   component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/freight')),
+    // },
     // 货架查询
     '/query/shelves': {
       component: dynamicWrapper(app, ['shelves'], () => import('../routes/Query/shelves')),

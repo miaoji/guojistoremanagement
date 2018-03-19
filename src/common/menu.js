@@ -41,7 +41,7 @@ const menuData = [{
     path: 'express-company',
   }, {
     name: '运费配置',
-    path: 'outbound-scanning',
+    path: 'freight',
   }, {
     name: '出库类型配置',
     path: 'outbound-scanning',
