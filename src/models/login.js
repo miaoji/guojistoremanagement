@@ -1,6 +1,7 @@
+import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import { accountLogin } from '../services/api';
-import { setAuthority, setToken } from '../utils/authority';
+import { setAuthority, setToken, delToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
 export default {
@@ -28,6 +29,10 @@ export default {
       // type:"account"
       let loginStatus = {};
       if (response.code !== 200) {
+        notification.error({
+          message: `请求错误 ${response.code}`,
+          description: response.msg,
+        });
         loginStatus = {
           currentAuthority: 'guest',
           status: 'error',
@@ -72,6 +77,7 @@ export default {
             currentAuthority: 'guest',
           },
         });
+        delToken();
         reloadAuthorized();
         yield put(routerRedux.push('/user/login'));
       }

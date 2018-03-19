@@ -12,7 +12,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '客户编码',
-    dataIndex: 'customerNo',
+    dataIndex: 'customer_no',
   },
   {
     title: '客户姓名',

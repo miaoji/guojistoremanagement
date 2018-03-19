@@ -65,9 +65,10 @@ export default function request(url, options) {
 
   // if (newOptions.method === 'PARAMPOST') {
   //   let param = new URLSearchParams()
-  //   param.append(paramkey, cloneData)
+  //   const { paramkey, body } = newOptions
+  //   param.append(paramkey, body)
   //   newOptions.body = param
-  //   newOptions.method = 'POS'
+  //   newOptions.method = 'POST'
   // }
 
   let newUrl = url;

@@ -110,10 +110,10 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['customer'], () => import('../routes/Setting/CustomerList')),
     },
     '/setting/warehouse-fee': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/WarehouseFee')),
+      component: dynamicWrapper(app, ['warehouseFee'], () => import('../routes/Setting/WarehouseFee')),
     },
     '/setting/express-company': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/ExpressCompany')),
+      component: dynamicWrapper(app, ['expressCompany'], () => import('../routes/Setting/ExpressCompany')),
     },
     // 货架查询
     '/query/shelves': {
@@ -130,10 +130,6 @@ export const getRouterData = (app) => {
     // 快件查询
     '/query/getinto': {
       component: dynamicWrapper(app, ['getinto'], () => import('../routes/Query/getinto')),
-    },
-    // 测试单元
-    '/demo/test1': {
-      component: dynamicWrapper(app, ['test'], () => import('../routes/Demo/test1')),
     },
   };
   // Get name from ./menu.js or just set it in the router data.

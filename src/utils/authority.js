@@ -14,3 +14,7 @@ export function getToken() {
 export function setToken(token) {
   return localStorage.setItem('mzck-pro-token', token);
 }
+
+export function delToken() {
+  return localStorage.setItem('mzck-pro-token', '');
+}

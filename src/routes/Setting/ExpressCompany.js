@@ -10,24 +10,16 @@ const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
-    title: '快递公司名称',
-    dataIndex: 'no',
+    title: '快递名称',
+    dataIndex: 'company_name',
   },
   {
-    title: '快递公司代码',
-    dataIndex: 'no',
+    title: '快递代码',
+    dataIndex: 'company_code',
   },
   {
-    title: '备注',
-    dataIndex: 'no',
-  },
-  {
-    title: '快递公司类型',
-    dataIndex: 'no',
-  },
-  {
-    title: '录入时间',
-    dataIndex: 'no',
+    title: '快递类型',
+    dataIndex: 'type',
   },
   {
     title: '操作',
@@ -85,9 +77,9 @@ const CreateForm = Form.create()((props) => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ expressCompany, loading }) => ({
+  expressCompany,
+  loading: loading.models.expressCompany,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -101,7 +93,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'expressCompany/fetch',
     });
   }
 
@@ -126,7 +118,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'expressCompany/fetch',
       payload: params,
     });
   }
@@ -138,7 +130,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'expressCompany/fetch',
       payload: {},
     });
   }
@@ -158,7 +150,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'expressCompany/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -198,7 +190,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'expressCompany/fetch',
         payload: values,
       });
     });
@@ -212,7 +204,7 @@ export default class TableList extends PureComponent {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'expressCompany/add',
       payload: {
         description: fields.desc,
       },
@@ -255,7 +247,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { expressCompany: { data }, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
     const menu = (

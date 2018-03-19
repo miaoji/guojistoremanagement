@@ -1,7 +1,7 @@
-import { update, add, query } from '../services/customer';
+import { update, add, query } from '../services/express-company';
 
 export default {
-  namespace: 'customer',
+  namespace: 'expressCompany',
 
   state: {
     data: {

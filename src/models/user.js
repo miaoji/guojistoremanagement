@@ -1,5 +1,7 @@
+import { notification } from 'antd';
 import { query as queryUsers, queryCurrent } from '../services/user';
 import { getToken } from '../utils/authority';
+import store from '../index';
 
 export default {
   namespace: 'user',
@@ -20,10 +22,21 @@ export default {
     *fetchCurrent(_, { call, put }) {
       const token = getToken();
       const response = yield call(queryCurrent, token);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response.data,
-      });
+      if (response.code !== 200) {
+        const { dispatch } = store;
+        dispatch({
+          type: 'login/logout',
+        });
+        notification.error({
+          message: `请求错误 ${response.code}`,
+          description: response.msg,
+        });
+      } else {
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response.data,
+        });
+      }
     },
   },
 
