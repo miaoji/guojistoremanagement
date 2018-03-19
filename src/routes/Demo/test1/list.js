@@ -14,7 +14,6 @@ const List = ({
   showModal,
 }) => {
   const handleUpdata = (record) => {
-    console.log(record);
     showModal(record);
   };
   const columns = [

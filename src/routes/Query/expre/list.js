@@ -14,21 +14,23 @@ const List = ({
   showModal,
 }) => {
   const handleUpdata = (record) => {
-    console.log(record);
     showModal(record);
   };
   const columns = [
     {
       title: '单号',
-      dataIndex: 'no',
+      dataIndex: 'order_no',
+      key: 'order_no',
     },
     {
-      title: '内单号',
-      dataIndex: 'description',
+      title: '国内单号',
+      dataIndex: 'cn_no',
+      key: 'cn_no',
     },
     {
       title: '货架号',
-      dataIndex: 'callNo',
+      dataIndex: 'shelf_no',
+      key: 'shelf_no',
       sorter: true,
       align: 'right',
       render: val => `${val} 万`,
@@ -36,18 +38,23 @@ const List = ({
     },
     {
       title: '客户编码',
-      dataIndex: 'status',
+      dataIndex: 'customer_no',
+      key: 'customer_no',
     },
     {
       title: '客户名称',
-      dataIndex: 'no1',
+      dataIndex: 'customer_name',
+      key: 'customer_name',
     },
     {
       title: '客户手机号',
-      dataIndex: 'no2',
+      dataIndex: 'customer_mobild',
+      key: 'customer_mobild',
     },
     {
       title: '操作',
+      key: 'option',
+      name: 'id',
       render: (text, record) => (
         <Fragment>
           <a href="">查看</a>

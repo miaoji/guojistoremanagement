@@ -36,7 +36,7 @@ const fetch = (options) => {
     url,
     auth,
     token,
-    timeout = 8000,
+    timeout = 1000,
   } = options;
 
   const cloneData = lodash.cloneDeep(data);
@@ -77,7 +77,6 @@ const fetch = (options) => {
 };
 
 export default function request(options) {
-  console.log('options', options);
   const newOption = { ...options };
   newOption.token = getToken();
   return fetch(newOption).then((response) => {
@@ -91,14 +90,14 @@ export default function request(options) {
       ...data,
     };
   }).catch((error) => {
-    console.error(error);
     const { response } = error;
     let msg;
     let statusCode;
+    let obj;
     if (response && response instanceof Object) {
       const { data, statusText } = response;
       statusCode = response.status;
-      if (Number(statusCode) === 401) {
+      if (Number(statusCode) !== 200) {
         notification.error({
           message: `请求错误 ${response.status}: ${response.url}`,
           description: '请求失败',
@@ -108,7 +107,8 @@ export default function request(options) {
     } else {
       statusCode = 600;
       msg = error.message || '网络错误';
+      obj = [];
     }
-    return { success: false, statusCode, message: msg };
+    return { success: false, statusCode, message: msg, obj };
   });
 }

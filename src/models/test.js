@@ -36,9 +36,8 @@ export default modelExtend(pageModel, {
         },
       });
     },
-    *create({ payload }, { put }) {
+    *create(_, { put }) {
       // const response = yield call(addRule, payload);
-      console.log('payload', payload);
       notification.success({
         message: '创建成功',
         description: '这个信息只是用来提示用户创建成功了',
@@ -51,8 +50,7 @@ export default modelExtend(pageModel, {
         },
       });
     },
-    *updata({ payload }, { put }) {
-      console.log('payload', payload);
+    *updata(_, { put }) {
       notification.success({
         message: '数据修改成功',
         description: '这个信息只是用来提示用户数据修改成功了',

@@ -2,7 +2,6 @@ import { expre } from '../../utils/api';
 import request from '../../utils/query';
 
 export async function query(params) {
-  console.log('params', params);
   return request({
     url: expre.list,
     method: 'get',

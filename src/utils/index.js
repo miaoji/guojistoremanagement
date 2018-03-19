@@ -11,7 +11,6 @@ function urlToObj(url) {
       const [key, val] = item.split('=');
       urlObj[key] = val;
     });
-    console.log('urlObj', urlObj);
     return urlObj;
   } else {
     return {};

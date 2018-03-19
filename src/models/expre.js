@@ -12,9 +12,11 @@ export default modelExtend(pageModel, {
     data: {
       pagination: {},
     },
+    loading: false,
     currentItem: {},
     modalType: 'create',
     modalVisible: false,
+    selectedRows: [],
   },
 
   effects: {
@@ -31,12 +33,19 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'setStates',
           payload: {
-            list: data.obj,
+            // loading: false,
+            list: data.data,
             total: data.total,
           },
         });
       } else {
-        throw data.msg || '网络连接失败';
+        yield put({
+          type: 'setStates',
+          payload: {
+            list: [],
+            total: 0,
+          },
+        });
       }
     },
     *fetch({ payload }, { call, put }) {
@@ -48,12 +57,10 @@ export default modelExtend(pageModel, {
             data: data.obj,
           },
         });
-      } else {
-        throw data.msg || '网络连接失败';
       }
     },
     *create({ payload }, { put }) {
-      console.log('payload', payload);
+      console.info('payload', payload);
       notification.success({
         message: '创建成功',
         description: '这个信息只是用来提示用户创建成功了',
@@ -66,7 +73,7 @@ export default modelExtend(pageModel, {
       });
     },
     *updata({ payload }, { put }) {
-      console.log('payload', payload);
+      console.info('payload', payload);
       notification.success({
         message: '数据修改成功',
         description: '这个信息只是用来提示用户数据修改成功了',

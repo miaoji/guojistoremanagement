@@ -15,8 +15,10 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
   loading: loading.models.expre,
 }))
 @Form.create()
-
 export default class TableList extends PureComponent {
+  state = {
+    selectedRows: [],
+  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -31,10 +33,11 @@ export default class TableList extends PureComponent {
       expre: { data, list, total, modalVisible, modalType, currentItem },
       loading,
       dispatch,
+      // selectedRows = [],
     } = this.props;
-    const selectedRows = [];
+    const { selectedRows } = this.state;
+    const global = this;
     const formValues = {};
-    console.log('location', location);
     const filterProps = {
       filter: {
         ...location.query,
@@ -68,7 +71,6 @@ export default class TableList extends PureComponent {
       item: currentItem,
       title: modalType === 'create' ? '新建规则' : '修改规则',
       onOk(item) {
-        console.log('item', item);
         dispatch({
           type: `expre/${modalType}`,
           // type: 'expre/create',
@@ -96,7 +98,6 @@ export default class TableList extends PureComponent {
         pagination: { ...data.pagination, total },
       },
       showModal(item) {
-        console.log('updata', item);
         dispatch({
           type: 'expre/setStates',
           payload: {
@@ -107,7 +108,15 @@ export default class TableList extends PureComponent {
         });
       },
       onSelectRow(rows) {
-        console.log('row', rows);
+        global.setState({
+          selectedRows: rows,
+        });
+        dispatch({
+          type: 'expre/setStates',
+          payload: {
+            selectedRows: [...rows],
+          },
+        });
       },
       onChange(pagination, filtersArg, sorter) {
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -124,7 +133,6 @@ export default class TableList extends PureComponent {
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
-        console.log('params', params);
         dispatch({
           type: 'expre/query',
           payload: params,
@@ -140,7 +148,6 @@ export default class TableList extends PureComponent {
                 no: selectedRows.map(row => row.no).join(','),
               },
               callback: () => {
-                console.log(12);
               },
             });
             break;

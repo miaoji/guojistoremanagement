@@ -89,7 +89,6 @@ export default class TableList extends PureComponent {
       item: currentItem,
       title: modalType === 'create' ? '新建规则' : '修改规则',
       onOk(item) {
-        console.log('item', item);
         dispatch({
           type: `test/${modalType}`,
           // type: 'test/create',
@@ -119,7 +118,6 @@ export default class TableList extends PureComponent {
       loading,
       data,
       showModal(item) {
-        console.log('updata', item);
         dispatch({
           type: 'test/setStates',
           payload: {
@@ -130,7 +128,6 @@ export default class TableList extends PureComponent {
         });
       },
       onSelectRow(rows) {
-        console.log('row', rows);
         mythis.setState({
           selectedRows: rows,
         });
