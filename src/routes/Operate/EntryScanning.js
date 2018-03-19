@@ -9,38 +9,39 @@ import styles from './EntryScanning.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+
 const columns = [
   {
     title: '单号',
-    dataIndex: 'no',
+    dataIndex: 'order_no',
   },
   {
     title: '扫描时间',
-    dataIndex: 'no',
+    dataIndex: 'gmt_create',
   },
   {
     title: '仓管费',
-    dataIndex: 'no',
+    dataIndex: 'cargo_charge',
   },
   {
     title: '快递费',
-    dataIndex: 'no',
+    dataIndex: 'express_charge',
   },
   {
     title: '客户名称',
-    dataIndex: 'no',
+    dataIndex: 'customer_name',
   },
   {
     title: '货架号',
-    dataIndex: 'no',
+    dataIndex: 'shelf_no',
   },
   {
     title: '快递公司',
-    dataIndex: 'no',
+    dataIndex: 'express_company',
   },
   {
     title: '重量',
-    dataIndex: 'no',
+    dataIndex: 'weight',
   },
   {
     title: '操作',
@@ -75,7 +76,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="单号"
       >
-        {form.getFieldDecorator('orderno', {
+        {form.getFieldDecorator('orderNo', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input placeholder="请输入" />
@@ -86,7 +87,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="客户编码"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('customerNo', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input placeholder="请输入" />
@@ -95,24 +96,9 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="作者"
-      >
-        {form.getFieldDecorator('author', {})(
-          <Select
-            onChange={this.handleFormSubmit}
-            placeholder="不限"
-            style={{ maxWidth: 200, width: '100%' }}
-          >
-            <Option value="lisa">王昭君</Option>
-          </Select>
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
         label="快递公司"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('expressCompany', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input placeholder="请输入" />
@@ -123,7 +109,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="货架号"
       >
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('shelfNo', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Input placeholder="请输入" />
@@ -262,7 +248,7 @@ export default class TableList extends PureComponent {
     this.props.dispatch({
       type: 'cargo/add',
       payload: {
-        description: fields.desc,
+        ...fields,
       },
     });
 

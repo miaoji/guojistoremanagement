@@ -21,3 +21,10 @@ export async function update(params) {
     body: params,
   });
 }
+
+export async function remove(params) {
+  return request(cargo.remove, {
+    method: 'POST',
+    body: params,
+  });
+}
