@@ -11,47 +11,53 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  showModal,
+  // showModal,
 }) => {
-  const handleUpdata = (record) => {
-    showModal(record);
-  };
+  // const handleUpdata = (record) => {
+  //   showModal(record);
+  // };
   const columns = [
     {
       title: '单号',
-      dataIndex: 'no',
+      dataIndex: 'order_no',
+      key: 'order_no',
     },
     {
       title: '客户编码',
-      dataIndex: 'description',
+      dataIndex: 'customer_no',
+      key: 'customer_no',
     },
     {
       title: '客户名称',
-      dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      needTotal: true,
+      dataIndex: 'customer_name',
+      key: 'customer_name',
+      // sorter: true,
+      // align: 'right',
+      // render: val => `${val} 万`,
+      // needTotal: true,
     },
     {
       title: '货架号',
-      dataIndex: 'status',
+      dataIndex: 'shelf_no',
+      key: 'shelf_no',
     },
     {
       title: '仓管费',
-      dataIndex: 'no1',
+      dataIndex: 'cargo_charge',
+      key: 'cargo_charge',
     },
     {
       title: '快递公司',
-      dataIndex: 'no2',
+      dataIndex: 'express_company_code',
+      key: 'express_company_code',
     },
     {
       title: '操作',
-      render: (text, record) => (
+      render: () => (
         <Fragment>
           <a href="">查看</a>
           <Divider type="vertical" />
-          <span className={styles.update} onClick={() => { handleUpdata(record); }}>修改</span>
+          <a href="">修改</a>
         </Fragment>
       ),
     },
@@ -84,9 +90,11 @@ const List = ({
         selectedRows={selectedRows}
         loading={loading}
         data={data}
+        pagination={data.pagination}
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
+        total={30}
       />
     </div>
   );

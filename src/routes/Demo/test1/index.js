@@ -37,7 +37,7 @@ export default class TableList extends PureComponent {
       loading,
       dispatch,
     } = this.props;
-    const { selectedRows } = this.state;
+    const { selectedRows, formValues } = this.state;
     const mythis = this;
 
     const filterProps = {
@@ -89,7 +89,6 @@ export default class TableList extends PureComponent {
       item: currentItem,
       title: modalType === 'create' ? '新建规则' : '修改规则',
       onOk(item) {
-        console.log('item', item);
         dispatch({
           type: `test/${modalType}`,
           // type: 'test/create',
@@ -119,7 +118,6 @@ export default class TableList extends PureComponent {
       loading,
       data,
       showModal(item) {
-        console.log('updata', item);
         dispatch({
           type: 'test/setStates',
           payload: {
@@ -130,13 +128,12 @@ export default class TableList extends PureComponent {
         });
       },
       onSelectRow(rows) {
-        console.log('row', rows);
         mythis.setState({
           selectedRows: rows,
         });
       },
       onChange(pagination, filtersArg, sorter) {
-        const { formValues } = this.state;
+        // const { formValues } = mythis.state;
 
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };

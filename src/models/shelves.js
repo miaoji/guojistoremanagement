@@ -1,39 +1,57 @@
-import { queryRule, removeRule, addRule } from '../services/api';
+import modelExtend from 'dva-model-extend';
+// import { notification } from 'antd';
+import { pageModel } from './common';
+import { query } from '../services/query/getinto';
 
-export default {
+export default modelExtend(pageModel, {
   namespace: 'shelves',
 
   state: {
+    list: [],
+    total: 0,
     data: {
-      list: [],
       pagination: {},
     },
+    loading: false,
+    currentItem: {},
+    modalType: 'create',
+    modalVisible: false,
+    selectedRows: [],
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
+
+    *query({ payload = {
+      currentPage: 1,
+      pageSize: 10,
+    } }, { call, put }) {
+      const data = yield call(query, {
+        ...payload,
+        currentPage: Number(payload.currentPage) || 1,
+        pageSize: Number(payload.pageSize) || 10,
       });
+      if (data.code === 200) {
+        const list = data.data.map((item) => {
+          return { key: item.id, ...item };
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            list,
+            total: data.total,
+          },
+        });
+      } else {
+        yield put({
+          type: 'setStates',
+          payload: {
+            list: [],
+            total: 0,
+          },
+        });
+      }
     },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
+
   },
 
   reducers: {
@@ -44,4 +62,4 @@ export default {
       };
     },
   },
-};
+});

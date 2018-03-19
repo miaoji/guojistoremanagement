@@ -23,7 +23,9 @@ export default class GlobalHeader extends PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, isMobile, logo, onMenuClick,
+      currentUser = {
+        real_name: '用户名未获取',
+      }, collapsed, isMobile, logo, onMenuClick,
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -62,11 +64,11 @@ export default class GlobalHeader extends PureComponent {
               console.log('enter', value); // eslint-disable-line
             }}
           />
-          {currentUser.user_name ? (
+          {currentUser.real_name ? (
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
                 <Avatar size="small" className={styles.avatar} src={userIcon} />
-                <span className={styles.name}>{currentUser.user_name}</span>
+                <span className={styles.name}>{currentUser.real_name}</span>
               </span>
             </Dropdown>
           ) : <Spin size="small" style={{ marginLeft: 8 }} />}

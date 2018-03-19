@@ -1,13 +1,4 @@
 export const pageModel = {
-  state: {
-    modalVisible: false,
-    data: {
-      list: [],
-      pagination: {},
-    },
-    currentItem: {},
-    modalType: 'create',
-  },
   reducers: {
     setStates(state, { payload }) {
       return { ...state, ...payload };

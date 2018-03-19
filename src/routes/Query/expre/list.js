@@ -19,34 +19,42 @@ const List = ({
   const columns = [
     {
       title: '单号',
-      dataIndex: 'no',
+      dataIndex: 'order_no',
+      key: 'order_no',
     },
     {
-      title: '客户编码',
-      dataIndex: 'description',
+      title: '国内单号',
+      dataIndex: 'cn_no',
+      key: 'cn_no',
     },
     {
-      title: '客户名称',
-      dataIndex: 'callNo',
+      title: '货架号',
+      dataIndex: 'shelf_no',
+      key: 'shelf_no',
       sorter: true,
       align: 'right',
       render: val => `${val} 万`,
       needTotal: true,
     },
     {
-      title: '货架号',
-      dataIndex: 'status',
+      title: '客户编码',
+      dataIndex: 'customer_no',
+      key: 'customer_no',
     },
     {
-      title: '仓管费',
-      dataIndex: 'no1',
+      title: '客户名称',
+      dataIndex: 'customer_name',
+      key: 'customer_name',
     },
     {
-      title: '快递公司',
-      dataIndex: 'no2',
+      title: '客户手机号',
+      dataIndex: 'customer_mobild',
+      key: 'customer_mobild',
     },
     {
       title: '操作',
+      key: 'id',
+      dataIndex: 'id',
       render: (text, record) => (
         <Fragment>
           <a href="">查看</a>
@@ -84,9 +92,11 @@ const List = ({
         selectedRows={selectedRows}
         loading={loading}
         data={data}
+        pagination={data.pagination}
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
+        total={30}
       />
     </div>
   );

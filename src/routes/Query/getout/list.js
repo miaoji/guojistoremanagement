@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Button, Dropdown, Icon, Menu } from 'antd';
+import { Button, Dropdown, Icon, Menu } from 'antd';
 import StandardTable from 'components/StandardTable';
 import styles from './index.less';
 
@@ -11,51 +11,62 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  showModal,
+  // showModal,
 }) => {
-  const handleUpdata = (record) => {
-    showModal(record);
-  };
+  // const handleUpdata = (record) => {
+  //   showModal(record);
+  // };
   const columns = [
     {
       title: '单号',
-      dataIndex: 'no',
+      dataIndex: 'order_no',
+      key: 'order_no',
     },
     {
-      title: '客户编码',
-      dataIndex: 'description',
+      title: '国内单号',
+      dataIndex: 'cn_no',
+      key: 'cn_no',
     },
     {
-      title: '客户名称',
-      dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      needTotal: true,
+      title: '目的地国家',
+      dataIndex: 'destination',
+      key: 'destination',
     },
     {
-      title: '货架号',
-      dataIndex: 'status',
+      title: '客户编号',
+      dataIndex: 'customer_no',
+      key: 'customer_no',
     },
     {
       title: '仓管费',
-      dataIndex: 'no1',
+      dataIndex: 'cargo_charge',
+      key: 'cargo_charge',
     },
     {
-      title: '快递公司',
-      dataIndex: 'no2',
+      title: '快递费',
+      dataIndex: 'express_charge',
+      key: 'express_charge',
+    },
+    {
+      title: '重量',
+      dataIndex: 'weight',
+      key: 'weight',
+    },
+    {
+      title: '出库时间',
+      dataIndex: 'scan_time',
+      key: 'scan_time',
     },
     {
       title: '操作',
-      render: (text, record) => (
+      render: () => (
         <Fragment>
-          <a href="">查看</a>
-          <Divider type="vertical" />
-          <span className={styles.update} onClick={() => { handleUpdata(record); }}>修改</span>
+          <a href="">回填转单号</a>
         </Fragment>
       ),
     },
   ];
+
 
   const menu = (
     <Menu onClick={handleMenuClick} selectedKeys={[]}>
@@ -84,9 +95,11 @@ const List = ({
         selectedRows={selectedRows}
         loading={loading}
         data={data}
+        pagination={data.pagination}
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
+        total={30}
       />
     </div>
   );

@@ -1,10 +1,10 @@
 import modelExtend from 'dva-model-extend';
 import { notification } from 'antd';
 import { pageModel } from './common';
-import { query, hide, create } from '../services/query/expre';
+import { queryRule, removeRule, addRule } from '../services/api';
 
 export default modelExtend(pageModel, {
-  namespace: 'expre',
+  namespace: 'test',
 
   state: {
     list: [],
@@ -12,57 +12,32 @@ export default modelExtend(pageModel, {
     data: {
       pagination: {},
     },
-    loading: false,
     currentItem: {},
     modalType: 'create',
     modalVisible: false,
-    selectedRows: [],
   },
 
   effects: {
-    *query({ payload = {
-      currentPage: 1,
-      pageSize: 10,
-    } }, { call, put }) {
-      const data = yield call(query, {
-        ...payload,
-        currentPage: Number(payload.currentPage) || 1,
-        pageSize: Number(payload.pageSize) || 10,
+    *query({ payload }, { call, put }) {
+      const response = yield call(queryRule, payload);
+      yield put({
+        type: 'setStates',
+        payload: {
+          data: response,
+        },
       });
-      if (data.code === 200) {
-        const list = data.data.map((item) => {
-          return { key: item.id, ...item };
-        });
-        yield put({
-          type: 'setStates',
-          payload: {
-            list,
-            total: data.total,
-          },
-        });
-      } else {
-        yield put({
-          type: 'setStates',
-          payload: {
-            list: [],
-            total: 0,
-          },
-        });
-      }
     },
     *fetch({ payload }, { call, put }) {
-      const data = yield call(query, payload);
-      if (data.code === 200) {
-        yield put({
-          type: 'setStates',
-          payload: {
-            data: data.obj,
-          },
-        });
-      }
+      const response = yield call(queryRule, payload);
+      yield put({
+        type: 'setStates',
+        payload: {
+          data: response,
+        },
+      });
     },
-    *create({ payload }, { put }) {
-      console.info('payload', payload);
+    *create(_, { put }) {
+      // const response = yield call(addRule, payload);
       notification.success({
         message: '创建成功',
         description: '这个信息只是用来提示用户创建成功了',
@@ -71,11 +46,11 @@ export default modelExtend(pageModel, {
         type: 'setStates',
         payload: {
           modalVisible: false,
+          // payload: response,
         },
       });
     },
-    *updata({ payload }, { put }) {
-      console.info('payload', payload);
+    *updata(_, { put }) {
       notification.success({
         message: '数据修改成功',
         description: '这个信息只是用来提示用户数据修改成功了',
@@ -88,7 +63,7 @@ export default modelExtend(pageModel, {
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(create, payload);
+      const response = yield call(addRule, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -96,7 +71,7 @@ export default modelExtend(pageModel, {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(hide, payload);
+      const response = yield call(removeRule, payload);
       yield put({
         type: 'save',
         payload: response,

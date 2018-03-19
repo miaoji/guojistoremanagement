@@ -65,3 +65,22 @@ export const qr = {
   // method=get
   query: `${APIV3}barcode/create`,
 };
+// 快件查询
+export const expre = {
+  // list: 'http://app.quandikeji.com:8288/quandiExpressSiteManager/blackList',
+  list: `${APIV3}/api/cargo/list`,
+  create: `${APIV3}/api/cargo/add`,
+  update: `${APIV3}/api/cargo/edit`,
+  hide: `${APIV3}/api/cargo/del`,
+  getById: `${APIV3}/api/cargo/get`,
+};
+
+// 入库查询
+export const getinto = {
+  list: `${APIV3}/api/cargo/ops/list`,
+};
+
+// 入库查询
+export const getout = {
+  list: `${APIV3}/api/cargo/ops/list`,
+};

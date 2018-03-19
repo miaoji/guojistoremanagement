@@ -11,47 +11,57 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  showModal,
+  // showModal,
 }) => {
-  const handleUpdata = (record) => {
-    showModal(record);
-  };
+  // const handleUpdata = (record) => {
+  //   showModal(record);
+  // };
   const columns = [
     {
-      title: '单号',
+      title: '货架号',
       dataIndex: 'no',
     },
     {
-      title: '客户编码',
+      title: '入架数量',
       dataIndex: 'description',
     },
     {
-      title: '客户名称',
+      title: '出架数量',
       dataIndex: 'callNo',
       sorter: true,
       align: 'right',
       render: val => `${val} 万`,
+      // mark to display a total number
       needTotal: true,
     },
     {
-      title: '货架号',
+      title: '剩余件数',
       dataIndex: 'status',
     },
     {
-      title: '仓管费',
+      title: '单号',
       dataIndex: 'no1',
     },
     {
-      title: '快递公司',
+      title: '状态',
       dataIndex: 'no2',
     },
     {
+      title: '入库时间',
+      dataIndex: 'no3',
+    },
+    {
+      title: '出库时间',
+      dataIndex: 'updatedAt',
+      sorter: true,
+    },
+    {
       title: '操作',
-      render: (text, record) => (
+      render: () => (
         <Fragment>
           <a href="">查看</a>
           <Divider type="vertical" />
-          <span className={styles.update} onClick={() => { handleUpdata(record); }}>修改</span>
+          <a href="">修改</a>
         </Fragment>
       ),
     },
@@ -84,9 +94,11 @@ const List = ({
         selectedRows={selectedRows}
         loading={loading}
         data={data}
+        pagination={data.pagination}
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
+        total={30}
       />
     </div>
   );
