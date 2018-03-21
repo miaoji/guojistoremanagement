@@ -38,6 +38,7 @@ export default class TableList extends PureComponent {
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
+
     const filterProps = {
       filter: {
         ...location.query,
@@ -73,7 +74,6 @@ export default class TableList extends PureComponent {
       onOk(item) {
         dispatch({
           type: `freight/${modalType}`,
-          // type: 'freight/create',
           payload: {
             ...item,
           },
