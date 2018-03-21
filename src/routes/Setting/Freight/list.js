@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
+import moment from 'moment';
+import { Button, Dropdown, Icon, Menu } from 'antd';
+import SmallTable from 'components/SmallTable';
 import styles from './index.less';
 
 const List = ({
@@ -19,18 +20,18 @@ const List = ({
   const columns = [
     {
       title: '目的地国家',
-      dataIndex: 'order_no',
-      key: 'order_no',
+      dataIndex: 'destination',
+      key: 'destination',
     },
     {
       title: '包裹类型',
-      dataIndex: 'customer_no',
-      key: 'customer_no',
+      dataIndex: 'package_type',
+      key: 'package_type',
     },
     {
       title: '产品类型',
-      dataIndex: 'customer_name',
-      key: 'customer_name',
+      dataIndex: 'product_type',
+      key: 'product_type',
       // sorter: true,
       // align: 'right',
       // render: val => `${val} 万`,
@@ -38,55 +39,57 @@ const List = ({
     },
     {
       title: '首重价格',
-      dataIndex: 'shelf_no',
-      key: 'shelf_no',
+      dataIndex: 'init_price',
+      key: 'init_price',
     },
     {
       title: '首重重量',
-      dataIndex: 'cargo_charge',
-      key: 'cargo_charge',
+      dataIndex: 'init_weight',
+      key: 'init_weight',
     },
     {
       title: '续重价格',
-      dataIndex: 'express_company_code',
-      key: 'express_company_code',
+      dataIndex: 'stepping_price',
+      key: 'stepping_price',
     },
     {
-      title: '步进价格',
-      dataIndex: 'express_company_code6',
-      key: 'express_company_code6',
+      title: '步进重量',
+      dataIndex: 'stepping_weight',
+      key: 'stepping_weight',
     },
     {
       title: '燃油附加费',
-      dataIndex: 'express_company_code5',
-      key: 'express_company_code5',
+      dataIndex: 'fuel_charge',
+      key: 'fuel_charge',
     },
     {
       title: '邮编段',
-      dataIndex: 'express_company_code4',
-      key: 'express_company_code4',
+      dataIndex: 'postcode',
+      key: 'postcode',
     },
     {
       title: '创建时间',
-      dataIndex: 'express_company_code3',
-      key: 'express_company_code3',
+      width: 120,
+      dataIndex: 'gmt_create',
+      key: 'gmt_create',
+      render: (text) => {
+        return <span>{moment(text).format('YYYY-MM-DD')}</span>;
+      },
     },
     {
       title: '操作人',
-      dataIndex: 'express_company_code2',
-      key: 'express_company_code2',
+      dataIndex: 'create_user_id',
+      key: 'create_user_id',
     },
     {
       title: '备注',
-      dataIndex: 'express_company_code1',
-      key: 'express_company_code1',
+      dataIndex: 'remark',
+      key: 'remark',
     },
     {
       title: '操作',
       render: () => (
         <Fragment>
-          <a href="">查看</a>
-          <Divider type="vertical" />
           <Button onClick={() => handleUpdata()} >修改</Button>
         </Fragment>
       ),
@@ -116,7 +119,7 @@ const List = ({
           )
         }
       </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}
@@ -132,10 +135,6 @@ const List = ({
 
 List.propTypes = {
   data: PropTypes.object.isRequired,
-  // selectedRows: PropTypes.any,
-  // loading: PropTypes.bool,
-  // onSelectRow,
-  // onChange
 };
 
 export default List;

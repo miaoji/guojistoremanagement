@@ -31,10 +31,19 @@ export default class TableList extends PureComponent {
     const {
       form,
       location,
-      freight: { data, list, total, modalVisible, modalType, currentItem },
+      freight: {
+        countryInfo,
+        productInfo,
+        packageInfo,
+        data,
+        list,
+        total,
+        modalVisible,
+        modalType,
+        currentItem,
+      },
       loading,
       dispatch,
-      // selectedRows = [],
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
@@ -58,6 +67,9 @@ export default class TableList extends PureComponent {
       },
       showModal() {
         dispatch({
+          type: 'freight/getCountryInfo',
+        });
+        dispatch({
           type: 'freight/setStates',
           payload: {
             modalVisible: true,
@@ -71,14 +83,19 @@ export default class TableList extends PureComponent {
 
     const modalProps = {
       item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
-      onOk(item) {
-        dispatch({
-          type: `freight/${modalType}`,
-          payload: {
-            ...item,
-          },
-        });
+      countryInfo,
+      productInfo,
+      packageInfo,
+      modalVisible,
+      title: modalType === 'create' ? '新建运费类型' : '修改运费类型',
+      onOk(val) {
+        console.log('val', val);
+        // dispatch({
+        //   type: `freight/${modalType}`,
+        //   payload: {
+        //     ...val,
+        //   },
+        // });
       },
       hideModal() {
         dispatch({
@@ -88,7 +105,18 @@ export default class TableList extends PureComponent {
           },
         });
       },
-      modalVisible,
+      getPackageInfo(val) {
+        dispatch({
+          type: 'freight/getPackageInfo',
+          payload: val,
+        });
+      },
+      getProductInfo(val) {
+        dispatch({
+          type: 'freight/getProductInfo',
+          payload: val,
+        });
+      },
     };
 
     const listProps = {
@@ -99,6 +127,9 @@ export default class TableList extends PureComponent {
         pagination: { ...data.pagination, total },
       },
       showModal(item) {
+        dispatch({
+          type: 'freight/getCountryInfo',
+        });
         dispatch({
           type: 'freight/setStates',
           payload: {

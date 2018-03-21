@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
+
+// const { Option } = Select;
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -22,6 +24,11 @@ const Modalbox = ({
   onOk,
   hideModal,
   title,
+  countryInfo,
+  getPackageInfo,
+  getProductInfo,
+  // packageInfo,
+  // productInfo,
 }) => {
   const handleOk = () => {
     validateFields((errors) => {
@@ -35,44 +42,77 @@ const Modalbox = ({
       onOk(data);
     });
   };
+
+  const handleCountryChange = (e) => {
+    const countryId = e.split('/')[0];
+    console.log('e', e);
+    console.log('countryId', countryId);
+    getPackageInfo({ countryId });
+  };
+
+  const handlePackageChange = (e) => {
+    console.log('packageChange', e);
+    const packageTypeId = e.split('/')[0];
+    getProductInfo({ packageTypeId });
+  };
+
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
       <FormItem label="目的地国家" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no1', {
-          initialValue: item.no1,
+        {getFieldDecorator('destination', {
+          initialValue: item.destination,
           rules: [
             {
               required: true,
               message: '请选择目的地国家!',
             },
           ],
-        })(<Input placeholder="请选择目的地国家" />)}
+        })(
+          <Select style={{ width: '100%' }} showSearch onChange={handleCountryChange}>
+            {countryInfo}
+          </Select>
+        )}
       </FormItem>
       <FormItem label="物品(包裹)类型" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no2', {
-          initialValue: item.no2,
+        {getFieldDecorator('package_type', {
+          initialValue: item.package_type,
           rules: [
             {
               required: true,
               message: '请选择包裹类型!',
             },
           ],
-        })(<Input placeholder="请选择包裹类型" />)}
+        })(
+          <Select style={{ width: '100%' }} onChange={handlePackageChange}>
+            {/* {packageInfo.map((items) => {
+              const en = items.name_en.toLowerCase();
+              const id = `${items.id}/${items.name_cn}/${items.name_en}
+              /${items.max_range}/${items.min_range}/${en}`;
+              return <Option key={id}>{items.name_cn}</Option>;
+            })} */}
+          </Select>
+        )}
       </FormItem>
       <FormItem label="产品类型" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('product_type', {
+          initialValue: item.product_type,
           rules: [
             {
               required: true,
               message: '请选择产品类型!',
             },
           ],
-        })(<Input placeholder="请选择产品类型" />)}
+        })(
+          <Select style={{ width: '100%' }}>
+            {/* {productInfo.map((items) => {
+              return <Option key={items.id}>{items.product_name}</Option>;
+            })} */}
+          </Select>
+        )}
       </FormItem>
       <FormItem label="首重价格(￥)" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('init_price', {
+          initialValue: item.init_price,
           rules: [
             {
               required: true,
@@ -82,8 +122,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入首重重量" />)}
       </FormItem>
       <FormItem label="首重重量(kg)" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('init_weight', {
+          initialValue: item.init_weight,
           rules: [
             {
               required: true,
@@ -93,8 +133,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入首重重量" />)}
       </FormItem>
       <FormItem label="续重价格(￥)" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('stepping_price', {
+          initialValue: item.stepping_price,
           rules: [
             {
               required: true,
@@ -104,8 +144,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入续重价格" />)}
       </FormItem>
       <FormItem label="步进重量(kg)" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('stepping_weight', {
+          initialValue: item.stepping_weight,
           rules: [
             {
               required: true,
@@ -115,8 +155,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入步进重量" />)}
       </FormItem>
       <FormItem label="燃油附加费(￥)" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('fuel_charge', {
+          initialValue: item.fuel_charge,
           rules: [
             {
               required: true,
@@ -126,8 +166,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入燃油附加费" />)}
       </FormItem>
       <FormItem label="邮编段" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('postcode', {
+          initialValue: item.postcode,
           rules: [
             {
               required: true,
@@ -137,11 +177,11 @@ const Modalbox = ({
         })(<Input placeholder="请添加邮编段" />)}
       </FormItem>
       <FormItem label="备注" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
+        {getFieldDecorator('remark', {
+          initialValue: item.remark,
           rules: [
             {
-              required: true,
+              // required: true,
               message: '请输入备注信息!',
             },
           ],
