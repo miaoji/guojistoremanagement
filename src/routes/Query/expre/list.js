@@ -31,10 +31,6 @@ const List = ({
       title: '货架号',
       dataIndex: 'shelf_no',
       key: 'shelf_no',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      needTotal: true,
     },
     {
       title: '客户编码',

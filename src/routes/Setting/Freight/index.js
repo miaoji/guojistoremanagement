@@ -20,9 +20,10 @@ export default class TableList extends PureComponent {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     dispatch({
       type: 'freight/query',
+      payload: location.query,
     });
   }
 

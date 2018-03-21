@@ -20,15 +20,8 @@ export default modelExtend(pageModel, {
   },
 
   effects: {
-    *query({ payload = {
-      currentPage: 1,
-      pageSize: 10,
-    } }, { call, put }) {
-      const data = yield call(query, {
-        ...payload,
-        currentPage: Number(payload.currentPage) || 1,
-        pageSize: Number(payload.pageSize) || 10,
-      });
+    *query({ payload }, { call, put }) {
+      const data = yield call(query, payload);
       if (data.code === 200) {
         const list = data.data.map((item) => {
           return { key: item.id, ...item };

@@ -20,9 +20,10 @@ export default class TableList extends PureComponent {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     dispatch({
       type: 'expre/query',
+      payload: location.query,
     });
   }
 
@@ -38,6 +39,7 @@ export default class TableList extends PureComponent {
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
+
     const filterProps = {
       filter: {
         ...location.query,

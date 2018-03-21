@@ -45,7 +45,6 @@ export default class TableList extends PureComponent {
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      console.log('11111', fieldsValue);
       const values = {
         ...fieldsValue,
       };
