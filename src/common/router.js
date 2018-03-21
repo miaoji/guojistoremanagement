@@ -115,6 +115,7 @@ export const getRouterData = (app) => {
     '/setting/express-company': {
       component: dynamicWrapper(app, ['expressCompany'], () => import('../routes/Setting/ExpressCompany')),
     },
+    // 运费配置
     '/setting/freight': {
       component: dynamicWrapper(app, ['freight'], () => import('../routes/Setting/Freight')),
     },
