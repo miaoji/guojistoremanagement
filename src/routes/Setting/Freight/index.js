@@ -87,10 +87,8 @@ export default class TableList extends PureComponent {
       productInfo,
       packageInfo,
       modalVisible,
-      title: modalType === 'create' ? '新建运费类型' : '修改运费类型',
+      title: modalType === 'create' ? '新建运费规则' : '修改运费规则',
       onOk(val) {
-        console.log('val', val);
-        console.log(`freight/${modalType}`);
         dispatch({
           type: `freight/${modalType}`,
           payload: {
@@ -127,6 +125,14 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
+      onDelete(id) {
+        dispatch({
+          type: 'freight/remove',
+          payload: {
+            id,
+          },
+        });
+      },
       showModal(item) {
         dispatch({
           type: 'freight/getCountryInfo',
@@ -135,7 +141,7 @@ export default class TableList extends PureComponent {
           type: 'freight/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'updata',
+            modalType: 'update',
             currentItem: item,
           },
         });

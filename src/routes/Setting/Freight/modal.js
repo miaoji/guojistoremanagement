@@ -18,7 +18,6 @@ const Modalbox = ({
   form: {
     validateFields,
     getFieldDecorator,
-    // resetFields,
     getFieldsValue,
   },
   onOk,
@@ -44,15 +43,12 @@ const Modalbox = ({
   };
 
   const handleCountryChange = (e) => {
-    const countryId = e.split('/')[0];
-    console.log('e', e);
-    console.log('countryId', countryId);
+    const countryId = Number(e.split('/')[0]);
     getPackageInfo({ countryId });
   };
 
   const handlePackageChange = (e) => {
-    console.log('packageChange', e);
-    const packageTypeId = e.split('/')[0];
+    const packageTypeId = Number(e.split('/')[0]);
     getProductInfo({ packageTypeId });
   };
 

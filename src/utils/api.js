@@ -89,10 +89,12 @@ export const freight = {
   // 获取运费信息
   list: `${APIV3}/api/freight/list`,
   add: `${APIV3}/api/freight/add`,
-  // 获取产品类型
-  productlist: `${APIV3}/api/product/list`,
-  // 获取包裹类型
-  packagelist: `${APIV3}/api/package/list`,
+  del: `${APIV3}/api/freight/del`,
+  edit: `${APIV3}/api/freight/edit`,
   // 获取国家信息
   countrylist: `${APIV3}/api/country/list`,
+  // 获取包裹类型
+  packagelist: `${APIV3}/api/package/list`,
+  // 获取产品类型
+  productlist: `${APIV3}/api/product/list`,
 };

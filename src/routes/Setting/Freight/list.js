@@ -1,21 +1,39 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Button, Dropdown, Icon, Menu } from 'antd';
+import { Modal } from 'antd';
 import SmallTable from 'components/SmallTable';
-import styles from './index.less';
+import DropOption from 'components/DropOption';
 
+const { confirm } = Modal;
 const List = ({
   data,
   selectedRows,
   loading,
   onSelectRow,
   onChange,
-  handleMenuClick,
   showModal,
+  onDelete,
 }) => {
-  const handleUpdata = (record) => {
-    showModal(record);
+  const onMenuClick = (record, e) => {
+    switch (e.key) {
+      case '1':
+        showModal(record);
+        break;
+      case '2':
+        confirm({
+          cancelText: '取消',
+          okText: '确认删除',
+          title: '删除',
+          content: '你确定要删除这一条运费信息吗?',
+          onOk: () => {
+            onDelete(record.id);
+          },
+        });
+        break;
+      default:
+        break;
+    }
   };
   const columns = [
     {
@@ -84,37 +102,16 @@ const List = ({
     },
     {
       title: '操作',
-      render: () => (
-        <Fragment>
-          <Button onClick={() => handleUpdata()} >修改</Button>
-        </Fragment>
-      ),
+      key: 'operation',
+      width: 100,
+      render: (text, record) => {
+        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '更新' }, { key: '2', name: '删除' }]} />;
+      },
     },
   ];
 
-  const menu = (
-    <Menu onClick={handleMenuClick} selectedKeys={[]}>
-      <Menu.Item key="remove">删除</Menu.Item>
-      <Menu.Item key="approval">批量删除</Menu.Item>
-    </Menu>
-  );
-
   return (
     <div>
-      <div className={styles.tableListOperator}>
-        {
-          selectedRows.length > 0 && (
-            <span>
-              <Button>批量操作</Button>
-              <Dropdown overlay={menu}>
-                <Button>
-                  更多操作 <Icon type="down" />
-                </Button>
-              </Dropdown>
-            </span>
-          )
-        }
-      </div>
       <SmallTable
         selectedRows={selectedRows}
         loading={loading}
