@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Form, message } from 'antd';
+import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
@@ -10,75 +10,75 @@ import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ test, loading }) => ({
-  test,
-  loading: loading.models.test,
+@connect(({ freight, loading }) => ({
+  freight,
+  loading: loading.models.freight,
 }))
 @Form.create()
-
 export default class TableList extends PureComponent {
   state = {
-    // modalVisible: this.props.modalVisible,
     selectedRows: [],
-    formValues: {},
-  };
-  // 生命周期的构造函数
+  }
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     dispatch({
-      type: 'test/query',
+      type: 'freight/query',
+      payload: location.query,
     });
   }
 
   render() {
     const {
       form,
-      test: { data, modalVisible, modalType, currentItem },
+      location,
+      freight: {
+        countryInfo,
+        productInfo,
+        packageInfo,
+        data,
+        list,
+        total,
+        modalVisible,
+        modalType,
+        currentItem,
+        packageDis,
+        productDis,
+      },
       loading,
       dispatch,
     } = this.props;
-    const { selectedRows, formValues } = this.state;
-    const mythis = this;
+    const { selectedRows } = this.state;
+    const global = this;
+    const formValues = {};
 
     const filterProps = {
+      filter: {
+        ...location.query,
+      },
       handleFormReset() {
-        form.resetFields();
-        mythis.setState({
-          formValues: {},
-        });
         dispatch({
-          type: 'test/fetch',
+          type: 'freight/query',
           payload: {},
         });
       },
-      handleSearch(e) {
-        e.preventDefault();
-
-        form.validateFields((err, fieldsValue) => {
-          if (err) return;
-
-          const values = {
-            ...fieldsValue,
-            updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-          };
-
-          mythis.setState({
-            formValues: values,
-          });
-
-          dispatch({
-            type: 'test/fetch',
-            payload: values,
-          });
+      handleSearch(values) {
+        dispatch({
+          type: 'freight/query',
+          payload: values,
         });
       },
       showModal() {
         dispatch({
-          type: 'test/setStates',
+          type: 'freight/getCountryInfo',
+        });
+        dispatch({
+          type: 'freight/setStates',
           payload: {
             modalVisible: true,
             modalType: 'create',
             currentItem: {},
+            packageDis: true,
+            productDis: true,
           },
         });
       },
@@ -87,60 +87,90 @@ export default class TableList extends PureComponent {
 
     const modalProps = {
       item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
-      onOk(item) {
+      countryInfo,
+      productInfo,
+      packageInfo,
+      modalVisible,
+      packageDis,
+      productDis,
+      title: modalType === 'create' ? '新建运费规则' : '修改运费规则',
+      onOk(val) {
         dispatch({
-          type: `test/${modalType}`,
-          // type: 'test/create',
+          type: `freight/${modalType}`,
           payload: {
-            ...item,
+            ...val,
           },
-        });
-
-        message.success('添加成功');
-        mythis.setState({
-          modalVisible: false,
         });
       },
       hideModal() {
         dispatch({
-          type: 'test/setStates',
+          type: 'freight/setStates',
           payload: {
             modalVisible: false,
           },
         });
       },
-      modalVisible,
+      getPackageInfo(val) {
+        dispatch({
+          type: 'freight/getPackageInfo',
+          payload: val,
+        });
+      },
+      getProductInfo(val) {
+        dispatch({
+          type: 'freight/getProductInfo',
+          payload: val,
+        });
+      },
     };
 
     const listProps = {
       selectedRows,
       loading,
-      data,
+      data: {
+        list,
+        pagination: { ...data.pagination, total },
+      },
+      onDelete(id) {
+        dispatch({
+          type: 'freight/remove',
+          payload: {
+            id,
+          },
+        });
+      },
       showModal(item) {
         dispatch({
-          type: 'test/setStates',
+          type: 'freight/getCountryInfo',
+        });
+        dispatch({
+          type: 'freight/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'updata',
+            modalType: 'update',
             currentItem: item,
+            packageDis: true,
+            productDis: true,
           },
         });
       },
       onSelectRow(rows) {
-        mythis.setState({
+        global.setState({
           selectedRows: rows,
+        });
+        dispatch({
+          type: 'freight/setStates',
+          payload: {
+            selectedRows: [...rows],
+          },
         });
       },
       onChange(pagination, filtersArg, sorter) {
-        // const { formValues } = mythis.state;
-
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };
           newObj[key] = getValue(filtersArg[key]);
           return newObj;
         }, {});
-
         const params = {
           currentPage: pagination.current,
           pageSize: pagination.pageSize,
@@ -150,9 +180,8 @@ export default class TableList extends PureComponent {
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
-
         dispatch({
-          type: 'test/fetch',
+          type: 'freight/query',
           payload: params,
         });
       },
@@ -161,14 +190,11 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'test/remove',
+              type: 'freight/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
               callback: () => {
-                mythis.setState({
-                  selectedRows: [],
-                });
               },
             });
             break;

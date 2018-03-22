@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
-import styles from './index.less';
+import SmallTable from 'components/SmallTable';
+import DropOption from 'components/DropOption';
 
 const List = ({
   data,
@@ -10,12 +9,19 @@ const List = ({
   loading,
   onSelectRow,
   onChange,
-  handleMenuClick,
-  // showModal,
 }) => {
-  // const handleUpdata = (record) => {
-  //   showModal(record);
-  // };
+  const onMenuClick = (record, e) => {
+    switch (e.key) {
+      case '1':
+        console.log(1);
+        break;
+      case '2':
+        console.log(2);
+        break;
+      default:
+        break;
+    }
+  };
   const columns = [
     {
       title: '货架号',
@@ -28,11 +34,6 @@ const List = ({
     {
       title: '出架数量',
       dataIndex: 'callNo',
-      sorter: true,
-      align: 'right',
-      render: val => `${val} 万`,
-      // mark to display a total number
-      needTotal: true,
     },
     {
       title: '剩余件数',
@@ -53,44 +54,19 @@ const List = ({
     {
       title: '出库时间',
       dataIndex: 'updatedAt',
-      sorter: true,
     },
     {
       title: '操作',
-      render: () => (
-        <Fragment>
-          <a href="">查看</a>
-          <Divider type="vertical" />
-          <a href="">修改</a>
-        </Fragment>
-      ),
+      render: (text, record) => {
+        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '更新' }, { key: '2', name: '删除' }]} />;
+      },
     },
   ];
 
-  const menu = (
-    <Menu onClick={handleMenuClick} selectedKeys={[]}>
-      <Menu.Item key="remove">删除</Menu.Item>
-      <Menu.Item key="approval">批量审批</Menu.Item>
-    </Menu>
-  );
 
   return (
     <div>
-      <div className={styles.tableListOperator}>
-        {
-          selectedRows.length > 0 && (
-            <span>
-              <Button>批量操作</Button>
-              <Dropdown overlay={menu}>
-                <Button>
-                  更多操作 <Icon type="down" />
-                </Button>
-              </Dropdown>
-            </span>
-          )
-        }
-      </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}

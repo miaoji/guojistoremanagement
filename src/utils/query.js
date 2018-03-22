@@ -12,6 +12,7 @@ const codeMessage = {
   401: '用户没有权限（令牌、用户名、密码错误）。',
   403: '用户得到授权，但是访问是被禁止的。',
   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+  405: '参数错误。',
   406: '请求的格式不可得。',
   410: '请求的资源被永久删除，且不会再得到的。',
   422: '当创建一个对象时，发生一个验证错误。',
@@ -34,7 +35,7 @@ const fetch = (options) => {
     data,
     params,
     url,
-    auth,
+    auth = true,
     token,
     timeout = 1000,
   } = options;
@@ -55,6 +56,7 @@ const fetch = (options) => {
         url,
         method: 'delete',
         data: cloneData,
+        params,
         timeout,
         headers: auth ? { token } : {},
       });
@@ -65,7 +67,7 @@ const fetch = (options) => {
         data: cloneData,
         params,
         timeout,
-        // headers: auth ? { token } : {},
+        headers: auth ? { token } : {},
       });
     case 'put':
       return axios.put(url, cloneData);

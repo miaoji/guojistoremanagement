@@ -4,7 +4,8 @@ import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
-import userIcon from '../../assets/user_icon.jpg';
+// import userIcon from '../../assets/user_icon.jpg';
+import userIcon from '../../assets/0.jpg';
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {

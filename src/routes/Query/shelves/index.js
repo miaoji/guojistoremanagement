@@ -21,7 +21,6 @@ export default class TableList extends PureComponent {
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    console.log(11111111111111);
     dispatch({
       type: 'shelves/query',
     });

@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 import { Icon } from 'antd';
 import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import { getRoutes } from '../utils/utils';
 
 const copyright = <Fragment>Copyright <Icon type="copyright" /> 2018 明彰国际快递服务中心</Fragment>;
