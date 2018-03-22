@@ -48,7 +48,7 @@ const fetch = (options) => {
         method: 'get',
         params: cloneData || params,
         timeout,
-        headers: auth ? { token: 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVUaW1lIjoxNTIxNTk0MDMwMzk0LCJ1c2VyaWQiOjF9.QlOnKzprhmckvBn1QzAzo8D30QRTcXIz-iKVokUNsRY' } : {},
+        headers: auth ? { token: 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVUaW1lIjoxNTIxNjgyNTUzNTQwLCJ1c2VyaWQiOjF9.tRUveU3u-Nvo78b_FDNSxipDvtql2_N_sCsqHqA0FIk' } : {},
       });
     case 'delete':
       return axios({

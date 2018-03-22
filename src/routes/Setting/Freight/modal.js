@@ -27,8 +27,8 @@ const Modalbox = ({
   countryInfo,
   getPackageInfo,
   getProductInfo,
-  // packageInfo,
-  // productInfo,
+  packageInfo,
+  productInfo,
 }) => {
   const handleOk = () => {
     validateFields((errors) => {
@@ -84,12 +84,7 @@ const Modalbox = ({
           ],
         })(
           <Select style={{ width: '100%' }} onChange={handlePackageChange}>
-            {/* {packageInfo.map((items) => {
-              const en = items.name_en.toLowerCase();
-              const id = `${items.id}/${items.name_cn}/${items.name_en}
-              /${items.max_range}/${items.min_range}/${en}`;
-              return <Option key={id}>{items.name_cn}</Option>;
-            })} */}
+            {packageInfo}
           </Select>
         )}
       </FormItem>
@@ -104,9 +99,7 @@ const Modalbox = ({
           ],
         })(
           <Select style={{ width: '100%' }}>
-            {/* {productInfo.map((items) => {
-              return <Option key={items.id}>{items.product_name}</Option>;
-            })} */}
+            {productInfo}
           </Select>
         )}
       </FormItem>

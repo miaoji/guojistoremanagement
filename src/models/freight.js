@@ -1,8 +1,10 @@
-// import React from 'react';
+import React from 'react';
 import modelExtend from 'dva-model-extend';
-import { message } from 'antd';
+import { message, Select } from 'antd';
 import { pageModel } from './common';
 import { query, countrylist, productlist, packagelist } from '../services/setting/freight';
+
+const { Option } = Select;
 
 export default modelExtend(pageModel, {
   namespace: 'freight',
@@ -46,15 +48,16 @@ export default modelExtend(pageModel, {
     *getCountryInfo(_, { call, put }) {
       const data = yield call(countrylist);
       if (data.code === 200) {
-        // const arr = data.data.map((items) => {
-        //   const en = items.country_en.toLowerCase();
-        //   const id = `${items.id}/${items.country_cn}/${items.country_en}/${en}`;
-        //   return `<Option key=${id}>${items.country_cn}</Option>`;
-        // });
+        const source = data.obj || data.data;
+        const options = source.map((items) => {
+          const en = items.country_en.toLowerCase();
+          const id = `${items.id}/${items.country_cn}/${items.country_en}/${en}`;
+          return <Option key={id}>{items.country_cn}</Option>;
+        });
         yield put({
           type: 'setStates',
           payload: {
-            countryInfo: data.data,
+            countryInfo: options,
           },
         });
       } else {
@@ -67,10 +70,16 @@ export default modelExtend(pageModel, {
       const data = yield call(packagelist, payload);
       console.log('datapackage', data);
       if (data.code === 200) {
+        const source = data.obj || data.dada;
+        const options = source.map((items) => {
+          const en = items.name_en.toLowerCase();
+          const id = `${items.id}/${items.name_cn}/${items.name_en}/${items.max_range}/${items.min_range}/${en}`;
+          return <Option key={id}>{items.name_cn}</Option>;
+        });
         yield put({
           type: 'setStates',
           payload: {
-            packageInfo: data.obj,
+            packageInfo: options,
           },
         });
       } else {
@@ -80,12 +89,16 @@ export default modelExtend(pageModel, {
 
     *getProductInfo({ payload }, { call, put }) {
       const data = yield call(productlist, payload);
-      console.log('productdata', data);
       if (data.code === 200) {
+        const source = data.obj || data.data;
+        const options = source.map((items) => {
+          return <Option key={items.id}>{items.product_name}</Option>;
+        });
+        console.log('producedata', source);
         yield put({
           type: 'setStates',
           payload: {
-            productInfo: data.obj,
+            productInfo: options,
           },
         });
       } else {
