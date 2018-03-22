@@ -32,10 +32,6 @@ const List = ({
       title: '产品类型',
       dataIndex: 'product_type',
       key: 'product_type',
-      // sorter: true,
-      // align: 'right',
-      // render: val => `${val} 万`,
-      // needTotal: true,
     },
     {
       title: '首重价格',
@@ -73,7 +69,7 @@ const List = ({
       dataIndex: 'gmt_create',
       key: 'gmt_create',
       render: (text) => {
-        return <span>{moment(text).format('YYYY-MM-DD')}</span>;
+        return <span>{text ? moment(text).format('YYYY-MM-DD') : '未知时间'}</span>;
       },
     },
     {

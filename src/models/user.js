@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { Base64 } from 'js-base64';
 import { query as queryUsers, queryCurrent } from '../services/user';
 import { getToken } from '../utils/authority';
 import store from '../index';
@@ -32,6 +33,9 @@ export default {
           description: response.msg,
         });
       } else {
+        const userInfo = Base64.encode(JSON.stringify(response.data));
+        console.log('userInfo', userInfo);
+        localStorage.setItem('mzck-pro-user', userInfo);
         yield put({
           type: 'saveCurrentUser',
           payload: response.data,

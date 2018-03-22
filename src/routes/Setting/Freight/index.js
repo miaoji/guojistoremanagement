@@ -90,12 +90,13 @@ export default class TableList extends PureComponent {
       title: modalType === 'create' ? '新建运费类型' : '修改运费类型',
       onOk(val) {
         console.log('val', val);
-        // dispatch({
-        //   type: `freight/${modalType}`,
-        //   payload: {
-        //     ...val,
-        //   },
-        // });
+        console.log(`freight/${modalType}`);
+        dispatch({
+          type: `freight/${modalType}`,
+          payload: {
+            ...val,
+          },
+        });
       },
       hideModal() {
         dispatch({

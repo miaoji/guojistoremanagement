@@ -1,8 +1,9 @@
 import React from 'react';
+import { Base64 } from 'js-base64';
 import modelExtend from 'dva-model-extend';
-import { message, Select } from 'antd';
+import { message, Select, notification } from 'antd';
 import { pageModel } from './common';
-import { query, countrylist, productlist, packagelist } from '../services/setting/freight';
+import { query, create, countrylist, productlist, packagelist } from '../services/setting/freight';
 
 const { Option } = Select;
 
@@ -26,7 +27,6 @@ export default modelExtend(pageModel, {
   },
 
   effects: {
-
     *query({ payload }, { call, put }) {
       const data = yield call(query, { currentPage: 1, pageSize: 10, ...payload });
       if (data.code === 200) {
@@ -41,13 +41,47 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        message.waring(data.msg || '当前网络无法使用');
+        message.waring('当前没有可用的数据,请创建');
+      }
+    },
+
+    *create({ payload }, { call, put }) {
+      const userInfo = JSON.parse(Base64.decode(localStorage.getItem('mzck-pro-user')));
+      const source = {
+        destination: payload.destination.split('/')[0],
+        packageType: payload.package_type.split('/')[0],
+        productType: payload.product_type,
+        initPrice: payload.init_price,
+        initWeight: payload.init_weight,
+        steppingPrice: payload.stepping_price,
+        steppingWeight: payload.stepping_weight,
+        postcode: payload.postcode,
+        createUserId: userInfo.id,
+        fuelCharge: payload.fuel_charge,
+        remark: payload.remark,
+      };
+      const data = yield call(create, source);
+      if (data.code === 200) {
+        notification.success({
+          message: `请求成功 ${data.code}`,
+          description: data.msg,
+        });
+        yield put({
+          type: 'query',
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            modalVisible: false,
+          },
+        });
       }
     },
 
     *getCountryInfo(_, { call, put }) {
       const data = yield call(countrylist);
-      if (data.code === 200) {
+      const dataobj = data.data || data.obj;
+      if (data.code === 200 && dataobj && dataobj.length !== 0) {
         const source = data.obj || data.data;
         const options = source.map((items) => {
           const en = items.country_en.toLowerCase();
@@ -61,15 +95,14 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        message.warning(data.msg || '当前网络无法使用');
+        message.warning('当前没有可用的数据,请创建');
       }
     },
 
     *getPackageInfo({ payload }, { call, put }) {
-      console.log('payloadpackage', payload);
       const data = yield call(packagelist, payload);
-      console.log('datapackage', data);
-      if (data.code === 200) {
+      const dataobj = data.data || data.obj;
+      if (data.code === 200 && dataobj && dataobj.length !== 0) {
         const source = data.obj || data.dada;
         const options = source.map((items) => {
           const en = items.name_en.toLowerCase();
@@ -83,18 +116,18 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        message.warning(data.msg || '当前网络无法使用');
+        message.warning('当前没有可用的数据,请创建');
       }
     },
 
     *getProductInfo({ payload }, { call, put }) {
       const data = yield call(productlist, payload);
-      if (data.code === 200) {
+      const dataobj = data.data || data.obj;
+      if (data.code === 200 && dataobj && dataobj.length !== 0) {
         const source = data.obj || data.data;
         const options = source.map((items) => {
           return <Option key={items.id}>{items.product_name}</Option>;
         });
-        console.log('producedata', source);
         yield put({
           type: 'setStates',
           payload: {
@@ -102,7 +135,7 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        message.warning(data.msg || '当前网络无法使用');
+        message.warning('当前没有可用的数据,请创建');
       }
     },
 

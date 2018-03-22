@@ -8,6 +8,14 @@ export async function query(params) {
     params,
   });
 }
+
+export async function create(params) {
+  return request({
+    url: freight.add,
+    method: 'post',
+    data: params,
+  });
+}
 // 国家信息
 export async function countrylist() {
   return request({

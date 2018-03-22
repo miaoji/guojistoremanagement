@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "precommit": "npm run lint-staged",
-    "start": "cross-env DISABLE_ESLINT=true roadhog dev",
+    "start": "cross-env ESLINT=none roadhog dev",
     "dev": "cross-env DISABLE_ESLINT=true roadhog dev",
     "start:no-proxy": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog dev",
     "build": "cross-env DISABLE_ESLINT=true roadhog build",
@@ -68,6 +68,7 @@
     "eslint-plugin-react": "^7.0.1",
     "gh-pages": "^1.0.0",
     "husky": "^0.14.3",
+    "js-base64": "^2.4.3",
     "lint-staged": "^6.0.0",
     "mockjs": "^1.0.1-beta3",
     "pro-download": "^1.0.1",

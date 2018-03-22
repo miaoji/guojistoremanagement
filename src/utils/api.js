@@ -88,6 +88,7 @@ export const getout = {
 export const freight = {
   // 获取运费信息
   list: `${APIV3}/api/freight/list`,
+  add: `${APIV3}/api/freight/add`,
   // 获取产品类型
   productlist: `${APIV3}/api/product/list`,
   // 获取包裹类型

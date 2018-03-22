@@ -12,8 +12,6 @@ const Filter = ({
   form: {
     getFieldDecorator,
     getFieldsValue,
-    // setFieldsValue,
-    // validateFields,
     resetFields,
   },
 }) => {
@@ -21,8 +19,8 @@ const Filter = ({
     const tmp = fields;
     const { createTime } = tmp;
     if (createTime && createTime.length === 2) {
-      tmp.startTime = createTime[0].format('YYYY-MM-DD');
-      tmp.endTime = createTime[1].format('YYYY-MM-DD');
+      tmp.startDate = createTime[0].format('YYYY-MM-DD');
+      tmp.endDate = createTime[1].format('YYYY-MM-DD');
       delete tmp.createTime;
     }
     return tmp;
