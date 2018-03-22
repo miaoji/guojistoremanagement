@@ -33,6 +33,7 @@ export const cargo = {
   list: `${APIV3}/api/cargo/list`,
   add: `${APIV3}/api/cargo/add`,
   update: `${APIV3}/api/cargo/edit`,
+  remove: `${APIV3}/api/cargo/del`,
 };
 
 // 客户信息

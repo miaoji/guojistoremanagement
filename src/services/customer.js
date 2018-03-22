@@ -1,33 +1,33 @@
-import request from '../utils/request';
-import axiosReq from '../utils/query';
-import { customer } from '../utils/api';
+import request from '../utils/query';
+import { customer as apiList } from '../utils/api';
 
 export async function query(params) {
-  return axiosReq({
-    url: customer.list,
+  return request({
+    url: apiList.list,
     method: 'GET',
     params,
   });
 }
 
 export async function add(params) {
-  return request(customer.add, {
+  return request({
+    url: apiList.add,
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
 export async function update(params) {
-  return axiosReq({
-    url: customer.update,
+  return request({
+    url: apiList.update,
     method: 'POST',
     data: params,
   });
 }
 
 export async function remove(params) {
-  return axiosReq({
-    url: customer.remove,
+  return request({
+    url: apiList.remove,
     method: 'delete',
     data: params,
   });

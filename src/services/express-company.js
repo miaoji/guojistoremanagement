@@ -1,24 +1,34 @@
-import request from '../utils/request';
-import { expressCompany } from '../utils/api';
+import request from '../utils/query';
+import { expressCompany as apiList } from '../utils/api';
 
 export async function query(params) {
-  return request(expressCompany.list, {
+  return request({
+    url: apiList.list,
     method: 'GET',
-    withParams: true,
     params,
   });
 }
 
 export async function add(params) {
-  return request(expressCompany.add, {
+  return request({
+    url: apiList.add,
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
 export async function update(params) {
-  return request(expressCompany.update, {
+  return request({
+    url: apiList.update,
     method: 'POST',
-    body: params,
+    data: params,
+  });
+}
+
+export async function remove(params) {
+  return request({
+    url: apiList.remove,
+    method: 'delete',
+    data: params,
   });
 }

@@ -1,30 +1,35 @@
-import request from '../utils/request';
-import { cargo } from '../utils/api';
+import request from '../utils/query';
+import { cargo as apiList } from '../utils/api';
 
 export async function query(params) {
-  return request(cargo.list, {
+  return request({
+    url: apiList.list,
     method: 'GET',
-    body: params,
+    params,
   });
 }
 
-export async function add(params) {
-  return request(cargo.add, {
+export async function add({ data, params }) {
+  return request({
+    url: apiList.add,
     method: 'POST',
-    body: params,
+    data,
+    params,
   });
 }
 
 export async function update(params) {
-  return request(cargo.update, {
+  return request({
+    url: apiList.update,
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
 export async function remove(params) {
-  return request(cargo.remove, {
-    method: 'POST',
-    body: params,
+  return request({
+    url: apiList.remove,
+    method: 'delete',
+    data: params,
   });
 }

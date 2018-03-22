@@ -47,10 +47,6 @@ export default {
           description: response.msg,
         });
         yield put({
-          type: 'save',
-          payload: response,
-        });
-        yield put({
           type: 'fetch',
         });
       } else {

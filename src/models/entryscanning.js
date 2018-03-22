@@ -1,8 +1,8 @@
 import { message } from 'antd';
-import { update, add, query, remove } from '../services/express-company';
+import { update, add, query, remove } from '../services/cargo';
 
 export default {
-  namespace: 'expressCompany',
+  namespace: 'entryscanning',
 
   state: {
     data: {
@@ -20,7 +20,10 @@ export default {
           pageSize: 10,
         };
       }
-      const response = yield call(query, payload);
+      const response = yield call(query, {
+        ...payload,
+        type: 0,
+      });
       const { data, total } = response;
       const pagination = {
         ...payload,
@@ -35,7 +38,10 @@ export default {
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(add, payload);
+      const response = yield call(add, {
+        ...payload,
+        type: 0,
+      });
       if (response.code === 200) {
         message.success('添加成功');
         yield put({ type: 'fetch' });

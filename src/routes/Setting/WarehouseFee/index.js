@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Card, Form, Input, Button } from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
-import styles from './CustomerList.less';
+import styles from './index.less';
 
 const FormItem = Form.Item;
 
@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 @Form.create()
 export default class TableList extends PureComponent {
   state = {
-    onEdit: true,
+    justRead: true,
   };
 
   componentDidMount() {
@@ -26,15 +26,7 @@ export default class TableList extends PureComponent {
 
   handleFormEdit = () => {
     this.setState({
-      onEdit: false,
-    });
-  }
-
-  handleFormReset = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'warehouseFee/update',
-      payload: {},
+      justRead: false,
     });
   }
 
@@ -45,20 +37,25 @@ export default class TableList extends PureComponent {
 
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      console.log('11111', fieldsValue);
       const values = {
         ...fieldsValue,
       };
-
+      const _ = this;
       dispatch({
         type: 'warehouseFee/update',
         payload: values,
+        callback: () => {
+          console.log(111);
+          _.setState({
+            justRead: true,
+          });
+        },
       });
     });
   }
 
   renderForm() {
-    const { onEdit } = this.state;
+    const { justRead } = this.state;
     const { warehouseFee: { data } } = this.props;
     const { getFieldDecorator } = this.props.form;
     /* eslint-disable camelcase */
@@ -72,7 +69,7 @@ export default class TableList extends PureComponent {
                 initialValue: expire_time,
               })(
                 <Input
-                  disabled={onEdit}
+                  disabled={justRead}
                   placeholder="请输入天数"
                 />
               )}
@@ -84,7 +81,7 @@ export default class TableList extends PureComponent {
                 initialValue: cargo_fee,
               })(
                 <Input
-                  disabled={onEdit}
+                  disabled={justRead}
                   placeholder="请输入仓管费计费单位"
                 />
               )}
@@ -103,7 +100,7 @@ export default class TableList extends PureComponent {
 
   render() {
     return (
-      <PageHeaderLayout title="修改表单">
+      <PageHeaderLayout title="">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>

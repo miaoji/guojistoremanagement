@@ -101,10 +101,10 @@ export const getRouterData = (app) => {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
     '/operate/entry-scanning': {
-      component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/EntryScanning')),
+      component: dynamicWrapper(app, ['entryscanning'], () => import('../routes/Operate/EntryScanning')),
     },
     '/operate/outbound-scanning': {
-      component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/OutScanning')),
+      component: dynamicWrapper(app, ['outscanning'], () => import('../routes/Operate/OutScanning')),
     },
     '/setting/customer': {
       component: dynamicWrapper(app, ['customer'], () => import('../routes/Setting/CustomerList')),
@@ -115,9 +115,6 @@ export const getRouterData = (app) => {
     '/setting/express-company': {
       component: dynamicWrapper(app, ['expressCompany'], () => import('../routes/Setting/ExpressCompany')),
     },
-    // '/setting/freight': {
-    //   component: dynamicWrapper(app, ['rule'], () => import('../routes/Setting/freight')),
-    // },
     // 货架查询
     '/query/shelves': {
       component: dynamicWrapper(app, ['shelves'], () => import('../routes/Query/shelves')),
