@@ -13,13 +13,8 @@ const formItemLayout = {
   },
 };
 const Modalbox = ({
-  item = {},
+  item,
   modalVisible,
-  form: {
-    validateFields,
-    getFieldDecorator,
-    getFieldsValue,
-  },
   onOk,
   hideModal,
   title,
@@ -28,6 +23,14 @@ const Modalbox = ({
   getProductInfo,
   packageInfo,
   productInfo,
+  packageDis,
+  productDis,
+  form: {
+    validateFields,
+    getFieldDecorator,
+    getFieldsValue,
+    setFieldsValue,
+  },
 }) => {
   const handleOk = () => {
     validateFields((errors) => {
@@ -45,11 +48,18 @@ const Modalbox = ({
   const handleCountryChange = (e) => {
     const countryId = Number(e.split('/')[0]);
     getPackageInfo({ countryId });
+    setFieldsValue({
+      package_type: undefined,
+      product_type: undefined,
+    });
   };
 
   const handlePackageChange = (e) => {
     const packageTypeId = Number(e.split('/')[0]);
     getProductInfo({ packageTypeId });
+    setFieldsValue({
+      product_type: undefined,
+    });
   };
 
   return (
@@ -64,7 +74,7 @@ const Modalbox = ({
             },
           ],
         })(
-          <Select style={{ width: '100%' }} showSearch onChange={handleCountryChange}>
+          <Select placeholder="请选择目的地国家" style={{ width: '100%' }} showSearch onChange={handleCountryChange}>
             {countryInfo}
           </Select>
         )}
@@ -79,7 +89,7 @@ const Modalbox = ({
             },
           ],
         })(
-          <Select style={{ width: '100%' }} onChange={handlePackageChange}>
+          <Select placeholder="请选择包裹类型" disabled={packageDis} style={{ width: '100%' }} onChange={handlePackageChange}>
             {packageInfo}
           </Select>
         )}
@@ -94,7 +104,7 @@ const Modalbox = ({
             },
           ],
         })(
-          <Select style={{ width: '100%' }}>
+          <Select placeholder="请选择产品类型" disabled={productDis} style={{ width: '100%' }}>
             {productInfo}
           </Select>
         )}

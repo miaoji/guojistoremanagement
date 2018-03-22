@@ -17,12 +17,12 @@ export async function create(params) {
   });
 }
 // 修改运费信息
-export async function update(params){
+export async function update(params) {
   return request({
     url: freight.edit,
     method: 'post',
     data: params,
-  })
+  });
 }
 // 删除运费信息
 export async function remove(params) {

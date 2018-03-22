@@ -24,6 +24,8 @@ export default modelExtend(pageModel, {
     countryInfo: [],
     productInfo: [],
     packageInfo: [],
+    packageDis: true,
+    productDis: true,
   },
 
   effects: {
@@ -78,23 +80,24 @@ export default modelExtend(pageModel, {
     },
     *update({ payload }, { call, put, select }) {
       const currentItem = yield select(({ freight }) => freight.currentItem);
+      const tmp = {};
       for (const item in payload) {
-        if (payload[item] === currentItem[item]) {
-          payload[item] = undefined;
+        if (payload[item] !== currentItem[item]) {
+          tmp[item] = payload[item];
         }
       }
       const source = {
         id: currentItem.id,
-        initPrice: payload.init_price,
-        initWeight: payload.init_weight,
-        steppingPrice: payload.stepping_price,
-        steppingWeight: payload.stepping_weight,
-        postcode: payload.postcode,
-        fuelCharge: payload.fuel_charge,
-        remark: payload.remark,
-        destination: payload.destination ? Number(payload.destination.split('/')[0]) : undefined,
-        packageType: payload.package_type ? Number(payload.package_type.split('/')[0]) : undefined,
-        productType: payload.product_type ? Number(payload.product_type) : undefined,
+        initPrice: tmp.init_price,
+        initWeight: tmp.init_weight,
+        steppingPrice: tmp.stepping_price,
+        steppingWeight: tmp.stepping_weight,
+        postcode: tmp.postcode,
+        fuelCharge: tmp.fuel_charge,
+        remark: tmp.remark,
+        destination: tmp.destination ? Number(tmp.destination.split('/')[0]) : undefined,
+        packageType: tmp.package_type ? Number(tmp.package_type.split('/')[0]) : undefined,
+        productType: tmp.product_type ? Number(tmp.product_type) : undefined,
         // createUserId: userInfo.id,
       };
       const res = yield call(update, source);
@@ -159,6 +162,9 @@ export default modelExtend(pageModel, {
           type: 'setStates',
           payload: {
             packageInfo: options,
+            packageDis: false,
+            productDis: true,
+            productInfo: [],
           },
         });
       } else {
@@ -177,6 +183,7 @@ export default modelExtend(pageModel, {
           type: 'setStates',
           payload: {
             productInfo: options,
+            productDis: false,
           },
         });
       } else {

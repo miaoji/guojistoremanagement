@@ -41,6 +41,8 @@ export default class TableList extends PureComponent {
         modalVisible,
         modalType,
         currentItem,
+        packageDis,
+        productDis,
       },
       loading,
       dispatch,
@@ -75,6 +77,8 @@ export default class TableList extends PureComponent {
             modalVisible: true,
             modalType: 'create',
             currentItem: {},
+            packageDis: true,
+            productDis: true,
           },
         });
       },
@@ -87,6 +91,8 @@ export default class TableList extends PureComponent {
       productInfo,
       packageInfo,
       modalVisible,
+      packageDis,
+      productDis,
       title: modalType === 'create' ? '新建运费规则' : '修改运费规则',
       onOk(val) {
         dispatch({
@@ -143,6 +149,8 @@ export default class TableList extends PureComponent {
             modalVisible: true,
             modalType: 'update',
             currentItem: item,
+            packageDis: true,
+            productDis: true,
           },
         });
       },
