@@ -1,69 +1,37 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Icon, Button, Dropdown, Menu, Modal, message, Divider } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, Divider } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-
+import { qr } from '../../utils/api';
 import styles from './CustomerList.less';
 
+const { confirm } = Modal;
 const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+const queryQr = qr.query;
 
-const columns = [
-  {
-    title: '客户编码',
-    dataIndex: 'customer_no',
-  },
-  {
-    title: '客户姓名',
-    dataIndex: 'customer_name',
-  },
-  {
-    title: '客户手机号',
-    dataIndex: 'customer_mobile',
-  },
-  {
-    title: '客户邮编',
-    dataIndex: 'customer_postcode',
-  },
-  {
-    title: '充值金额',
-    dataIndex: 'total_amount',
-  },
-  {
-    title: '剩余金额',
-    dataIndex: 'balance',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'CreateTime',
-  },
-  {
-    title: '操作',
-    render: () => (
-      <Fragment>
-        <a href="">删除</a>
-        <Divider type="vertical" />
-        <a href="">修改</a>
-        <Divider type="vertical" />
-        <a href="">打印编码</a>
-      </Fragment>
-    ),
-  },
-];
-
-const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+// Modal
+const ModalForm = Form.create()((props) => {
+  const { modalVisible, modalType, form,
+    handleModalConfirm, handleModalVisible, currentItem } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       form.resetFields();
-      handleAdd(fieldsValue);
+      const modalFormVal = {
+        ...fieldsValue,
+      };
+      if (modalType === 'update') {
+        modalFormVal.id = currentItem.id;
+      }
+      handleModalConfirm(modalFormVal, modalType);
     });
   };
+  const title = modalType === 'add' ? '新建' : '修改';
   return (
     <Modal
-      title="新建客户"
+      title={`${title}用户`}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -74,7 +42,8 @@ const CreateForm = Form.create()((props) => {
         label="客户名称"
       >
         {form.getFieldDecorator('customerName', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: currentItem.customer_name,
+          rules: [{ required: true, message: '请输入客户名称' }],
         })(
           <Input placeholder="请输入客户名称" />
         )}
@@ -85,7 +54,12 @@ const CreateForm = Form.create()((props) => {
         label="客户手机号"
       >
         {form.getFieldDecorator('customerMobile', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: currentItem.customer_mobile,
+          rules: [{
+            required: true,
+            message: '请输入客户手机号',
+            pattern: /^1\d{10}$/,
+          }],
         })(
           <Input placeholder="请输入客户手机号" />
         )}
@@ -96,7 +70,8 @@ const CreateForm = Form.create()((props) => {
         label="客户公司"
       >
         {form.getFieldDecorator('customerCompany', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: currentItem.customer_company,
+          rules: [{ required: true, message: '请输入客户公司' }],
         })(
           <Input placeholder="请输入客户公司" />
         )}
@@ -107,7 +82,8 @@ const CreateForm = Form.create()((props) => {
         label="客户邮编"
       >
         {form.getFieldDecorator('customerPostcode', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: currentItem.customer_postcode,
+          rules: [{ required: true, message: '请输入客户邮编' }],
         })(
           <Input placeholder="请输入客户邮编" />
         )}
@@ -118,12 +94,153 @@ const CreateForm = Form.create()((props) => {
         label="客户地址"
       >
         {form.getFieldDecorator('customerAddress', {
-          rules: [{ required: true, message: 'Please input some description...' }],
+          initialValue: currentItem.customer_address,
+          rules: [{ required: true, message: '请输入客户地址' }],
         })(
           <Input placeholder="请输入客户地址" />
         )}
       </FormItem>
     </Modal>
+  );
+});
+
+// Filter
+const Filter = Form.create()((props) => {
+  const { form, handleSearch, handleSearchReset } = props;
+  const { getFieldDecorator } = form;
+  return (
+    <Form onSubmit={handleSearch} layout="inline">
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col md={6} sm={24}>
+          <FormItem label="客户编码">
+            {getFieldDecorator('customerNo', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户编码" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={6} sm={24}>
+          <FormItem label="客户姓名">
+            {getFieldDecorator('customerName', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户姓名" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={6} sm={24}>
+          <FormItem label="客户手机号">
+            {getFieldDecorator('customerMobile', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户手机号" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ overflow: 'hidden' }}>
+            <span style={{ float: 'right', marginBottom: 24 }}>
+              <Button type="primary" htmlType="submit">查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={handleSearchReset}>重置</Button>
+            </span>
+          </div>
+        </Col>
+      </Row>
+    </Form>
+  );
+});
+
+// List
+const List = ((props) => {
+  const { loading, data, selectedRows, handleBatchDel, handleStandardTableChange,
+    handleSelectRows, handleTableUpdate, handleTableDel, handleAddBtn } = props;
+  const expandedRowRender = (record) => {
+    return (
+      <div>
+        <p>客户公司:{record.customer_company}</p>
+        <p>客户地址:{record.customer_address}</p>
+      </div>
+    );
+  };
+  const handleListDel = (record) => {
+    confirm({
+      title: '确定要删除这一条客户吗?',
+      onOk() {
+        handleTableDel(record.id);
+      },
+    });
+  };
+  const columns = [
+    {
+      title: '客户编码',
+      dataIndex: 'customer_no',
+    },
+    {
+      title: '客户姓名',
+      dataIndex: 'customer_name',
+    },
+    {
+      title: '客户手机号',
+      dataIndex: 'customer_mobile',
+    },
+    {
+      title: '客户邮编',
+      dataIndex: 'customer_postcode',
+    },
+    {
+      title: '充值金额',
+      dataIndex: 'total_amount',
+    },
+    {
+      title: '剩余金额',
+      dataIndex: 'balance',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'CreateTime',
+    },
+    {
+      title: '操作',
+      render: (text, record) => (
+        <Fragment>
+          <a onClick={() => { handleListDel(record); }} >删除</a>
+          <Divider type="vertical" />
+          <a className={styles.operateLine} onClick={() => { handleTableUpdate(record); }}>修改</a>
+          <Divider type="vertical" />
+          <a
+            href={`${queryQr}?width=300&height=70&barcode=${record.customer_no}`}
+            target="_blank"
+          >打印编码
+          </a>
+        </Fragment>
+      ),
+    },
+  ];
+  return (
+    <div>
+      <div className={styles.tableListOperator}>
+        <Button icon="plus" type="primary" onClick={() => handleAddBtn()}>
+          新建
+        </Button>
+        {
+          selectedRows.length > 0 && (
+            <span>
+              <Button onClick={handleBatchDel}>批量删除</Button>
+            </span>
+          )
+        }
+      </div>
+      <StandardTable
+        selectedRows={selectedRows}
+        loading={loading}
+        data={data}
+        columns={columns}
+        onChange={handleStandardTableChange}
+        expandedRowRender={expandedRowRender}
+        onSelectRow={handleSelectRows}
+      />
+    </div>
   );
 });
 
@@ -135,9 +252,10 @@ const CreateForm = Form.create()((props) => {
 export default class TableList extends PureComponent {
   state = {
     modalVisible: false,
-    expandForm: false,
-    selectedRows: [],
+    modalType: 'add',
     formValues: {},
+    currentItem: {},
+    selectedRows: [],
   };
 
   componentDidMount() {
@@ -173,7 +291,7 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleFormReset = () => {
+  handleSearchReset = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
     this.setState({
@@ -182,43 +300,6 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'customer/fetch',
       payload: {},
-    });
-  }
-
-  toggleForm = () => {
-    this.setState({
-      expandForm: !this.state.expandForm,
-    });
-  }
-
-  handleMenuClick = (e) => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'customer/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
-  }
-
-  handleSelectRows = (rows) => {
-    this.setState({
-      selectedRows: rows,
     });
   }
 
@@ -232,12 +313,13 @@ export default class TableList extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
 
       this.setState({
         formValues: values,
       });
+
+      console.log('values', values);
 
       dispatch({
         type: 'customer/fetch',
@@ -252,164 +334,126 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleAdd = (fields) => {
+  handleModalType = (type) => {
+    this.setState({
+      modalType: type,
+    });
+  }
+
+  handleModalConfirm = (fields, type) => {
     this.props.dispatch({
-      type: 'customer/add',
+      type: `customer/${type}`,
       payload: {
-        customerName: fields.customerName,
-        customerMobile: fields.customerMobile,
-        customerCompany: fields.customerCompany,
-        customerPostcode: fields.customerPostcode,
-        customerAddress: fields.customerAddress,
+        ...fields,
       },
     });
 
-    message.success('添加成功');
     this.setState({
       modalVisible: false,
     });
   }
 
-  renderSimpleForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="客户编码">
-              {getFieldDecorator('no')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
-              {getFieldDecorator('no')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">查询</Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
-            </span>
-          </Col>
-        </Row>
-      </Form>
-    );
+  handleBatchDel = () => {
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+
+    if (!selectedRows) return;
+
+    const _ = this;
+
+    confirm({
+      title: '确定要批量删除客户?',
+      onOk() {
+        const ids = selectedRows.map(row => row.id);
+
+        dispatch({
+          type: 'customer/remove',
+          payload: ids,
+          callback: () => {
+            _.setState({
+              selectedRows: [],
+            });
+          },
+        });
+      },
+    });
   }
 
-  renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="客户编码">
-              {getFieldDecorator('no')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="客户姓名">
-              {getFieldDecorator('name')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="客户手机号">
-              {getFieldDecorator('phone')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </span>
-        </div>
-      </Form>
-    );
+  handleSelectRows = (rows) => {
+    this.setState({
+      selectedRows: rows,
+    });
   }
 
-  renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+  handleAddBtn = () => {
+    this.setState({
+      currentItem: {},
+    });
+    this.handleModalVisible(true);
+    this.handleModalType('add');
+  }
+
+  handleTableUpdate = (record) => {
+    this.setState({
+      modalVisible: true,
+      modalType: 'update',
+      currentItem: record,
+    });
+  }
+
+  handleTableDel = (id) => {
+    this.props.dispatch({
+      type: 'customer/remove',
+      payload: [id],
+    });
   }
 
   render() {
-    const { customer: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { customer: { data }, loading, form } = this.props;
+    const { selectedRows, modalVisible, modalType, currentItem } = this.state;
 
-    const menu = (
-      <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-        <Menu.Item key="remove">删除</Menu.Item>
-        <Menu.Item key="approval">批量审批</Menu.Item>
-      </Menu>
-    );
-
-    const parentMethods = {
-      handleAdd: this.handleAdd,
+    const modalProps = {
+      modalType,
+      currentItem,
+      modalVisible,
+      handleModalConfirm: this.handleModalConfirm,
       handleModalVisible: this.handleModalVisible,
     };
 
-    const expandedRowRender = (record) => {
-      return (
-        <div>
-          <p>客户公司:{record.MOBILE}</p>
-          <p>客户地址:{record.OPENID}</p>
-        </div>
-      );
+    const filterProps = {
+      form,
+      handleSearch: this.handleSearch,
+      handleSearchReset: this.handleSearchReset,
+    };
+
+    const listProps = {
+      data,
+      loading,
+      selectedRows,
+      handleBatchDel: this.handleBatchDel,
+      handleSelectRows: this.handleSelectRows,
+      handleAddBtn: this.handleAddBtn,
+      handleTableUpdate: this.handleTableUpdate,
+      handleTableDel: this.handleTableDel,
+      handleStandardTableChange: this.handleStandardTableChange,
     };
 
     return (
-      <PageHeaderLayout title="查询表格">
+      <PageHeaderLayout title="">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
-              {this.renderForm()}
+              <Filter
+                {...filterProps}
+              />
             </div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建
-              </Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button>批量操作</Button>
-                    <Dropdown overlay={menu}>
-                      <Button>
-                        更多操作 <Icon type="down" />
-                      </Button>
-                    </Dropdown>
-                  </span>
-                )
-              }
-            </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-              expandedRowRender={expandedRowRender}
+            <List
+              {...listProps}
             />
           </div>
         </Card>
-        <CreateForm
-          {...parentMethods}
-          modalVisible={modalVisible}
+        <ModalForm
+          {...modalProps}
         />
       </PageHeaderLayout>
     );

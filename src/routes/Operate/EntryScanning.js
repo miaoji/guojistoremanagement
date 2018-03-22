@@ -347,10 +347,10 @@ export default class TableList extends PureComponent {
     const expandedRowRender = (record) => {
       return (
         <div>
-          <p>体积重:{record.OPENID}</p>
-          <p>长:{record.MOBILE ? `${record.MOBILE.toString().substr(0, 3)}***${record.MOBILE.toString().substr(7, 10)}` : '未绑定手机号'}</p>
-          <p>宽:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
-          <p>高:{record.ID_CARD ? record.ID_CARD : '未绑定证件号'}</p>
+          <p>体积重:{record.volumeWeight}</p>
+          <p>长:{record.length}</p>
+          <p>宽:{record.wide}</p>
+          <p>高:{record.height}</p>
         </div>
       );
     };

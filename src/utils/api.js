@@ -63,8 +63,9 @@ export const expressCompany = {
 export const qr = {
   // param=width, height, barcode
   // method=get
-  query: `${APIV3}barcode/create`,
+  query: `${APIV3}/api/barcode/create`,
 };
+
 // 快件查询
 export const expre = {
   // list: 'http://app.quandikeji.com:8288/quandiExpressSiteManager/blackList',

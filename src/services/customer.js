@@ -1,10 +1,11 @@
 import request from '../utils/request';
+import axiosReq from '../utils/query';
 import { customer } from '../utils/api';
 
 export async function query(params) {
-  return request(customer.list, {
+  return axiosReq({
+    url: customer.list,
     method: 'GET',
-    withParams: true,
     params,
   });
 }
@@ -17,8 +18,17 @@ export async function add(params) {
 }
 
 export async function update(params) {
-  return request(customer.update, {
+  return axiosReq({
+    url: customer.update,
     method: 'POST',
-    body: params,
+    data: params,
+  });
+}
+
+export async function remove(params) {
+  return axiosReq({
+    url: customer.remove,
+    method: 'delete',
+    data: params,
   });
 }

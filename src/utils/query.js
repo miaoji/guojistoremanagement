@@ -54,7 +54,7 @@ const fetch = (options) => {
       return axios({
         url,
         method: 'delete',
-        params: cloneData || params,
+        data: cloneData,
         timeout,
         headers: auth ? { token } : {},
       });
