@@ -25,7 +25,7 @@ const List = ({
   const columns = [
     {
       title: '货架号',
-      dataIndex: 'no',
+      dataIndex: 'customerNo',
     },
     {
       title: '入架数量',

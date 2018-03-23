@@ -87,6 +87,11 @@ export const getout = {
   list: `${APIV3}/api/cargo/ops/list`,
 };
 
+// 入库查询
+export const shelves = {
+  list: `${APIV3}/api/cargo/getDetail`,
+};
+
 export const freight = {
   // 获取运费信息
   list: `${APIV3}/api/freight/list`,

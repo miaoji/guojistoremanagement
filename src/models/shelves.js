@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
 // import { notification } from 'antd';
 import { pageModel } from './common';
-import { query } from '../services/query/getinto';
+import { query } from '../services/query/shelves';
 
 export default modelExtend(pageModel, {
   namespace: 'shelves',
