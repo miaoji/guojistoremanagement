@@ -24,23 +24,9 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
     <Form onSubmit={onSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
-          <FormItem label="单号">
+          <FormItem label="货架号">
             {getFieldDecorator('no')(
-              <Input placeholder="请输入单号" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={6} sm={24}>
-          <FormItem label="客户编码">
-            {getFieldDecorator('no1')(
-              <Input placeholder="请输入客户编码" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={6} sm={24}>
-          <FormItem label="手机号">
-            {getFieldDecorator('no3')(
-              <Input placeholder="请输入手机号" />
+              <Input placeholder="请输入货架号" />
             )}
           </FormItem>
         </Col>

@@ -4,7 +4,7 @@ import request from '../../utils/query';
 export async function query(params) {
   return request({
     url: expre.list,
-    method: 'get',
+    method: 'post',
     data: params,
   });
 }

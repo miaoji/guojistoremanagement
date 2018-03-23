@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, Input, Modal, Select } from 'antd';
+import styles from './index.less';
 
 // const { Option } = Select;
 
 const FormItem = Form.Item;
 const formItemLayout = {
+  className: styles.medalItem,
   labelCol: {
-    span: 6,
+    span: 7,
   },
   wrapperCol: {
-    span: 14,
+    span: 15,
   },
 };
 const Modalbox = ({

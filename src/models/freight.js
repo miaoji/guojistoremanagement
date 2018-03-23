@@ -17,7 +17,7 @@ export default modelExtend(pageModel, {
       pagination: {},
     },
     loading: false,
-    currentItem: {},
+    item: {},
     modalType: 'create',
     modalVisible: false,
     selectedRows: [],

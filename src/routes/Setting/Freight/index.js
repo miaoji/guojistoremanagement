@@ -86,13 +86,14 @@ export default class TableList extends PureComponent {
     };
 
     const modalProps = {
-      item: currentItem,
+      item: modalType === 'create' ? {} : currentItem,
       countryInfo,
       productInfo,
       packageInfo,
       modalVisible,
       packageDis,
       productDis,
+      modalType,
       title: modalType === 'create' ? '新建运费规则' : '修改运费规则',
       onOk(val) {
         dispatch({
@@ -214,9 +215,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

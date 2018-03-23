@@ -4,6 +4,7 @@ import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
+import ExpreModal from './expreModal';
 import Filter from './filter';
 
 import styles from './index.less';
@@ -31,7 +32,7 @@ export default class TableList extends PureComponent {
     const {
       form,
       location,
-      expre: { data, list, total, modalVisible, modalType, currentItem },
+      expre: { data, list, total, modalVisible, modalType, currentItem, expreModalVisible },
       loading,
       dispatch,
       // selectedRows = [],
@@ -69,6 +70,19 @@ export default class TableList extends PureComponent {
       form,
     };
 
+    const expreModalProps = {
+      title: '物流轨迹明细',
+      hideModal() {
+        dispatch({
+          type: 'expre/setStates',
+          payload: {
+            expreModalVisible: false,
+          },
+        });
+      },
+      modalVisible: expreModalVisible,
+    };
+
     const modalProps = {
       item: currentItem,
       title: modalType === 'create' ? '新建规则' : '修改规则',
@@ -98,6 +112,20 @@ export default class TableList extends PureComponent {
       data: {
         list,
         pagination: { ...data.pagination, total },
+      },
+      showExpreModal(item) {
+        dispatch({
+          type: 'expre/getExpreInfo',
+          payload: {
+            orderInfo: item,
+          },
+        });
+        dispatch({
+          type: 'expre/setStates',
+          payload: {
+            expreModalVisible: true,
+          },
+        });
       },
       showModal(item) {
         dispatch({
@@ -169,9 +197,8 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
+        {expreModalVisible && <ExpreModal {...expreModalProps} />}
       </PageHeaderLayout>
     );
   }
