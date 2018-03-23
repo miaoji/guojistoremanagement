@@ -39,8 +39,12 @@ export default {
     },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(add, {
-        ...payload,
-        type: 1,
+        data: {
+          ...payload,
+        },
+        params: {
+          type: 0,
+        },
       });
       if (response.code === 200) {
         message.success('添加成功');

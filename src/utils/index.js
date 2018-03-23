@@ -49,10 +49,23 @@ function formatDate(fmt, date) {
   return fmt;
 }
 
+/**
+ * [handleScanval description]
+ * @param  {[String]} val  [扫描出的值]
+ * @return {[Object]} { orderNo: '' }      [返回的值]
+ */
+function handleScanval(val) {
+  if (val.substr(0, 3) === 'MZA') {
+    return { customerNo: val };
+  }
+  return {};
+}
+
 export {
   getToken,
   query,
   request,
   urlToObj,
   formatDate,
+  handleScanval,
 };

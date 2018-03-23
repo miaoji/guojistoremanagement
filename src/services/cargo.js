@@ -4,8 +4,8 @@ import { cargo as apiList } from '../utils/api';
 export async function query(params) {
   return request({
     url: apiList.list,
-    method: 'GET',
-    params,
+    method: 'POST',
+    data: params,
   });
 }
 

@@ -42,9 +42,6 @@ const menuData = [{
   }, {
     name: '运费配置',
     path: 'freight',
-  }, {
-    name: '出库类型配置',
-    path: 'outbound-scanning',
   }],
 }, {
   name: '查询统计',

@@ -37,8 +37,8 @@ const List = ({
       dataIndex: 'shelf_no',
     },
     {
-      title: '快递公司',
-      dataIndex: 'express_company',
+      title: '快递代码',
+      dataIndex: 'express_company_code',
     },
     {
       title: '重量/kg',

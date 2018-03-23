@@ -86,8 +86,6 @@ export default class TableList extends PureComponent {
         formValues: values,
       });
 
-      console.log('values', values);
-
       dispatch({
         type: 'entryscanning/fetch',
         payload: values,
@@ -105,10 +103,6 @@ export default class TableList extends PureComponent {
     this.setState({
       modalType: type,
     });
-  }
-
-  handleScanning = (e) => {
-    console.log('event', e.target.value);
   }
 
   handleModalConfirm = (fields, type) => {
@@ -187,7 +181,6 @@ export default class TableList extends PureComponent {
       modalType,
       currentItem,
       modalVisible,
-      handleScanning: this.handleScanning,
       handleModalConfirm: this.handleModalConfirm,
       handleModalVisible: this.handleModalVisible,
     };
