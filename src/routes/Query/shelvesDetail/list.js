@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SmallTable from 'components/SmallTable';
 import DropOption from 'components/DropOption';
-import { Link } from 'dva/router';
 
 const List = ({
   data,
@@ -27,9 +26,6 @@ const List = ({
     {
       title: '货架号',
       dataIndex: 'customerNo',
-      render: (text) => {
-        return <Link to={`/query/shelvesdetail?shelfNo=${text}`}>{text}</Link>;
-      },
     },
     {
       title: '入架数量',

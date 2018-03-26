@@ -123,6 +123,10 @@ export const getRouterData = (app) => {
     '/query/shelves': {
       component: dynamicWrapper(app, ['shelves'], () => import('../routes/Query/shelves')),
     },
+    // 货架查询-子页
+    '/query/shelvesdetail': {
+      component: dynamicWrapper(app, ['shelvesdetail'], () => import('../routes/Query/shelvesDetail')),
+    },
     // 快件查询
     '/query/expre': {
       component: dynamicWrapper(app, ['expre'], () => import('../routes/Query/expre')),
