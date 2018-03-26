@@ -76,6 +76,10 @@ export default modelExtend(pageModel, {
         notification.success({
           message: '新增成功',
         });
+      } else {
+        notification.success({
+          message: data.msg,
+        });
       }
     },
     *update({ payload }, { call, put, select }) {
@@ -114,6 +118,10 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'query',
         });
+      } else {
+        notification.success({
+          message: res.msg,
+        });
       }
     },
 
@@ -125,6 +133,10 @@ export default modelExtend(pageModel, {
         });
         notification.success({
           message: '删除成功',
+        });
+      } else {
+        notification.success({
+          message: res.msg,
         });
       }
     },

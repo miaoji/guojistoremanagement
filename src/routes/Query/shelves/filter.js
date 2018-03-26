@@ -25,7 +25,7 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
           <FormItem label="货架号">
-            {getFieldDecorator('no')(
+            {getFieldDecorator('shelfNo')(
               <Input placeholder="请输入货架号" />
             )}
           </FormItem>

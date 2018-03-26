@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import SmallTable from 'components/SmallTable';
-import DropOption from 'components/DropOption';
 
 const List = ({
   data,
@@ -10,39 +10,34 @@ const List = ({
   onSelectRow,
   onChange,
 }) => {
-  const onMenuClick = (record, e) => {
-    switch (e.key) {
-      case '1':
-        console.log(1);
-        break;
-      case '2':
-        console.log(2);
-        break;
-      default:
-        break;
-    }
-  };
   const columns = [
     {
       title: '货架号',
       dataIndex: 'customerNo',
     },
     {
-      title: '入架数量',
-      dataIndex: 'description',
+      title: '单号',
+      dataIndex: 'cnNo',
     },
     {
-      title: '出架数量',
-      dataIndex: 'callNo',
-    },
-    {
-      title: '剩余件数',
+      title: '状态',
       dataIndex: 'status',
+      render: (text) => {
+        return <span>{text || '未知'}</span>;
+      },
     },
     {
-      title: '操作',
-      render: (text, record) => {
-        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '更新' }, { key: '2', name: '删除' }]} />;
+      title: '入库时间',
+      dataIndex: 'startTime',
+      render: (text) => {
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
+      },
+    },
+    {
+      title: '出库时间',
+      dataIndex: 'endTime',
+      render: (text) => {
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
       },
     },
   ];

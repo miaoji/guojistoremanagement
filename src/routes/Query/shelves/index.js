@@ -68,9 +68,10 @@ export default class TableList extends PureComponent {
     };
 
     const modalProps = {
-      item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
+      currentItem,
+      title: modalType === 'create' ? '新增货架号' : '修改货架号',
       onOk(item) {
+        console.log('item', item);
         dispatch({
           type: `shelves/${modalType}`,
           payload: {
@@ -95,6 +96,14 @@ export default class TableList extends PureComponent {
       data: {
         list,
         pagination: { ...data.pagination, total },
+      },
+      onDelete(id) {
+        dispatch({
+          type: 'shelves/remove',
+          payload: {
+            id,
+          },
+        });
       },
       showModal(item) {
         dispatch({
@@ -166,9 +175,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

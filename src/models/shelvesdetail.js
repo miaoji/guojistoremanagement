@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
 // import { notification } from 'antd';
 import { pageModel } from './common';
-import { query } from '../services/query/shelves';
+import { query } from '../services/query/shelvesdetail';
 
 export default modelExtend(pageModel, {
   namespace: 'shelvesdetail',
@@ -32,7 +32,16 @@ export default modelExtend(pageModel, {
       });
       if (data.code === 200) {
         const list = data.data.map((item) => {
-          return { key: item.id, ...item };
+          const date = {};
+          item.operateRecords.map((value) => {
+            if (value.type === 0) {
+              date.startTime = value.scanTime;
+            } else if (value.type === 1) {
+              date.endTime = value.scanTime;
+            }
+            return value;
+          });
+          return { key: item.id, ...date, ...item };
         });
         yield put({
           type: 'setStates',

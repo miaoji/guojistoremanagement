@@ -10,14 +10,16 @@ const List = ({
   loading,
   onSelectRow,
   onChange,
+  showModal,
+  onDelete,
 }) => {
   const onMenuClick = (record, e) => {
     switch (e.key) {
       case '1':
-        console.log(1);
+        showModal(record);
         break;
       case '2':
-        console.log(2);
+        onDelete(record.id);
         break;
       default:
         break;
@@ -26,25 +28,29 @@ const List = ({
   const columns = [
     {
       title: '货架号',
-      dataIndex: 'customerNo',
+      dataIndex: 'shelf_no',
       render: (text) => {
         return <Link to={`/query/shelvesdetail?shelfNo=${text}`}>{text}</Link>;
       },
     },
     {
       title: '入架数量',
-      dataIndex: 'description',
+      dataIndex: 'in',
     },
     {
       title: '出架数量',
-      dataIndex: 'callNo',
+      dataIndex: 'out',
     },
     {
       title: '剩余件数',
-      dataIndex: 'status',
+      dataIndex: 'surplus',
+      render: (text, record) => {
+        return <span>{Number(record.in) - Number(record.out)}</span>;
+      },
     },
     {
       title: '操作',
+      width: 100,
       render: (text, record) => {
         return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '更新' }, { key: '2', name: '删除' }]} />;
       },

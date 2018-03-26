@@ -5,6 +5,7 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
 import Filter from './filter';
+import { queryUrl } from '../../../utils';
 
 import styles from './index.less';
 
@@ -20,9 +21,13 @@ export default class TableList extends PureComponent {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
+    const query = queryUrl(location.search);
     dispatch({
       type: 'shelvesdetail/query',
+      payload: {
+        ...query,
+      },
     });
   }
 
@@ -40,19 +45,23 @@ export default class TableList extends PureComponent {
 
     console.log('user', user);
     const filterProps = {
-      filter: {
-        ...location.query,
-      },
       handleFormReset() {
+        const query = queryUrl(location.search);
         dispatch({
           type: 'shelvesdetail/query',
-          payload: {},
+          payload: {
+            ...query,
+          },
         });
       },
       handleSearch(values) {
+        const query = queryUrl(location.search);
         dispatch({
           type: 'shelvesdetail/query',
-          payload: values,
+          payload: {
+            ...values,
+            ...query,
+          },
         });
       },
       showModal() {

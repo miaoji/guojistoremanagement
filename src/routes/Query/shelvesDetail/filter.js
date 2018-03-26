@@ -3,7 +3,7 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import styles from './index.less';
 
 const FormItem = Form.Item;
-const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
+const Filter = ({ handleFormReset, handleSearch, form }) => {
   const { getFieldDecorator } = form;
   const onFormReset = () => {
     form.resetFields();
@@ -34,9 +34,9 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
           <span className={styles.submitButtons}>
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
-            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
+            {/* <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
               新建
-            </Button>
+            </Button> */}
           </span>
         </Col>
       </Row>

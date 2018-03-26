@@ -11,7 +11,7 @@ const formItemLayout = {
   },
 };
 const Modalbox = ({
-  item = {},
+  currentItem,
   modalVisible,
   form: {
     validateFields,
@@ -30,45 +30,22 @@ const Modalbox = ({
       }
       const data = {
         ...getFieldsValue(),
-        key: item.key,
       };
       onOk(data);
     });
   };
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no1', {
-          initialValue: item.no1,
+      <FormItem label="货架号名称" hasFeedback {...formItemLayout}>
+        {getFieldDecorator('shelfNo', {
+          initialValue: currentItem.shelf_no,
           rules: [
             {
               required: true,
-              message: '选择站点!',
+              message: '请填写货架号名称!',
             },
           ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no2', {
-          initialValue: item.no2,
-          rules: [
-            {
-              required: true,
-              message: '选择站点!',
-            },
-          ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
-          rules: [
-            {
-              required: true,
-              message: '选择站点!',
-            },
-          ],
-        })(<Input />)}
+        })(<Input placeholder="请填写货架号名称" />)}
       </FormItem>
     </Modal>
   );

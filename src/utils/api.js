@@ -82,13 +82,21 @@ export const getinto = {
   list: `${APIV3}/api/cargo/ops/list`,
 };
 
-// 入库查询
+// 出库查询
 export const getout = {
   list: `${APIV3}/api/cargo/ops/list`,
 };
 
-// 入库查询
+// 货架号查询
 export const shelves = {
+  list: `${APIV3}/api/shelf/list`,
+  add: `${APIV3}/api/shelf/add`,
+  del: `${APIV3}/api/shelf/del`,
+  edit: `${APIV3}/api/shelf/edit`,
+};
+
+// 货架详细信息查询
+export const shelvesdetail = {
   list: `${APIV3}/api/cargo/getDetail`,
 };
 
