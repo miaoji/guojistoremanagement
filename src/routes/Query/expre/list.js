@@ -13,7 +13,8 @@ const List = ({
   showExpreModal,
 }) => {
   const handleExpreClick = (record) => {
-    showExpreModal(record);
+    console.log('record', record);
+    showExpreModal({ num: record.cn_no, company: record.express_company_code, source: 'php' });
   };
   const columns = [
     {
@@ -43,8 +44,8 @@ const List = ({
     },
     {
       title: '客户手机号',
-      dataIndex: 'customer_mobild',
-      key: 'customer_mobild',
+      dataIndex: 'customer_mobile',
+      key: 'customer_mobile',
     },
     {
       title: '操作',

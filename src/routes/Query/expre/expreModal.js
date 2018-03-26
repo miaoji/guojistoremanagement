@@ -3,12 +3,12 @@ import { Modal, Timeline, Button } from 'antd';
 import styles from './index.less';
 
 const Modalbox = ({
-  // item = {},
+  expreInfo,
   modalVisible,
-  // onOk,
   hideModal,
   title,
 }) => {
+  console.log('expreInfo', expreInfo);
   return (
     <Modal
       className={styles.expreModal}
@@ -19,36 +19,7 @@ const Modalbox = ({
       onOk={() => hideModal()}
       onCancel={() => hideModal()}
     >
-      <Timeline>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-        <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-        <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-        <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-        <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-      </Timeline>
+      <Timeline>{expreInfo}</Timeline>
     </Modal>
   );
 };

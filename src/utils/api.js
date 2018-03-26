@@ -75,6 +75,7 @@ export const expre = {
   update: `${APIV3}/api/cargo/edit`,
   hide: `${APIV3}/api/cargo/del`,
   getById: `${APIV3}/api/cargo/get`,
+  getExpreInfo: 'http://api.mingz-tech.com/api/order/queryByCompany',
 };
 
 // 入库查询

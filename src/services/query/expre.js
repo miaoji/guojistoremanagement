@@ -8,6 +8,14 @@ export async function query(params) {
     data: params,
   });
 }
+// 查询快递信息
+export async function getExpreInfo(params) {
+  return request({
+    url: expre.getExpreInfo,
+    method: 'get',
+    params,
+  });
+}
 
 export async function create(params) {
   return request(expre.create, {
@@ -25,13 +33,6 @@ export async function update(params) {
 
 export async function hide(params) {
   return request(expre.hide, {
-    method: 'post',
-    body: params,
-  });
-}
-
-export async function getById(params) {
-  return request(expre.getById, {
     method: 'post',
     body: params,
   });

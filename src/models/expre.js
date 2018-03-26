@@ -1,7 +1,8 @@
+import React from 'react';
 import modelExtend from 'dva-model-extend';
-import { notification } from 'antd';
+import { notification, Timeline } from 'antd';
 import { pageModel } from './common';
-import { query, hide, create } from '../services/query/expre';
+import { query, getExpreInfo } from '../services/query/expre';
 
 export default modelExtend(pageModel, {
   namespace: 'expre',
@@ -18,19 +19,20 @@ export default modelExtend(pageModel, {
     modalVisible: false,
     expreModalVisible: false,
     selectedRows: [],
+    expreInfo: [],
   },
 
   effects: {
     *query({ payload }, { call, put }) {
       const data = yield call(query, { currentPage: 1, pageSize: 10, payload });
       if (data.code === 200) {
-        // const list = data.data.map((item) => {
-        //   return { key: item.id, ...item };
-        // });
+        const list = data.data.map((item) => {
+          return { key: item.id, ...item };
+        });
         yield put({
           type: 'setStates',
           payload: {
-            list: [{ id: 1, key: 1, order_no: '12312' }],
+            list,
             total: data.total,
           },
         });
@@ -44,17 +46,7 @@ export default modelExtend(pageModel, {
         });
       }
     },
-    *fetch({ payload }, { call, put }) {
-      const data = yield call(query, payload);
-      if (data.code === 200) {
-        yield put({
-          type: 'setStates',
-          payload: {
-            data: data.obj,
-          },
-        });
-      }
-    },
+
     *create({ payload }, { put }) {
       console.info('payload', payload);
       notification.success({
@@ -68,6 +60,7 @@ export default modelExtend(pageModel, {
         },
       });
     },
+
     *updata({ payload }, { put }) {
       console.info('payload', payload);
       notification.success({
@@ -81,30 +74,23 @@ export default modelExtend(pageModel, {
         },
       });
     },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(create, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
+
+    *getExpreInfo({ payload }, { call, put }) {
+      const res = yield call(getExpreInfo, payload);
+      if (res.code === 200) {
+        const options = res.obj.data.map((items) => {
+          return <Timeline.Item>{items.time} {items.context}</Timeline.Item>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            expreInfo: options,
+          },
+        });
+      }
     },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(hide, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
+
   },
 
-  reducers: {
-    save(state, action) {
-      return {
-        ...state,
-        data: action.payload,
-      };
-    },
-  },
+  reducers: {},
 });

@@ -32,7 +32,16 @@ export default class TableList extends PureComponent {
     const {
       form,
       location,
-      expre: { data, list, total, modalVisible, modalType, currentItem, expreModalVisible },
+      expre: {
+        data,
+        expreInfo,
+        list,
+        total,
+        modalVisible,
+        modalType,
+        currentItem,
+        expreModalVisible,
+      },
       loading,
       dispatch,
       // selectedRows = [],
@@ -72,6 +81,7 @@ export default class TableList extends PureComponent {
 
     const expreModalProps = {
       title: '物流轨迹明细',
+      expreInfo,
       hideModal() {
         dispatch({
           type: 'expre/setStates',
@@ -117,7 +127,7 @@ export default class TableList extends PureComponent {
         dispatch({
           type: 'expre/getExpreInfo',
           payload: {
-            orderInfo: item,
+            ...item,
           },
         });
         dispatch({

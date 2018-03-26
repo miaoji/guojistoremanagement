@@ -49,7 +49,7 @@ const fetch = (options) => {
         method: 'get',
         params: cloneData || params,
         timeout,
-        headers: auth ? { token } : {},
+        headers: auth ? { token: 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVUaW1lIjoiMTUyMjA1NTQ0MzUxMSIsIm5vbmNlU3RyIjoiZWYxNTM1Zjk2Y2RhOTIzODI3ZmQwNDE0OWMwMmEyYjUiLCJ0aW1lc3RhbXAiOiIxNTIyMDU1NDQyMzQzIn0.i2YEDVIFa2J3nooP9zTXI0-5y2FLZOky3cArNWSInEM' } : {},
       });
     case 'delete':
       return axios({
@@ -85,6 +85,9 @@ export default function request(options) {
     const { status, data } = response;
     if (status !== 200) {
       checkStatus(response);
+    }
+    if (status === 200 && data.code !== 200) {
+      checkStatus({ ...response, status: data.code });
     }
     return {
       success: true,
