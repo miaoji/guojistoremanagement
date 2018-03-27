@@ -8,7 +8,6 @@ const FormItem = Form.Item;
 const Filter = ({
   handleFormReset,
   handleSearch,
-  showModal,
   form: {
     getFieldDecorator,
     getFieldsValue,
@@ -63,9 +62,6 @@ const Filter = ({
           <span className={styles.submitButtons}>
             <Button type="success" onClick={onSearch}>查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
-            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
-              新建
-            </Button>
           </span>
         </Col>
       </Row>
@@ -76,7 +72,6 @@ const Filter = ({
 Filter.propTypes = {
   handleFormReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Filter);

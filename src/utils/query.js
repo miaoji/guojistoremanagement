@@ -81,18 +81,24 @@ const fetch = (options) => {
 export default function request(options) {
   const newOption = { ...options };
   newOption.token = getToken();
+  // 用mztoken 的值来判断是否要使用mztoken
+  if (newOption.mztoken) {
+    newOption.token = window.localStorage.getItem('mztoken');
+  }
+  newOption.token = getToken();
   return fetch(newOption).then((response) => {
     const { status, data } = response;
     if (status !== 200) {
       checkStatus(response);
     }
-    if (status === 200 && data.code !== 200) {
-      checkStatus({ ...response, status: data.code });
-    }
+    // if (status === 200 && data.code !== 200) {
+    //   checkStatus({ ...response, status: data.code });
+    // }
     return {
       success: true,
       statusCode: status,
       ...data,
+      repldata: data,
     };
   }).catch((error) => {
     const { response } = error;

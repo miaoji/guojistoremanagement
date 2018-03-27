@@ -1,5 +1,6 @@
 // const APIV1 = '/api/v1';
 // const APIV2 = '/api/v2'
+let APIV4 = 'http://api.mingz-tech.com';
 let APIV3 = '';
 
 // 重构API
@@ -14,6 +15,7 @@ APIV3 = 'http://192.168.231.222:8000';
 if (process.env.NODE_ENV !== 'development') {
   // APIV3 = 'http://api.mingz-tech.com'
   APIV3 = 'http://api.didalive.net/mzkd';
+  APIV4 = 'http://api.mingz-tech.com';
 }
 
 export const login = {
@@ -75,7 +77,7 @@ export const expre = {
   update: `${APIV3}/api/cargo/edit`,
   hide: `${APIV3}/api/cargo/del`,
   getById: `${APIV3}/api/cargo/get`,
-  getExpreInfo: 'http://api.mingz-tech.com/api/order/queryByCompany',
+  getExpreInfo: `${APIV4}/api/order/queryByCompany`,
 };
 
 // 入库查询
@@ -113,4 +115,8 @@ export const freight = {
   packagelist: `${APIV3}/api/package/list`,
   // 获取产品类型
   productlist: `${APIV3}/api/product/list`,
+};
+
+export const token = {
+  get: `${APIV4}/login/getToken`,
 };

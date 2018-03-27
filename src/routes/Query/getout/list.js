@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
 import StandardTable from 'components/StandardTable';
@@ -11,7 +11,7 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  // showModal,
+  showModal,
 }) => {
   // const handleUpdata = (record) => {
   //   showModal(record);
@@ -60,9 +60,9 @@ const List = ({
     {
       title: '操作',
       render: () => (
-        <Fragment>
-          <a href="">回填转单号</a>
-        </Fragment>
+        <span className={styles.button} onClick={() => showModal()}>
+          回填转单号
+        </span>
       ),
     },
   ];

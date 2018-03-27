@@ -13,6 +13,7 @@ export async function getExpreInfo(params) {
   return request({
     url: expre.getExpreInfo,
     method: 'get',
+    mztoken: true,
     params,
   });
 }

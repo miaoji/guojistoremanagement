@@ -3,6 +3,8 @@ import modelExtend from 'dva-model-extend';
 import { notification, Timeline } from 'antd';
 import { pageModel } from './common';
 import { query, getExpreInfo } from '../services/query/expre';
+import { getToken } from '../services/token';
+
 
 export default modelExtend(pageModel, {
   namespace: 'expre',
@@ -76,10 +78,17 @@ export default modelExtend(pageModel, {
     },
 
     *getExpreInfo({ payload }, { call, put }) {
-      const res = yield call(getExpreInfo, payload);
+      const token = yield call(getToken, {
+        timestamp: '1522112875223',
+        nonceStr: '35077935fccf407e69262e04c2120539',
+        sign: '2207bcfbee4bf9f7dd31247ca49c504b',
+      });
+      window.localStorage.setItem('mztoken', token.repldata);
+      const res = yield call(getExpreInfo, { ...payload });
       if (res.code === 200) {
-        const options = res.obj.data.map((items) => {
-          return <Timeline.Item>{items.time} {items.context}</Timeline.Item>;
+        const options = res.obj.data.map((items, index) => {
+          const key = index;
+          return <Timeline.Item key={key}>{items.time} {items.context}</Timeline.Item>;
         });
         yield put({
           type: 'setStates',
