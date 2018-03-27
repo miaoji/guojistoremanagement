@@ -3,16 +3,15 @@ import { connect } from 'dva';
 import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
-import Modal from './modal';
 import Filter from './filter';
 
 import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ getout, loading }) => ({
-  getout,
-  loading: loading.models.getout,
+@connect(({ country, loading }) => ({
+  country,
+  loading: loading.models.country,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -20,9 +19,10 @@ export default class TableList extends PureComponent {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, location } = this.props;
     dispatch({
-      type: 'getout/query',
+      type: 'country/query',
+      payload: location.query,
     });
   }
 
@@ -30,64 +30,35 @@ export default class TableList extends PureComponent {
     const {
       form,
       location,
-      getout: { data, expressList, list, total, modalVisible, modalType, currentItem },
+      country: {
+        data,
+        list,
+        total,
+      },
       loading,
       dispatch,
-      // selectedRows = [],
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
+
     const filterProps = {
       filter: {
         ...location.query,
       },
       handleFormReset() {
         dispatch({
-          type: 'getout/query',
+          type: 'country/query',
           payload: {},
         });
       },
       handleSearch(values) {
         dispatch({
-          type: 'getout/query',
+          type: 'country/query',
           payload: values,
         });
       },
-      showModal() {
-        dispatch({
-          type: 'getout/setStates',
-          payload: {
-            modalVisible: true,
-            modalType: 'create',
-            currentItem: {},
-          },
-        });
-      },
       form,
-    };
-
-    const modalProps = {
-      item: currentItem,
-      expressList,
-      title: modalType === 'create' ? '新建规则' : '回填转单号',
-      onOk(item) {
-        dispatch({
-          type: `getout/${modalType}`,
-          payload: {
-            ...item,
-          },
-        });
-      },
-      hideModal() {
-        dispatch({
-          type: 'getout/setStates',
-          payload: {
-            modalVisible: false,
-          },
-        });
-      },
-      modalVisible,
     };
 
     const listProps = {
@@ -97,16 +68,26 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
+      onDelete(id) {
+        dispatch({
+          type: 'country/remove',
+          payload: {
+            id,
+          },
+        });
+      },
       showModal(item) {
         dispatch({
-          type: 'getout/getExpressList',
+          type: 'country/getCountryInfo',
         });
         dispatch({
-          type: 'getout/setStates',
+          type: 'country/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'updata',
+            modalType: 'update',
             currentItem: item,
+            packageDis: true,
+            productDis: true,
           },
         });
       },
@@ -115,7 +96,7 @@ export default class TableList extends PureComponent {
           selectedRows: rows,
         });
         dispatch({
-          type: 'getout/setStates',
+          type: 'country/setStates',
           payload: {
             selectedRows: [...rows],
           },
@@ -137,7 +118,7 @@ export default class TableList extends PureComponent {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
         dispatch({
-          type: 'getout/query',
+          type: 'country/query',
           payload: params,
         });
       },
@@ -146,7 +127,7 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'getout/remove',
+              type: 'country/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
@@ -170,7 +151,6 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

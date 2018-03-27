@@ -88,6 +88,7 @@ export const getinto = {
 // 出库查询
 export const getout = {
   list: `${APIV3}/api/cargo/ops/list`,
+  edit: `${APIV3}/api/cargo/edit`,
 };
 
 // 货架号查询
@@ -122,7 +123,11 @@ export const freight = {
   // "weight": 50
   freightprice: `${APIV3}/api/freight/freight_price`,
 };
-
+// 获取明彰token
 export const token = {
   get: `${APIV4}/login/getToken`,
+};
+// 目的地国家管理
+export const country = {
+  list: `${APIV3}/api/country/list`,
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import PropTypes from 'prop-types';
-import DateRange from '../../../components/DateRange';
 import styles from './index.less';
 import { handleFields } from '../../../utils/time';
 
@@ -9,7 +8,6 @@ const FormItem = Form.Item;
 const Filter = ({
   handleFormReset,
   handleSearch,
-  showModal,
   form: {
     getFieldDecorator,
     getFieldsValue,
@@ -32,27 +30,13 @@ const Filter = ({
     handleSearch({ ...values, createTime: undefined });
   };
 
-  const onTimeChange = (key, values) => {
-    const fields = getFieldsValue();
-    fields[key] = values;
-    onSearch(fields);
-  };
-  const initialCreateTime = [];
-
   return (
     <Form layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
           <FormItem label="目的地">
-            {getFieldDecorator('country')(
+            {getFieldDecorator('countryCn')(
               <Input placeholder="按目的地搜索" onPressEnter={onSearch} />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={9} sm={24}>
-          <FormItem label="时间">
-            {getFieldDecorator('createTime', { initialValue: initialCreateTime })(
-              <DateRange onChange={onTimeChange.bind(null, 'createTime')} size="default" />
             )}
           </FormItem>
         </Col>
@@ -60,9 +44,6 @@ const Filter = ({
           <span className={styles.submitButtons}>
             <Button type="primary" onClick={onSearch}>查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
-            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
-              新建
-            </Button>
           </span>
         </Col>
       </Row>
@@ -73,7 +54,6 @@ const Filter = ({
 Filter.propTypes = {
   handleFormReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Filter);

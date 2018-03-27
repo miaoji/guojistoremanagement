@@ -1,7 +1,10 @@
+import React from 'react';
 import modelExtend from 'dva-model-extend';
-// import { notification } from 'antd';
+import { Select, notification } from 'antd';
 import { pageModel } from './common';
-import { query } from '../services/query/getout';
+import { query, queryExpressList, updata } from '../services/query/getout';
+
+const { Option } = Select;
 
 export default modelExtend(pageModel, {
   namespace: 'getout',
@@ -17,6 +20,7 @@ export default modelExtend(pageModel, {
     modalType: 'create',
     modalVisible: false,
     selectedRows: [],
+    expressList: [],
   },
 
   effects: {
@@ -47,6 +51,46 @@ export default modelExtend(pageModel, {
           payload: {
             list: [],
             total: 0,
+          },
+        });
+      }
+    },
+
+    *updata({ payload }, { call, put, select }) {
+      const id = yield select(({ getout }) => getout.currentItem.id);
+      console.log('id', id);
+      const newpayload = payload;
+      delete newpayload.key;
+      console.log('payload', payload);
+      if (payload.expressCompanyCodeEn && payload.expressCompanyCodeEn.split('/-/').length > 0) {
+        const expressCompanyCodeEn = payload.expressCompanyCodeEn.split('/-/');
+        [newpayload.expressCompanyCodeEn] = expressCompanyCodeEn;
+      }
+      console.log('newpayload', newpayload);
+      newpayload.id = id;
+      const res = yield call(updata, newpayload);
+      console.log('res', res);
+      if (res.code === 200) {
+        notification.success({
+          message: '添加成功',
+        });
+        yield put({
+          type: 'query',
+        });
+      }
+    },
+
+    *getExpressList(_, { call, put }) {
+      const res = yield call(queryExpressList);
+      if (res.code === 200 && res.data) {
+        const options = res.data.map((items) => {
+          const val = `${items.company_code}/-/${items.id}/-/${items.company_name}`;
+          return <Option key={val}>{items.company_name}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            expressList: options,
           },
         });
       }
