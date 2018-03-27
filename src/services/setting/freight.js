@@ -4,8 +4,8 @@ import request from '../../utils/query';
 export async function query(params) {
   return request({
     url: freight.list,
-    method: 'get',
-    params,
+    method: 'post',
+    data: params,
   });
 }
 // 新增运费信息

@@ -1,8 +1,8 @@
-import { notification } from 'antd';
+// import { notification } from 'antd';
 import { Base64 } from 'js-base64';
 import { query as queryUsers, queryCurrent } from '../services/user';
 import { getToken } from '../utils/authority';
-import store from '../index';
+// import store from '../index';
 
 export default {
   namespace: 'user',
@@ -24,14 +24,14 @@ export default {
       const token = getToken();
       const response = yield call(queryCurrent, token);
       if (response.code !== 200) {
-        const { dispatch } = store;
-        dispatch({
-          type: 'login/logout',
-        });
-        notification.error({
-          message: `请求错误 ${response.code}`,
-          description: response.msg,
-        });
+        // const { dispatch } = store;
+        // dispatch({
+        //   type: 'login/logout',
+        // });
+        // notification.error({
+        //   message: `请求错误 ${response.code}`,
+        //   description: response.msg,
+        // });
       } else {
         const userInfo = Base64.encode(JSON.stringify(response.data));
         localStorage.setItem('mzck-pro-user', userInfo);

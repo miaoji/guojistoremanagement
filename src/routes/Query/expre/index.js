@@ -63,7 +63,9 @@ export default class TableList extends PureComponent {
       handleSearch(values) {
         dispatch({
           type: 'expre/query',
-          payload: values,
+          payload: {
+            ...values,
+          },
         });
       },
       showModal() {

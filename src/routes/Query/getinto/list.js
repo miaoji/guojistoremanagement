@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
+import SmallTable from 'components/SmallTable';
 import styles from './index.less';
 
 const List = ({
@@ -72,7 +72,7 @@ const List = ({
           )
         }
       </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}

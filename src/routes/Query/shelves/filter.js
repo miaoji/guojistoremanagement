@@ -26,7 +26,7 @@ const Filter = ({ handleFormReset, handleSearch, showModal, form }) => {
         <Col md={6} sm={24}>
           <FormItem label="货架号">
             {getFieldDecorator('shelfNo')(
-              <Input placeholder="请输入货架号" />
+              <Input placeholder="请输入货架号" onPressEnter={onSearch} />
             )}
           </FormItem>
         </Col>
