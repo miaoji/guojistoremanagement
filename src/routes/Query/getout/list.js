@@ -29,6 +29,14 @@ const List = ({
       key: 'cn_no',
     },
     {
+      title: '国际单号',
+      dataIndex: 'express_company_en',
+      key: 'express_company_en',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
+    },
+    {
       title: '目的地国家',
       dataIndex: 'destination',
       key: 'destination',
@@ -42,11 +50,17 @@ const List = ({
       title: '仓管费',
       dataIndex: 'cargo_charge',
       key: 'cargo_charge',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '快递费',
       dataIndex: 'express_charge',
       key: 'express_charge',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '重量',
