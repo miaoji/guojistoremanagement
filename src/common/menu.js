@@ -40,6 +40,9 @@ const menuData = [{
     name: '快递公司配置',
     path: 'express-company',
   }, {
+    name: '目的地国家管理',
+    path: 'country',
+  }, {
     name: '运费配置',
     path: 'freight',
   }],

@@ -64,8 +64,8 @@ const List = ({
     },
     {
       title: '操作',
-      render: () => (
-        <span className={styles.button} onClick={() => showModal()}>
+      render: (text, record) => (
+        <span className={styles.button} onClick={() => showModal(record)}>
           回填转单号
         </span>
       ),

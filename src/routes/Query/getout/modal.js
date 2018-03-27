@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -13,6 +13,7 @@ const formItemLayout = {
 const Modalbox = ({
   item = {},
   modalVisible,
+  expressList,
   form: {
     validateFields,
     getFieldDecorator,
@@ -38,8 +39,8 @@ const Modalbox = ({
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
       <FormItem label="单号" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no1', {
-          initialValue: item.no1,
+        {getFieldDecorator('expressCompanyEn', {
+          initialValue: item.expressCompanyEn,
           rules: [
             {
               required: true,
@@ -47,6 +48,17 @@ const Modalbox = ({
             },
           ],
         })(<Input placeholder="请输入单号" />)}
+      </FormItem>
+      <FormItem label="单号" hasFeedback {...formItemLayout}>
+        {getFieldDecorator('expressCompanyCodeEn', {
+          initialValue: item.expressCompanyCodeEn,
+          rules: [
+            {
+              required: true,
+              message: '请输入单号!',
+            },
+          ],
+        })(<Select showSearch style={{ width: '100%' }} placeholder="请输入单号" >{expressList}</Select>)}
       </FormItem>
     </Modal>
   );
