@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
+import { Button, Dropdown, Icon, Menu } from 'antd';
+import SmallTable from 'components/SmallTable';
 import styles from './index.less';
 
 const List = ({
@@ -11,11 +11,7 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  // showModal,
 }) => {
-  // const handleUpdata = (record) => {
-  //   showModal(record);
-  // };
   const columns = [
     {
       title: '单号',
@@ -51,16 +47,6 @@ const List = ({
       dataIndex: 'express_company_code',
       key: 'express_company_code',
     },
-    {
-      title: '操作',
-      render: () => (
-        <Fragment>
-          <a href="">查看</a>
-          <Divider type="vertical" />
-          <a href="">修改</a>
-        </Fragment>
-      ),
-    },
   ];
 
   const menu = (
@@ -86,7 +72,7 @@ const List = ({
           )
         }
       </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}

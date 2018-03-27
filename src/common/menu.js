@@ -51,6 +51,10 @@ const menuData = [{
     name: '货架查询',
     path: 'shelves',
   }, {
+    name: '货架详情',
+    hideInMenu: true,
+    path: 'shelvesdetail',
+  }, {
     name: '快件查询',
     path: 'expre',
   }, {

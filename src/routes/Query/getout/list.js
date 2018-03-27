@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
+import SmallTable from 'components/SmallTable';
+import moment from 'moment';
 import styles from './index.less';
 
 const List = ({
@@ -11,7 +12,7 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  // showModal,
+  showModal,
 }) => {
   // const handleUpdata = (record) => {
   //   showModal(record);
@@ -56,13 +57,17 @@ const List = ({
       title: '出库时间',
       dataIndex: 'scan_time',
       key: 'scan_time',
+      width: 180,
+      render: (text) => {
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
+      },
     },
     {
       title: '操作',
       render: () => (
-        <Fragment>
-          <a href="">回填转单号</a>
-        </Fragment>
+        <span className={styles.button} onClick={() => showModal()}>
+          回填转单号
+        </span>
       ),
     },
   ];
@@ -91,7 +96,7 @@ const List = ({
           )
         }
       </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}

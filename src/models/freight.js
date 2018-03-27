@@ -17,7 +17,7 @@ export default modelExtend(pageModel, {
       pagination: {},
     },
     loading: false,
-    currentItem: {},
+    item: {},
     modalType: 'create',
     modalVisible: false,
     selectedRows: [],
@@ -76,9 +76,14 @@ export default modelExtend(pageModel, {
         notification.success({
           message: '新增成功',
         });
+      } else {
+        notification.success({
+          message: data.msg,
+        });
       }
     },
     *update({ payload }, { call, put, select }) {
+      console.log('啊啊啊', payload);
       const currentItem = yield select(({ freight }) => freight.currentItem);
       const tmp = {};
       for (const item in payload) {
@@ -114,6 +119,10 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'query',
         });
+      } else {
+        notification.success({
+          message: res.msg,
+        });
       }
     },
 
@@ -125,6 +134,10 @@ export default modelExtend(pageModel, {
         });
         notification.success({
           message: '删除成功',
+        });
+      } else {
+        notification.success({
+          message: res.msg,
         });
       }
     },

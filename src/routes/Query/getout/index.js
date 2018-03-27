@@ -69,7 +69,7 @@ export default class TableList extends PureComponent {
 
     const modalProps = {
       item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
+      title: modalType === 'create' ? '新建规则' : '回填转单号',
       onOk(item) {
         dispatch({
           type: `getout/${modalType}`,
@@ -167,9 +167,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

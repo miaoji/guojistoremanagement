@@ -2,7 +2,7 @@ import { getToken } from './authority';
 import { request as query } from './query';
 import { request } from './request';
 
-function urlToObj(url) {
+function queryUrl(url) {
   const urlStr = url.split('?')[1];
   if (urlStr) {
     const urlArr = urlStr.split('&');
@@ -78,7 +78,7 @@ export {
   getToken,
   query,
   request,
-  urlToObj,
+  queryUrl,
   formatDate,
   handleScanval,
 };

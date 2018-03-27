@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SmallTable from 'components/SmallTable';
 import DropOption from 'components/DropOption';
+import { Link } from 'dva/router';
 
 const List = ({
   data,
@@ -9,14 +10,16 @@ const List = ({
   loading,
   onSelectRow,
   onChange,
+  showModal,
+  onDelete,
 }) => {
   const onMenuClick = (record, e) => {
     switch (e.key) {
       case '1':
-        console.log(1);
+        showModal(record);
         break;
       case '2':
-        console.log(2);
+        onDelete(record.id);
         break;
       default:
         break;
@@ -25,38 +28,29 @@ const List = ({
   const columns = [
     {
       title: '货架号',
-      dataIndex: 'no',
+      dataIndex: 'shelf_no',
+      render: (text) => {
+        return <Link to={`/query/shelvesdetail?shelfNo=${text}`}>{text}</Link>;
+      },
     },
     {
       title: '入架数量',
-      dataIndex: 'description',
+      dataIndex: 'in',
     },
     {
       title: '出架数量',
-      dataIndex: 'callNo',
+      dataIndex: 'out',
     },
     {
       title: '剩余件数',
-      dataIndex: 'status',
-    },
-    {
-      title: '单号',
-      dataIndex: 'no1',
-    },
-    {
-      title: '状态',
-      dataIndex: 'no2',
-    },
-    {
-      title: '入库时间',
-      dataIndex: 'no3',
-    },
-    {
-      title: '出库时间',
-      dataIndex: 'updatedAt',
+      dataIndex: 'surplus',
+      render: (text, record) => {
+        return <span>{Number(record.in) - Number(record.out)}</span>;
+      },
     },
     {
       title: '操作',
+      width: 100,
       render: (text, record) => {
         return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '更新' }, { key: '2', name: '删除' }]} />;
       },

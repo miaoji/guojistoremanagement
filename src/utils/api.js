@@ -1,5 +1,6 @@
 // const APIV1 = '/api/v1';
 // const APIV2 = '/api/v2'
+let APIV4 = 'http://api.mingz-tech.com';
 let APIV3 = '';
 
 // 重构API
@@ -14,6 +15,7 @@ APIV3 = 'http://192.168.231.222:8000';
 if (process.env.NODE_ENV !== 'development') {
   // APIV3 = 'http://api.mingz-tech.com'
   APIV3 = 'http://api.didalive.net/mzkd';
+  APIV4 = 'http://api.mingz-tech.com';
 }
 
 export const login = {
@@ -75,6 +77,7 @@ export const expre = {
   update: `${APIV3}/api/cargo/edit`,
   hide: `${APIV3}/api/cargo/del`,
   getById: `${APIV3}/api/cargo/get`,
+  getExpreInfo: `${APIV4}/api/order/queryByCompany`,
 };
 
 // 入库查询
@@ -82,9 +85,22 @@ export const getinto = {
   list: `${APIV3}/api/cargo/ops/list`,
 };
 
-// 入库查询
+// 出库查询
 export const getout = {
   list: `${APIV3}/api/cargo/ops/list`,
+};
+
+// 货架号查询
+export const shelves = {
+  list: `${APIV3}/api/shelf/list`,
+  add: `${APIV3}/api/shelf/add`,
+  del: `${APIV3}/api/shelf/del`,
+  edit: `${APIV3}/api/shelf/edit`,
+};
+
+// 货架详细信息查询
+export const shelvesdetail = {
+  list: `${APIV3}/api/cargo/getDetail`,
 };
 
 export const freight = {
@@ -105,4 +121,8 @@ export const freight = {
   // "productTypeId": 50,
   // "weight": 50
   freightprice: `${APIV3}/api/freight/freight_price`,
+};
+
+export const token = {
+  get: `${APIV4}/login/getToken`,
 };

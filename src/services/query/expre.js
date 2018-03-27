@@ -4,8 +4,17 @@ import request from '../../utils/query';
 export async function query(params) {
   return request({
     url: expre.list,
-    method: 'get',
+    method: 'post',
     data: params,
+  });
+}
+// 查询快递信息
+export async function getExpreInfo(params) {
+  return request({
+    url: expre.getExpreInfo,
+    method: 'get',
+    mztoken: true,
+    params,
   });
 }
 
@@ -25,13 +34,6 @@ export async function update(params) {
 
 export async function hide(params) {
   return request(expre.hide, {
-    method: 'post',
-    body: params,
-  });
-}
-
-export async function getById(params) {
-  return request(expre.getById, {
     method: 'post',
     body: params,
   });

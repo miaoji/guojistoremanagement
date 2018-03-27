@@ -1,7 +1,10 @@
+import React from 'react';
 import modelExtend from 'dva-model-extend';
-import { notification } from 'antd';
+import { notification, Timeline } from 'antd';
 import { pageModel } from './common';
-import { query, hide, create } from '../services/query/expre';
+import { query, getExpreInfo } from '../services/query/expre';
+import { getToken } from '../services/token';
+
 
 export default modelExtend(pageModel, {
   namespace: 'expre',
@@ -16,12 +19,14 @@ export default modelExtend(pageModel, {
     currentItem: {},
     modalType: 'create',
     modalVisible: false,
+    expreModalVisible: false,
     selectedRows: [],
+    expreInfo: [],
   },
 
   effects: {
     *query({ payload }, { call, put }) {
-      const data = yield call(query, payload);
+      const data = yield call(query, { currentPage: 1, pageSize: 10, ...payload });
       if (data.code === 200) {
         const list = data.data.map((item) => {
           return { key: item.id, ...item };
@@ -43,17 +48,7 @@ export default modelExtend(pageModel, {
         });
       }
     },
-    *fetch({ payload }, { call, put }) {
-      const data = yield call(query, payload);
-      if (data.code === 200) {
-        yield put({
-          type: 'setStates',
-          payload: {
-            data: data.obj,
-          },
-        });
-      }
-    },
+
     *create({ payload }, { put }) {
       console.info('payload', payload);
       notification.success({
@@ -67,6 +62,7 @@ export default modelExtend(pageModel, {
         },
       });
     },
+
     *updata({ payload }, { put }) {
       console.info('payload', payload);
       notification.success({
@@ -80,30 +76,30 @@ export default modelExtend(pageModel, {
         },
       });
     },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(create, payload);
-      yield put({
-        type: 'save',
-        payload: response,
+
+    *getExpreInfo({ payload }, { call, put }) {
+      const token = yield call(getToken, {
+        timestamp: '1522112875223',
+        nonceStr: '35077935fccf407e69262e04c2120539',
+        sign: '2207bcfbee4bf9f7dd31247ca49c504b',
       });
-      if (callback) callback();
+      window.localStorage.setItem('mztoken', token.repldata);
+      const res = yield call(getExpreInfo, { ...payload });
+      if (res.code === 200) {
+        const options = res.obj.data.map((items, index) => {
+          const key = index;
+          return <Timeline.Item key={key}>{items.time} {items.context}</Timeline.Item>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            expreInfo: options,
+          },
+        });
+      }
     },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(hide, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
+
   },
 
-  reducers: {
-    save(state, action) {
-      return {
-        ...state,
-        data: action.payload,
-      };
-    },
-  },
+  reducers: {},
 });

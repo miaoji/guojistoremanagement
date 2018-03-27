@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Button, Dropdown, Icon, Menu } from 'antd';
-import StandardTable from 'components/StandardTable';
+import SmallTable from 'components/SmallTable';
+
 import styles from './index.less';
 
 const List = ({
@@ -10,11 +10,11 @@ const List = ({
   loading,
   onSelectRow,
   onChange,
-  handleMenuClick,
-  showModal,
+  showExpreModal,
 }) => {
-  const handleUpdata = (record) => {
-    showModal(record);
+  const handleExpreClick = (record) => {
+    console.log('record', record);
+    showExpreModal({ num: record.cn_no, company: record.express_company_code, source: 'php' });
   };
   const columns = [
     {
@@ -44,47 +44,24 @@ const List = ({
     },
     {
       title: '客户手机号',
-      dataIndex: 'customer_mobild',
-      key: 'customer_mobild',
+      dataIndex: 'customer_mobile',
+      key: 'customer_mobile',
     },
     {
       title: '操作',
-      key: 'id',
-      dataIndex: 'id',
-      render: (text, record) => (
-        <Fragment>
-          <a href="">查看</a>
-          <Divider type="vertical" />
-          <span className={styles.update} onClick={() => { handleUpdata(record); }}>修改</span>
-        </Fragment>
-      ),
+      key: 'option',
+      width: 130,
+      render: (text, record) => {
+        return (
+          <span className={styles.button} onClick={() => handleExpreClick(record)}>查看物流信息</span>
+        );
+      },
     },
   ];
 
-  const menu = (
-    <Menu onClick={handleMenuClick} selectedKeys={[]}>
-      <Menu.Item key="remove">删除</Menu.Item>
-      <Menu.Item key="approval">批量审批</Menu.Item>
-    </Menu>
-  );
-
   return (
     <div>
-      <div className={styles.tableListOperator}>
-        {
-          selectedRows.length > 0 && (
-            <span>
-              <Button>批量操作</Button>
-              <Dropdown overlay={menu}>
-                <Button>
-                  更多操作 <Icon type="down" />
-                </Button>
-              </Dropdown>
-            </span>
-          )
-        }
-      </div>
-      <StandardTable
+      <SmallTable
         selectedRows={selectedRows}
         loading={loading}
         data={data}

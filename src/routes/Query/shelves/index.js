@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Form } from 'antd';
+import { Card } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
@@ -10,11 +10,11 @@ import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ shelves, loading }) => ({
+@connect(({ shelves, user, loading }) => ({
   shelves,
+  user,
   loading: loading.models.shelves,
 }))
-@Form.create()
 export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
@@ -28,16 +28,17 @@ export default class TableList extends PureComponent {
 
   render() {
     const {
-      form,
       location,
       shelves: { data, list, total, modalVisible, modalType, currentItem },
+      user,
       loading,
       dispatch,
-      // selectedRows = [],
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
+
+    console.log('user', user);
     const filterProps = {
       filter: {
         ...location.query,
@@ -64,16 +65,15 @@ export default class TableList extends PureComponent {
           },
         });
       },
-      form,
     };
 
     const modalProps = {
-      item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
+      currentItem,
+      title: modalType === 'create' ? '新增货架号' : '修改货架号',
       onOk(item) {
+        console.log('item', item);
         dispatch({
           type: `shelves/${modalType}`,
-          // type: 'shelves/create',
           payload: {
             ...item,
           },
@@ -96,6 +96,14 @@ export default class TableList extends PureComponent {
       data: {
         list,
         pagination: { ...data.pagination, total },
+      },
+      onDelete(id) {
+        dispatch({
+          type: 'shelves/remove',
+          payload: {
+            id,
+          },
+        });
       },
       showModal(item) {
         dispatch({
@@ -167,9 +175,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

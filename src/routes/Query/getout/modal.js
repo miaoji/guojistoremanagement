@@ -37,38 +37,16 @@ const Modalbox = ({
   };
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
+      <FormItem label="单号" hasFeedback {...formItemLayout}>
         {getFieldDecorator('no1', {
           initialValue: item.no1,
           rules: [
             {
               required: true,
-              message: '选择站点!',
+              message: '请输入单号!',
             },
           ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no2', {
-          initialValue: item.no2,
-          rules: [
-            {
-              required: true,
-              message: '选择站点!',
-            },
-          ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem label="站点名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('no3', {
-          initialValue: item.no3,
-          rules: [
-            {
-              required: true,
-              message: '选择站点!',
-            },
-          ],
-        })(<Input />)}
+        })(<Input placeholder="请输入单号" />)}
       </FormItem>
     </Modal>
   );

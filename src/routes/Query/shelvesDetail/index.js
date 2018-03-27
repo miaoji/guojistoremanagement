@@ -1,49 +1,41 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Form } from 'antd';
+import { Card } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
 import Filter from './filter';
+import { queryUrl } from '../../../utils';
 
 import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ freight, loading }) => ({
-  freight,
-  loading: loading.models.freight,
+@connect(({ shelvesdetail, user, loading }) => ({
+  shelvesdetail,
+  user,
+  loading: loading.models.shelvesdetail,
 }))
-@Form.create()
 export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
   }
   componentDidMount() {
     const { dispatch, location } = this.props;
+    const query = queryUrl(location.search);
     dispatch({
-      type: 'freight/query',
-      payload: location.query,
+      type: 'shelvesdetail/query',
+      payload: {
+        ...query,
+      },
     });
   }
 
   render() {
     const {
-      form,
       location,
-      freight: {
-        countryInfo,
-        productInfo,
-        packageInfo,
-        data,
-        list,
-        total,
-        modalVisible,
-        modalType,
-        currentItem,
-        packageDis,
-        productDis,
-      },
+      shelvesdetail: { data, list, total, modalVisible, modalType, currentItem },
+      user,
       loading,
       dispatch,
     } = this.props;
@@ -51,78 +43,59 @@ export default class TableList extends PureComponent {
     const global = this;
     const formValues = {};
 
+    console.log('user', user);
     const filterProps = {
-      filter: {
-        ...location.query,
-      },
       handleFormReset() {
+        const query = queryUrl(location.search);
         dispatch({
-          type: 'freight/query',
-          payload: {},
+          type: 'shelvesdetail/query',
+          payload: {
+            ...query,
+          },
         });
       },
       handleSearch(values) {
+        const query = queryUrl(location.search);
         dispatch({
-          type: 'freight/query',
-          payload: values,
+          type: 'shelvesdetail/query',
+          payload: {
+            ...values,
+            ...query,
+          },
         });
       },
       showModal() {
         dispatch({
-          type: 'freight/getCountryInfo',
-        });
-        dispatch({
-          type: 'freight/setStates',
+          type: 'shelvesdetail/setStates',
           payload: {
             modalVisible: true,
             modalType: 'create',
             currentItem: {},
-            packageDis: true,
-            productDis: true,
           },
         });
       },
-      form,
     };
 
     const modalProps = {
-      item: modalType === 'create' ? {} : currentItem,
-      countryInfo,
-      productInfo,
-      packageInfo,
-      modalVisible,
-      packageDis,
-      productDis,
-      modalType,
-      title: modalType === 'create' ? '新建运费规则' : '修改运费规则',
-      onOk(val) {
+      item: currentItem,
+      title: modalType === 'create' ? '新建规则' : '修改规则',
+      onOk(item) {
         dispatch({
-          type: `freight/${modalType}`,
+          type: `shelvesdetail/${modalType}`,
           payload: {
-            ...val,
+            ...item,
           },
         });
       },
       hideModal() {
         dispatch({
-          type: 'freight/setStates',
+          type: 'shelvesdetail/setStates',
           payload: {
             modalVisible: false,
           },
         });
       },
-      getPackageInfo(val) {
-        dispatch({
-          type: 'freight/getPackageInfo',
-          payload: val,
-        });
-      },
-      getProductInfo(val) {
-        dispatch({
-          type: 'freight/getProductInfo',
-          payload: val,
-        });
-      },
+      modalVisible,
     };
 
     const listProps = {
@@ -132,26 +105,13 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
-      onDelete(id) {
-        dispatch({
-          type: 'freight/remove',
-          payload: {
-            id,
-          },
-        });
-      },
       showModal(item) {
         dispatch({
-          type: 'freight/getCountryInfo',
-        });
-        dispatch({
-          type: 'freight/setStates',
+          type: 'shelvesdetail/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'update',
+            modalType: 'updata',
             currentItem: item,
-            packageDis: true,
-            productDis: true,
           },
         });
       },
@@ -160,7 +120,7 @@ export default class TableList extends PureComponent {
           selectedRows: rows,
         });
         dispatch({
-          type: 'freight/setStates',
+          type: 'shelvesdetail/setStates',
           payload: {
             selectedRows: [...rows],
           },
@@ -182,7 +142,7 @@ export default class TableList extends PureComponent {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
         dispatch({
-          type: 'freight/query',
+          type: 'shelvesdetail/query',
           payload: params,
         });
       },
@@ -191,7 +151,7 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'freight/remove',
+              type: 'shelvesdetail/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
@@ -215,7 +175,9 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        {modalVisible && <Modal {...modalProps} />}
+        <Modal
+          {...modalProps}
+        />
       </PageHeaderLayout>
     );
   }

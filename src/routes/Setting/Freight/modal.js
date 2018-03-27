@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, Input, Modal, Select } from 'antd';
+import styles from './index.less';
 
 // const { Option } = Select;
 
 const FormItem = Form.Item;
 const formItemLayout = {
+  className: styles.medalItem,
   labelCol: {
-    span: 6,
+    span: 7,
   },
   wrapperCol: {
-    span: 14,
+    span: 15,
   },
 };
 const Modalbox = ({
@@ -66,7 +68,7 @@ const Modalbox = ({
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
       <FormItem label="目的地国家" hasFeedback {...formItemLayout}>
         {getFieldDecorator('destination', {
-          initialValue: item.destination,
+          initialValue: item.country_cn,
           rules: [
             {
               required: true,
@@ -81,7 +83,7 @@ const Modalbox = ({
       </FormItem>
       <FormItem label="物品(包裹)类型" hasFeedback {...formItemLayout}>
         {getFieldDecorator('package_type', {
-          initialValue: item.package_type,
+          initialValue: item.name_cn,
           rules: [
             {
               required: true,
@@ -96,7 +98,7 @@ const Modalbox = ({
       </FormItem>
       <FormItem label="产品类型" hasFeedback {...formItemLayout}>
         {getFieldDecorator('product_type', {
-          initialValue: item.product_type,
+          initialValue: item.product_name,
           rules: [
             {
               required: true,

@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
-// import { notification } from 'antd';
+import { notification } from 'antd';
 import { pageModel } from './common';
-import { query } from '../services/query/getinto';
+import { query, create, updata, remove } from '../services/query/shelves';
 
 export default modelExtend(pageModel, {
   namespace: 'shelves',
@@ -31,8 +31,8 @@ export default modelExtend(pageModel, {
         pageSize: Number(payload.pageSize) || 10,
       });
       if (data.code === 200) {
-        const list = data.data.map((item) => {
-          return { key: item.id, ...item };
+        const list = data.data.map((item, index) => {
+          return { key: index, ...item };
         });
         yield put({
           type: 'setStates',
@@ -42,12 +42,68 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
+        notification.success({
+          message: data.msg,
+        });
+      }
+    },
+
+    *create({ payload }, { call, put }) {
+      console.log('payload', payload);
+      const data = yield call(create, payload);
+      console.log('data', data);
+      if (data.code === 200) {
+        notification.success({
+          message: '货架号新增成功',
+        });
         yield put({
           type: 'setStates',
           payload: {
-            list: [],
-            total: 0,
+            modalVisible: false,
           },
+        });
+        yield put({ type: 'query' });
+      } else {
+        notification.success({
+          message: data.msg,
+        });
+      }
+    },
+
+    *updata({ payload }, { call, put, select }) {
+      console.log('payload', payload);
+      const currentItem = yield select(({ shelves }) => shelves.currentItem);
+      const res = yield call(updata, { ...payload, id: currentItem.id });
+      console.log('res', res);
+      if (res.code === 200) {
+        notification.success({
+          message: '货架号修改成功',
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            modalVisible: false,
+          },
+        });
+        yield put({ type: 'query' });
+      } else {
+        notification.success({
+          message: res.msg,
+        });
+      }
+    },
+
+    *remove({ payload }, { call, put }) {
+      console.log('payload', payload);
+      const res = yield call(remove, [payload.id]);
+      if (res.code === 200) {
+        yield put({ type: 'query' });
+        notification.success({
+          message: '删除成功',
+        });
+      } else {
+        notification.success({
+          message: res.msg,
         });
       }
     },

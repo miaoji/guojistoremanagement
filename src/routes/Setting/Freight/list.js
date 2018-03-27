@@ -38,18 +38,18 @@ const List = ({
   const columns = [
     {
       title: '目的地国家',
-      dataIndex: 'destination',
-      key: 'destination',
+      dataIndex: 'country_cn',
+      key: 'country_cn',
     },
     {
       title: '包裹类型',
-      dataIndex: 'package_type',
-      key: 'package_type',
+      dataIndex: 'name_cn',
+      key: 'name_cn',
     },
     {
       title: '产品类型',
-      dataIndex: 'product_type',
-      key: 'product_type',
+      dataIndex: 'product_name',
+      key: 'product_name',
     },
     {
       title: '首重价格',
