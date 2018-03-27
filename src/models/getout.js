@@ -75,6 +75,12 @@ export default modelExtend(pageModel, {
           message: '添加成功',
         });
         yield put({
+          type: 'setStates',
+          payload: {
+            modalVisible: false,
+          },
+        });
+        yield put({
           type: 'query',
         });
       }

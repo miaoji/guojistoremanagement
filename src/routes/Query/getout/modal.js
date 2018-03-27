@@ -40,7 +40,7 @@ const Modalbox = ({
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
       <FormItem label="单号" hasFeedback {...formItemLayout}>
         {getFieldDecorator('expressCompanyEn', {
-          initialValue: item.expressCompanyEn,
+          initialValue: item.express_company_en,
           rules: [
             {
               required: true,
@@ -51,7 +51,7 @@ const Modalbox = ({
       </FormItem>
       <FormItem label="单号" hasFeedback {...formItemLayout}>
         {getFieldDecorator('expressCompanyCodeEn', {
-          initialValue: item.expressCompanyCodeEn,
+          initialValue: item.express_company_code_en,
           rules: [
             {
               required: true,
