@@ -33,10 +33,11 @@ export async function remove(params) {
   });
 }
 // 国家信息
-export async function countrylist() {
+export async function countrylist(params) {
   return request({
     url: freight.countrylist,
     method: 'get',
+    params,
   });
 }
 // 包裹类型信息

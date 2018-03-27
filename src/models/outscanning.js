@@ -1,5 +1,9 @@
-import { message } from 'antd';
+import React from 'react';
+import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { countrylist, productlist, packagelist } from '../services/setting/freight';
+
+const { Option } = Select;
 
 export default {
   namespace: 'outscanning',
@@ -9,6 +13,11 @@ export default {
       list: [],
       pagination: {},
     },
+    countryInfo: [],
+    productInfo: [],
+    packageInfo: [],
+    packageDis: true,
+    productDis: true,
   },
 
   effects: {
@@ -43,7 +52,7 @@ export default {
           ...payload,
         },
         params: {
-          type: 0,
+          type: 1,
         },
       });
       if (response.code === 200) {
@@ -74,6 +83,65 @@ export default {
       }
       if (callback) callback();
     },
+    *getCountryInfo(_, { call, put }) {
+      const data = yield call(countrylist);
+      const source = data.data;
+      if (data.code === 200 && source && source.length !== 0) {
+        const options = source.map((items) => {
+          const en = items.country_en.toLowerCase();
+          const id = `${items.id}/${items.country_cn}/${items.country_en}/${en}`;
+          return <Option key={id}>{items.country_cn}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            countryInfo: options,
+          },
+        });
+      } else {
+        message.warning('国家列表信息获取失败');
+      }
+    },
+    *getPackageInfo({ payload }, { call, put }) {
+      const data = yield call(packagelist, payload);
+      const source = data.data;
+      if (data.code === 200 && source && source.length !== 0) {
+        const options = source.map((items) => {
+          const en = items.name_en.toLowerCase();
+          const id = `${items.id}/${items.name_cn}/${items.name_en}/${items.max_range}/${items.min_range}/${en}`;
+          return <Option key={id}>{items.name_cn}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            packageInfo: options,
+            packageDis: false,
+            productDis: true,
+            productInfo: [],
+          },
+        });
+      } else {
+        message.warning('您选择的国家没有对应包裹类型,请创建');
+      }
+    },
+    *getProductInfo({ payload }, { call, put }) {
+      const data = yield call(productlist, payload);
+      const source = data.data;
+      if (data.code === 200 && source && source.length !== 0) {
+        const options = source.map((items) => {
+          return <Option key={items.id}>{items.product_name}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            productInfo: options,
+            productDis: false,
+          },
+        });
+      } else {
+        message.warning('您选择的包裹类型没有对应的产品类型,请创建');
+      }
+    },
   },
 
   reducers: {
@@ -82,6 +150,9 @@ export default {
         ...state,
         data: action.payload,
       };
+    },
+    setStates(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };

@@ -55,8 +55,21 @@ function formatDate(fmt, date) {
  * @return {[Object]} { orderNo: '' }      [返回的值]
  */
 function handleScanval(val) {
+  // 单号
+  if (val.substr(0, 3) === 'orderNo') {
+    return { orderNo: val };
+  }
+  // 客户编号
   if (val.substr(0, 3) === 'MZA') {
     return { customerNo: val };
+  }
+  // 快递代码
+  if (val.substr(0, 3) === 'KD_') {
+    return { expressCompanyCode: val.replace('KD_', '') };
+  }
+  // 货架号
+  if (val.substr(0, 3) === 'SL_') {
+    return { shelfNo: val };
   }
   return {};
 }

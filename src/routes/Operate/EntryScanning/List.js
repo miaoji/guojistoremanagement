@@ -21,6 +21,10 @@ const List = ({
   const columns = [
     {
       title: '单号',
+      dataIndex: 'cn_no',
+    },
+    {
+      title: '内单号',
       dataIndex: 'order_no',
     },
     {

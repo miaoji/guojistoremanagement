@@ -1,13 +1,21 @@
 import React from 'react';
 import { Row, Col, Button, Form, Icon, Input, Modal, InputNumber } from 'antd';
-import { handleScanval } from '../../../utils';
 
 import styles from './index.less';
 
 const FormItem = Form.Item;
 
-const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
-  handleModalVisible, currentItem }) => {
+const ModalForm = ({
+  modalVisible,
+  modalType,
+  form,
+  handleModalConfirm,
+  handleModalVisible,
+  currentItem,
+  scanVal,
+  handleScanning,
+  handleScanClear,
+}) => {
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -22,12 +30,7 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
     });
   };
   const title = modalType === 'add' ? '新建' : '修改';
-  const handleScanning = (e) => {
-    const scanVal = e.target.value;
-    const formVal = handleScanval(scanVal);
-    console.log('oder no', formVal);
-    form.setFieldsValue(formVal);
-  };
+
   return (
     <Modal
       title={`${title}入库`}
@@ -40,12 +43,13 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
           <Col md={18} sm={24}>
             <Input
               size="large"
-              onChange={e => handleScanning(e)}
+              value={scanVal}
+              onChange={e => handleScanning(e, form)}
               placeholder="扫描区"
             />
           </Col>
           <Col md={6} sm={24}>
-            <Button type="primary">
+            <Button type="primary" onClick={handleScanClear}>
               <Icon type="close-circle-o" />清空
             </Button>
           </Col>
@@ -56,8 +60,8 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
         wrapperCol={{ span: 15 }}
         label="单号"
       >
-        {form.getFieldDecorator('orderNo', {
-          initialValue: currentItem.order_no || '',
+        {form.getFieldDecorator('cnNo', {
+          initialValue: currentItem.cn_no || '',
           rules: [{ required: true, message: '请输入单号' }],
         })(
           <Input placeholder="请输入单号" />

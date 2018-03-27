@@ -18,36 +18,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="客户姓名">
-            {getFieldDecorator('customerName', {
-              initialValue: '',
-            })(
-              <Input placeholder="请输入客户姓名" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
           <FormItem label="货架号">
-            {getFieldDecorator('customerMobile', {
-              initialValue: '',
-            })(
-              <Input placeholder="请输入货架号" />
-            )}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-        <Col md={8} sm={24}>
-          <FormItem label="快递公司">
-            {getFieldDecorator('expressCompany', {
-              initialValue: '',
-            })(
-              <Input placeholder="请输入客户姓名" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem label="扫描时间">
             {getFieldDecorator('customerMobile', {
               initialValue: '',
             })(

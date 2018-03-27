@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { update, add, query, remove } from '../services/express-company';
+import { update, add, query, remove } from '../services/setting/express-company';
 
 export default {
   namespace: 'expressCompany',

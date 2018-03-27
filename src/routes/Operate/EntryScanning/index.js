@@ -5,6 +5,7 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import Filter from './Filter';
 import ModalForm from './Modal';
 import List from './List';
+import { handleScanval } from '../../../utils';
 
 import styles from './index.less';
 
@@ -23,6 +24,7 @@ export default class TableList extends PureComponent {
     formValues: {},
     currentItem: {},
     selectedRows: [],
+    scanVal: '',
   };
 
   componentDidMount() {
@@ -109,7 +111,11 @@ export default class TableList extends PureComponent {
     this.props.dispatch({
       type: `entryscanning/${type}`,
       payload: {
-        ...fields,
+        customerNo: fields.customerNo,
+        expressCompanyCode: fields.expressCompanyCode,
+        cnNo: fields.cnNo,
+        shelfNo: fields.shelfNo,
+        weight: fields.weight,
       },
     });
 
@@ -173,14 +179,42 @@ export default class TableList extends PureComponent {
     });
   }
 
+  handleScanning = (e) => {
+    const val = e.target.value;
+    this.setState({
+      scanVal: val,
+    });
+    const { form } = this.props;
+    const formVal = handleScanval(val);
+    form.setFieldsValue(formVal);
+  }
+
+  handleScanning = (e, form) => {
+    const val = e.target.value;
+    this.setState({
+      scanVal: val,
+    });
+    const formVal = handleScanval(val);
+    form.setFieldsValue(formVal);
+  }
+
+  handleScanClear = () => {
+    this.setState({
+      scanVal: '',
+    });
+  }
+
   render() {
     const { entryscanning: { data }, loading, form } = this.props;
-    const { selectedRows, modalVisible, modalType, currentItem } = this.state;
+    const { selectedRows, modalVisible, modalType, currentItem, scanVal } = this.state;
 
     const modalProps = {
+      scanVal,
       modalType,
       currentItem,
       modalVisible,
+      handleScanning: this.handleScanning,
+      handleScanClear: this.handleScanClear,
       handleModalConfirm: this.handleModalConfirm,
       handleModalVisible: this.handleModalVisible,
     };

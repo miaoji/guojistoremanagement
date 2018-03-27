@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { update, add, query, remove } from '../services/customer';
+import { update, add, query, remove } from '../services/setting/customer';
 
 export default {
   namespace: 'customer',

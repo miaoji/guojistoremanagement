@@ -6,6 +6,7 @@ import styles from './index.less';
 import Filter from './Filter';
 import ModalForm from './Modal';
 import List from './List';
+import { handleScanval } from '../../../utils';
 
 const { confirm } = Modal;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
@@ -22,12 +23,16 @@ export default class TableList extends PureComponent {
     formValues: {},
     currentItem: {},
     selectedRows: [],
+    scanVal: '',
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'outscanning/fetch',
+    });
+    dispatch({
+      type: 'outscanning/getCountryInfo',
     });
   }
 
@@ -107,10 +112,13 @@ export default class TableList extends PureComponent {
   }
 
   handleModalConfirm = (fields, type) => {
+    const { wide, height, length } = fields;
+    const volumeWeight = wide * height * length;
     this.props.dispatch({
       type: `outscanning/${type}`,
       payload: {
         ...fields,
+        volumeWeight,
       },
     });
 
@@ -174,14 +182,61 @@ export default class TableList extends PureComponent {
     });
   }
 
+  handleScanning = (e, form) => {
+    const val = e.target.value;
+    this.setState({
+      scanVal: val,
+    });
+    const formVal = handleScanval(val);
+    form.setFieldsValue(formVal);
+  }
+
+  handleScanClear = () => {
+    this.setState({
+      scanVal: '',
+    });
+  }
+
   render() {
-    const { outscanning: { data }, loading, form } = this.props;
-    const { selectedRows, modalVisible, modalType, currentItem } = this.state;
+    const {
+      outscanning: {
+        data,
+        countryInfo,
+        packageInfo,
+        productInfo,
+        packageDis,
+        productDis,
+      },
+      loading,
+      form,
+      dispatch,
+    } = this.props;
+    const { scanVal, selectedRows, modalVisible, modalType, currentItem } = this.state;
 
     const modalProps = {
+      scanVal,
       modalType,
       currentItem,
       modalVisible,
+      countryInfo,
+      packageInfo,
+      productInfo,
+      packageDis,
+      productDis,
+      getPackageInfo(val) {
+        dispatch({
+          type: 'outscanning/getPackageInfo',
+          payload: val,
+        });
+      },
+      getProductInfo({ packageTypeId }) {
+        dispatch({
+          type: 'outscanning/getProductInfo',
+          payload: { packageTypeId },
+        });
+      },
+      handleScanning: this.handleScanning,
+      handleScanClear: this.handleScanClear,
       handleModalConfirm: this.handleModalConfirm,
       handleModalVisible: this.handleModalVisible,
     };

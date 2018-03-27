@@ -1,5 +1,5 @@
-import request from '../utils/request';
-import { warehouseFee } from '../utils/api';
+import request from '../../utils/request';
+import { warehouseFee } from '../../utils/api';
 
 export async function query(params) {
   return request(warehouseFee.list, {

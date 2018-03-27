@@ -1,5 +1,5 @@
-import request from '../utils/query';
-import { customer as apiList } from '../utils/api';
+import request from '../../utils/query';
+import { expressCompany as apiList } from '../../utils/api';
 
 export async function query(params) {
   return request({

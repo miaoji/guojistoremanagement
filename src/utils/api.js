@@ -99,4 +99,10 @@ export const freight = {
   packagelist: `${APIV3}/api/package/list`,
   // 获取产品类型
   productlist: `${APIV3}/api/product/list`,
+  // 查询运费价格
+  // "countryId": 12,
+  // "packageTypeId": 46,
+  // "productTypeId": 50,
+  // "weight": 50
+  freightprice: `${APIV3}/api/freight/freight_price`,
 };

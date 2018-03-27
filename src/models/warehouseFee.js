@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { update, add, query } from '../services/warehouse-fee';
+import { update, add, query } from '../services/setting/warehouse-fee';
 
 export default {
   namespace: 'warehouseFee',

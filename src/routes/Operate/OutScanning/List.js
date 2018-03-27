@@ -2,11 +2,9 @@ import React, { Fragment } from 'react';
 import { Button, Modal, Divider } from 'antd';
 import StandardTable from 'components/StandardTable';
 import styles from './index.less';
-import { qr } from '../../../utils/api';
 import { formatDate } from '../../../utils/';
 
 const { confirm } = Modal;
-const queryQr = qr.query;
 
 const List = ({
   loading, data, selectedRows,
@@ -15,10 +13,10 @@ const List = ({
   const expandedRowRender = (record) => {
     return (
       <div>
-        <p>体积重:{record.volumeWeight}</p>
-        <p>长:{record.length}</p>
-        <p>宽:{record.wide}</p>
-        <p>高:{record.height}</p>
+        <p>体积重/cm^3: {record.volume_weight}</p>
+        <p>长/cm: {record.length}</p>
+        <p>宽/cm: {record.wide}</p>
+        <p>高/cm: {record.height}</p>
       </div>
     );
   };
@@ -71,12 +69,6 @@ const List = ({
           <a onClick={() => { handleListDel(record); }} >删除</a>
           <Divider type="vertical" />
           <a className={styles.operateLine} onClick={() => { handleTableUpdate(record); }}>修改</a>
-          <Divider type="vertical" />
-          <a
-            href={`${queryQr}?width=300&height=70&barcode=${record.customer_no}`}
-            target="_blank"
-          >打印编码
-          </a>
         </Fragment>
       ),
     },
