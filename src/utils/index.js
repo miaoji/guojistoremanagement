@@ -55,10 +55,6 @@ function formatDate(fmt, date) {
  * @return {[Object]} { orderNo: '' }      [返回的值]
  */
 function handleScanval(val) {
-  // 单号
-  if (val.substr(0, 3) === 'orderNo') {
-    return { orderNo: val };
-  }
   // 客户编号
   if (val.substr(0, 3) === 'MZA') {
     return { customerNo: val };
@@ -68,10 +64,18 @@ function handleScanval(val) {
     return { expressCompanyCode: val.replace('KD_', '') };
   }
   // 货架号
-  if (val.substr(0, 3) === 'SL_') {
-    return { shelfNo: val };
+  if (val.substr(0, 3) === 'SF_') {
+    return { shelfNo: val.replace('SF_', '') };
   }
-  return {};
+  // 国家
+  if (val.substr(0, 3) === 'GJ_') {
+    return { destination: val.replace('GJ_', '') };
+  }
+  // 快递单号
+  if (val.length > 8) {
+    return { cnNo: val };
+  }
+  return false;
 }
 
 export {

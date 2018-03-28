@@ -111,11 +111,7 @@ export default class TableList extends PureComponent {
     this.props.dispatch({
       type: `entryscanning/${type}`,
       payload: {
-        customerNo: fields.customerNo,
-        expressCompanyCode: fields.expressCompanyCode,
-        cnNo: fields.cnNo,
-        shelfNo: fields.shelfNo,
-        weight: fields.weight,
+        ...fields,
       },
     });
 
@@ -179,16 +175,6 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleScanning = (e) => {
-    const val = e.target.value;
-    this.setState({
-      scanVal: val,
-    });
-    const { form } = this.props;
-    const formVal = handleScanval(val);
-    form.setFieldsValue(formVal);
-  }
-
   handleScanning = (e, form) => {
     const val = e.target.value;
     this.setState({
@@ -196,6 +182,12 @@ export default class TableList extends PureComponent {
     });
     const formVal = handleScanval(val);
     form.setFieldsValue(formVal);
+    const _ = this;
+    setTimeout(() => {
+      _.setState({
+        scanVal: '',
+      });
+    }, 400);
   }
 
   handleScanClear = () => {

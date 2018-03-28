@@ -40,7 +40,11 @@ export default {
     *add({ payload, callback }, { call, put }) {
       const response = yield call(add, {
         data: {
-          ...payload,
+          customerNo: payload.customerNo,
+          expressCompanyCode: payload.expressCompanyCode,
+          cnNo: payload.cnNo,
+          shelfNo: payload.shelfNo,
+          weight: payload.weight,
         },
         params: {
           type: 0,

@@ -36,6 +36,13 @@ export default class TableList extends PureComponent {
     });
   }
 
+  getPackageInfo = (val) => {
+    this.props.dispatch({
+      type: 'outscanning/getPackageInfo',
+      payload: val,
+    });
+  }
+
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
@@ -188,7 +195,26 @@ export default class TableList extends PureComponent {
       scanVal: val,
     });
     const formVal = handleScanval(val);
-    form.setFieldsValue(formVal);
+    if (!formVal) {
+      console.log('false');
+    } else {
+      form.setFieldsValue(formVal);
+      if (formVal.destination) {
+        const countryId = Number(formVal.destination.split('/')[0]);
+        console.log('countryId', countryId);
+        this.getPackageInfo({ countryId });
+        form.setFieldsValue({
+          packageType: undefined,
+          productType: undefined,
+        });
+      }
+      const _ = this;
+      setTimeout(() => {
+        _.setState({
+          scanVal: '',
+        });
+      }, 400);
+    }
   }
 
   handleScanClear = () => {
@@ -223,18 +249,13 @@ export default class TableList extends PureComponent {
       productInfo,
       packageDis,
       productDis,
-      getPackageInfo(val) {
-        dispatch({
-          type: 'outscanning/getPackageInfo',
-          payload: val,
-        });
-      },
       getProductInfo({ packageTypeId }) {
         dispatch({
           type: 'outscanning/getProductInfo',
           payload: { packageTypeId },
         });
       },
+      getPackageInfo: this.getPackageInfo,
       handleScanning: this.handleScanning,
       handleScanClear: this.handleScanClear,
       handleModalConfirm: this.handleModalConfirm,

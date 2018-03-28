@@ -13,6 +13,7 @@ const List = ({
   const expandedRowRender = (record) => {
     return (
       <div>
+        <p>仓管费: {record.cargo_charge}</p>
         <p>体积重/cm^3: {record.volume_weight}</p>
         <p>长/cm: {record.length}</p>
         <p>宽/cm: {record.wide}</p>
@@ -30,7 +31,7 @@ const List = ({
   };
   const columns = [
     {
-      title: '单号',
+      title: '内单号',
       dataIndex: 'order_no',
     },
     {
@@ -39,8 +40,12 @@ const List = ({
       render: text => <span>{formatDate('yyyy-MM-dd hh:mm:ss', new Date(text))}</span>,
     },
     {
-      title: '仓管费',
-      dataIndex: 'cargo_charge',
+      title: '国内单号',
+      dataIndex: 'cn_no',
+    },
+    {
+      title: '目的地国家',
+      dataIndex: 'destination',
     },
     {
       title: '快递费',

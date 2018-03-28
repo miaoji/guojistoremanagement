@@ -1,7 +1,7 @@
 import React from 'react';
 import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
-import { countrylist, productlist, packagelist } from '../services/setting/freight';
+import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
 
 const { Option } = Select;
 
@@ -47,9 +47,29 @@ export default {
       });
     },
     *add({ payload, callback }, { call, put }) {
+      const priceOptions = {
+        countryId: Number(payload.destination.split('/')[0]),
+        packageTypeId: Number(payload.packageType.split('/')[0]),
+        productTypeId: Number(payload.productType.split('/')[0]),
+        weight: Number(payload.weight),
+      };
+      const priceData = yield call(freightprice, priceOptions);
+      const { finalPrice } = priceData.data;
       const response = yield call(add, {
         data: {
-          ...payload,
+          cnNo: payload.cnNo,
+          customerNo: payload.customerNo,
+          shelfNo: payload.shelfNo,
+          destination: payload.destination.split('/')[1],
+          packageTypeId: payload.packageType.split('/')[0],
+          productTypeId: payload.productType.split('/')[0],
+          expressCompanyCode: payload.expressCompanyCode,
+          height: payload.height,
+          length: payload.length,
+          weight: payload.weight,
+          wide: payload.wide,
+          expressCharge: finalPrice,
+          volumeWeight: payload.volumeWeight,
         },
         params: {
           type: 1,
@@ -74,7 +94,31 @@ export default {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      const response = yield call(update, payload);
+      console.log('payload', payload);
+      const priceOptions = {
+        countryId: Number(payload.destination.split('/')[0]),
+        packageTypeId: Number(payload.packageType.split('/')[0]),
+        productTypeId: Number(payload.productType.split('/')[0]),
+        weight: Number(payload.weight),
+      };
+      const priceData = yield call(freightprice, priceOptions);
+      const { finalPrice } = priceData.data;
+      const response = yield call(update, {
+        id: payload.id,
+        cnNo: payload.cnNo,
+        customerNo: payload.customerNo,
+        shelfNo: payload.shelfNo,
+        destination: payload.destination.split('/')[1],
+        packageTypeId: payload.packageType.split('/')[0],
+        productTypeId: payload.productType.split('/')[0],
+        expressCompanyCode: payload.expressCompanyCode,
+        height: payload.height,
+        length: payload.length,
+        weight: payload.weight,
+        wide: payload.wide,
+        expressCharge: finalPrice,
+        volumeWeight: payload.volumeWeight,
+      });
       if (response.code === 200) {
         message.success('更新成功');
         yield put({ type: 'fetch' });
@@ -88,8 +132,7 @@ export default {
       const source = data.data;
       if (data.code === 200 && source && source.length !== 0) {
         const options = source.map((items) => {
-          const en = items.country_en.toLowerCase();
-          const id = `${items.id}/${items.country_cn}/${items.country_en}/${en}`;
+          const id = `${items.id}/${items.country_code}`;
           return <Option key={id}>{items.country_cn}</Option>;
         });
         yield put({
@@ -107,8 +150,7 @@ export default {
       const source = data.data;
       if (data.code === 200 && source && source.length !== 0) {
         const options = source.map((items) => {
-          const en = items.name_en.toLowerCase();
-          const id = `${items.id}/${items.name_cn}/${items.name_en}/${items.max_range}/${items.min_range}/${en}`;
+          const id = `${items.id}/${items.name_cn}`;
           return <Option key={id}>{items.name_cn}</Option>;
         });
         yield put({
@@ -129,7 +171,8 @@ export default {
       const source = data.data;
       if (data.code === 200 && source && source.length !== 0) {
         const options = source.map((items) => {
-          return <Option key={items.id}>{items.product_name}</Option>;
+          const id = `${items.id}/${items.product_name}`;
+          return <Option key={id}>{items.product_name}</Option>;
         });
         yield put({
           type: 'setStates',

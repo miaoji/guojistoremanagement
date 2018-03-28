@@ -58,3 +58,12 @@ export async function productlist(params) {
     data: params,
   });
 }
+
+// 获取运费
+export async function freightprice(params) {
+  return request({
+    url: freight.freightprice,
+    method: 'post',
+    data: params,
+  });
+}

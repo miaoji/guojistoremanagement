@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Icon, Form, Input, Modal, InputNumber, Select } from 'antd';
+import { Row, Col, Button, Icon, Checkbox, Form, Input, Modal, InputNumber, Select } from 'antd';
 
 import styles from './index.less';
 
@@ -39,6 +39,13 @@ const ModalForm = ({
       };
       if (modalType === 'update') {
         modalFormVal.id = currentItem.id;
+      } else {
+        const { weightremain, weight } = fieldsValue;
+        if (weightremain) {
+          form.setFieldsValue({
+            weight,
+          });
+        }
       }
       handleModalConfirm(modalFormVal, modalType);
     });
@@ -47,6 +54,7 @@ const ModalForm = ({
 
   const handleCountryChange = (e) => {
     const countryId = Number(e.split('/')[0]);
+    console.log('countryId', countryId);
     getPackageInfo({ countryId });
     form.setFieldsValue({
       packageType: undefined,
@@ -73,7 +81,7 @@ const ModalForm = ({
 
   return (
     <Modal
-      title={`${title}入库`}
+      title={`${title}出库`}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -104,17 +112,6 @@ const ModalForm = ({
           rules: [{ required: true, message: '请输入单号' }],
         })(
           <Input placeholder="请输入单号" />
-        )}
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="内单号"
-      >
-        {form.getFieldDecorator('orderNo', {
-          initialValue: currentItem.order_no,
-          rules: [{ required: true, message: '请输入内单号' }],
-        })(
-          <Input placeholder="请输入内单号" />
         )}
       </FormItem>
       <FormItem
@@ -161,7 +158,7 @@ const ModalForm = ({
       </FormItem>
       <FormItem label="包裹类型" hasFeedback {...formItemLayout}>
         {form.getFieldDecorator('packageType', {
-          initialValue: currentItem.package_type,
+          initialValue: `${currentItem.package_type_id}/${currentItem.name_cn}`,
           rules: [
             {
               required: true,
@@ -181,7 +178,7 @@ const ModalForm = ({
       </FormItem>
       <FormItem label="产品类型" hasFeedback {...formItemLayout}>
         {form.getFieldDecorator('productType', {
-          initialValue: currentItem.product_type,
+          initialValue: `${currentItem.product_type_id}/${currentItem.product_name}`,
           rules: [
             {
               required: true,
@@ -224,6 +221,22 @@ const ModalForm = ({
           />
         )}
       </FormItem>
+      {
+        modalType === 'add' ?
+        (
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 15 }}
+            label="重量锁定"
+          >
+            {form.getFieldDecorator('weightremain', {
+              defaultChecked: false,
+            })(
+              <Checkbox>是否锁定重量</Checkbox>
+            )}
+          </FormItem>
+        ) : ''
+      }
       <FormItem
         {...formItemLayout}
         label="长/cm"

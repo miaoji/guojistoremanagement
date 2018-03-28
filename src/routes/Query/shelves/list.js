@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import SmallTable from 'components/SmallTable';
 import DropOption from 'components/DropOption';
 import { Link } from 'dva/router';
+import { qr } from '../../../utils/api';
+
+const queryQr = qr.query;
 
 const List = ({
   data,
@@ -46,6 +49,12 @@ const List = ({
       dataIndex: 'surplus',
       render: (text, record) => {
         return <span>{Number(record.in) - Number(record.out)}</span>;
+      },
+    },
+    {
+      title: '打印编码',
+      render: (text, record) => {
+        return (<div><a href={`${queryQr}?width=245&height=70&barcode=SF_${record.shelf_no}`} target="_blank">打印编码</a></div>);
       },
     },
     {

@@ -10,7 +10,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
           <FormItem label="单号">
-            {getFieldDecorator('no', {
+            {getFieldDecorator('orderNo', {
               initialValue: '',
             })(
               <Input placeholder="请输入单号" />
@@ -19,7 +19,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
         </Col>
         <Col md={8} sm={24}>
           <FormItem label="货架号">
-            {getFieldDecorator('customerMobile', {
+            {getFieldDecorator('shelfNo', {
               initialValue: '',
             })(
               <Input placeholder="请输入货架号" />

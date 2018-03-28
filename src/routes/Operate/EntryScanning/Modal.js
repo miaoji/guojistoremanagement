@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Form, Icon, Input, Modal, InputNumber } from 'antd';
+import { Row, Col, Button, Form, Icon, Input, Modal, InputNumber, Checkbox } from 'antd';
 
 import styles from './index.less';
 
@@ -25,7 +25,15 @@ const ModalForm = ({
       };
       if (modalType === 'update') {
         modalFormVal.id = currentItem.id;
+      } else {
+        const { weightremain, weight } = fieldsValue;
+        if (weightremain) {
+          form.setFieldsValue({
+            weight,
+          });
+        }
       }
+      console.log('modalFormVal', modalFormVal);
       handleModalConfirm(modalFormVal, modalType);
     });
   };
@@ -118,6 +126,22 @@ const ModalForm = ({
           <InputNumber min={0} placeholder="请输入重量" />
         )}
       </FormItem>
+      {
+        modalType === 'add' ?
+        (
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 15 }}
+            label="重量锁定"
+          >
+            {form.getFieldDecorator('weightremain', {
+              defaultChecked: false,
+            })(
+              <Checkbox>是否锁定重量</Checkbox>
+            )}
+          </FormItem>
+        ) : ''
+      }
     </Modal>
   );
 };

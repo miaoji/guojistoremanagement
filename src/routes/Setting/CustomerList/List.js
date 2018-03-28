@@ -68,7 +68,7 @@ const List = ({
           <a className={styles.operateLine} onClick={() => { handleTableUpdate(record); }}>修改</a>
           <Divider type="vertical" />
           <a
-            href={`${queryQr}?width=300&height=70&barcode=${record.customer_no}`}
+            href={`${queryQr}?width=245&height=70&barcode=${record.customer_no}`}
             target="_blank"
           >打印编码
           </a>

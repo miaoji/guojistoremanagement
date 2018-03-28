@@ -38,7 +38,7 @@ const List = ({
       width: 100,
       render: (text, record) => (
         <a
-          href={`${queryQr}?width=300&height=70&barcode=GJ_${record.id}/${record.country_code}`}
+          href={`${queryQr}?width=245&height=70&barcode=GJ_${record.id}/${record.country_code}`}
           target="_blank"
         >
           打印编码
