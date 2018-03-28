@@ -85,7 +85,7 @@ export default function request(options) {
   if (newOption.mztoken) {
     newOption.token = window.localStorage.getItem('mztoken');
   }
-  newOption.token = getToken();
+  // newOption.token = getToken();
   return fetch(newOption).then((response) => {
     const { status, data } = response;
     if (status !== 200) {
