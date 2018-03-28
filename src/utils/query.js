@@ -49,7 +49,7 @@ const fetch = (options) => {
         method: 'get',
         params: cloneData || params,
         timeout,
-        headers: auth ? { token: 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVUaW1lIjoiMTUyMjA1NTQ0MzUxMSIsIm5vbmNlU3RyIjoiZWYxNTM1Zjk2Y2RhOTIzODI3ZmQwNDE0OWMwMmEyYjUiLCJ0aW1lc3RhbXAiOiIxNTIyMDU1NDQyMzQzIn0.i2YEDVIFa2J3nooP9zTXI0-5y2FLZOky3cArNWSInEM' } : {},
+        headers: auth ? { token } : {},
       });
     case 'delete':
       return axios({
