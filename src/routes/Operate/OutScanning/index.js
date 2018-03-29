@@ -35,6 +35,10 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'outscanning/getCountryInfo',
     });
+    // 初始化 orderNo
+    dispatch({
+      type: 'outscanning/initOrderNo',
+    });
   }
 
   getPackageInfo = (val) => {
@@ -214,7 +218,7 @@ export default class TableList extends PureComponent {
         _.setState({
           scanVal: '',
         });
-      }, 400);
+      }, 200);
     }
   }
 
@@ -233,6 +237,7 @@ export default class TableList extends PureComponent {
         productInfo,
         packageDis,
         productDis,
+        orderNo,
       },
       loading,
       form,
@@ -241,6 +246,7 @@ export default class TableList extends PureComponent {
     const { scanVal, selectedRows, modalVisible, modalType, currentItem } = this.state;
 
     const addProps = {
+      orderNo,
       scanVal,
       modalType,
       currentItem,
@@ -254,6 +260,11 @@ export default class TableList extends PureComponent {
         dispatch({
           type: 'outscanning/getProductInfo',
           payload: { packageTypeId },
+        });
+      },
+      refreshOrderNo() {
+        dispatch({
+          type: 'outscanning/getOrderNo',
         });
       },
       getPackageInfo: this.getPackageInfo,

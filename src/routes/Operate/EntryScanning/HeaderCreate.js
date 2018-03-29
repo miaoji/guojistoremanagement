@@ -9,7 +9,6 @@ const ModalForm = ({
   modalType,
   form,
   handleModalConfirm,
-  currentItem,
   scanVal,
   handleScanning,
   // handleScanClear,
@@ -34,18 +33,13 @@ const ModalForm = ({
       const modalFormVal = {
         ...fieldsValue,
       };
-      if (modalType === 'update') {
-        modalFormVal.id = currentItem.id;
-      } else {
-        const { weightremain, weight } = fieldsValue;
-        if (weightremain) {
-          form.setFieldsValue({
-            weight,
-          });
-        }
+      const { weightremain, weight } = fieldsValue;
+      if (weightremain) {
+        form.setFieldsValue({
+          weight,
+        });
       }
-      console.log('modalFormVal', modalFormVal);
-      handleModalConfirm(modalFormVal, modalType);
+      handleModalConfirm(modalFormVal, 'add');
     });
   };
 
@@ -77,7 +71,6 @@ const ModalForm = ({
           label="单号"
         >
           {form.getFieldDecorator('cnNo', {
-            initialValue: currentItem.cn_no || '',
             rules: [{ required: true, message: '请输入单号' }],
           })(
             <Input placeholder="请输入单号" />
@@ -90,7 +83,6 @@ const ModalForm = ({
           label="客户编码"
         >
           {form.getFieldDecorator('customerNo', {
-            initialValue: currentItem.customer_no,
             rules: [{
               required: true,
               message: '客户编码',
@@ -106,7 +98,6 @@ const ModalForm = ({
           label="快递代码"
         >
           {form.getFieldDecorator('expressCompanyCode', {
-            initialValue: currentItem.express_company_code,
             rules: [{ required: true, message: '请输入快递代码' }],
           })(
             <Input placeholder="请输入快递代码" />
@@ -119,7 +110,6 @@ const ModalForm = ({
           label="货架号"
         >
           {form.getFieldDecorator('shelfNo', {
-            initialValue: currentItem.shelf_no,
             rules: [{ required: true, message: '请输入货架号' }],
           })(
             <Input placeholder="请输入货架号" />
@@ -132,7 +122,6 @@ const ModalForm = ({
           label="重量/kg"
         >
           {form.getFieldDecorator('weight', {
-            initialValue: currentItem.weight,
             rules: [{ required: true, message: '请输入重量' }],
           })(
             <InputNumber style={{ width: '100%' }} min={0} placeholder="请输入重量" />

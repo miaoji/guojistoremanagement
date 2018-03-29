@@ -5,9 +5,9 @@ let APIV3 = '';
 
 // 重构API
 // 线下地址
-// APIV3 = 'http://192.168.231.222:8000';
+APIV3 = 'http://192.168.231.239:8000';
 // 正式地址(生产)
-APIV3 = 'http://api.mingz-tech.com:8077';
+// APIV3 = 'http://api.mingz-tech.com:8077';
 
 // 生产环境时api固定为线上url
 if (process.env.NODE_ENV !== 'development') {
@@ -26,6 +26,11 @@ export const login = {
 export const user = {
   // param=token, method=post
   getUserInfoByToken: `${APIV3}/api/common/getUserInfoByToken`,
+};
+
+export const common = {
+  // param=, method=get
+  getOrderNo: `${APIV3}/api/common/order_no`,
 };
 
 export const cargo = {

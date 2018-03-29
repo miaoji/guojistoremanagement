@@ -116,6 +116,17 @@ const ModalForm = ({
       </FormItem>
       <FormItem
         {...formItemLayout}
+        label="内单号"
+      >
+        {form.getFieldDecorator('orderNo', {
+          initialValue: currentItem.order_no,
+          rules: [{ required: true, message: '请输入内单号' }],
+        })(
+          <Input placeholder="请输入内单号" />
+        )}
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
         label="客户编码"
       >
         {form.getFieldDecorator('customerNo', {

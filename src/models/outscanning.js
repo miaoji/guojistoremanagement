@@ -1,6 +1,7 @@
 import React from 'react';
 import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { getOrderNo } from '../services/api';
 import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
 
 const { Option } = Select;
@@ -13,6 +14,7 @@ export default {
       list: [],
       pagination: {},
     },
+    orderNo: '',
     countryInfo: [],
     productInfo: [],
     packageInfo: [],
@@ -46,18 +48,21 @@ export default {
         },
       });
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call, put, select }) {
       const priceOptions = {
         countryId: Number(payload.destination.split('/')[0]),
         packageTypeId: Number(payload.packageType.split('/')[0]),
         productTypeId: Number(payload.productType.split('/')[0]),
         weight: Number(payload.weight),
       };
+      const { orderNo } = yield select(_ => _.outscanning);
+      console.log('order', orderNo);
       const priceData = yield call(freightprice, priceOptions);
       const { finalPrice } = priceData.data;
       const response = yield call(add, {
         data: {
           cnNo: payload.cnNo,
+          orderNo,
           customerNo: payload.customerNo,
           shelfNo: payload.shelfNo,
           destination: payload.destination.split('/')[1],
@@ -106,6 +111,7 @@ export default {
       const response = yield call(update, {
         id: payload.id,
         cnNo: payload.cnNo,
+        orderNo: payload.orderNo,
         customerNo: payload.customerNo,
         shelfNo: payload.shelfNo,
         destination: payload.destination.split('/')[1],
@@ -124,6 +130,38 @@ export default {
         yield put({ type: 'fetch' });
       } else {
         message.error('更新失败' || response.msg);
+      }
+      if (callback) callback();
+    },
+    *initOrderNo(_, { put }) {
+      const orderNo = window.localStorage.getItem('orderno');
+      if (orderNo) {
+        console.log('orderNo', orderNo);
+        yield put({
+          type: 'setStates',
+          payload: {
+            orderNo,
+          },
+        });
+      } else {
+        yield put({
+          type: 'getOrderNo',
+        });
+      }
+    },
+    *getOrderNo({ callback }, { call, put }) {
+      const data = yield call(getOrderNo);
+      const source = data.data;
+      if (data.code === 200 && source) {
+        yield put({
+          type: 'setStates',
+          payload: {
+            orderNo: source,
+          },
+        });
+        window.localStorage.setItem('orderno', source);
+      } else {
+        message.warning('内单号获取失败');
       }
       if (callback) callback();
     },
