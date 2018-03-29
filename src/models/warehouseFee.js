@@ -24,6 +24,8 @@ export default {
       });
     },
     *add({ payload, callback }, { call, put }) {
+      const { expireTime } = payload;
+      payload.expireTime = expireTime * 86400;
       const response = yield call(add, payload);
       yield put({
         type: 'save',
@@ -40,6 +42,8 @@ export default {
         id,
         ...payload,
       };
+      const { expireTime } = newOptions;
+      newOptions.expireTime = expireTime * 86400;
       const response = yield call(update, newOptions);
       if (response.code === 200) {
         notification.success({

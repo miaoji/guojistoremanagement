@@ -14,7 +14,7 @@ export async function add(params) {
   return request({
     url: warehouseFee.add,
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -22,6 +22,6 @@ export async function update(params) {
   return request({
     url: warehouseFee.update,
     method: 'POST',
-    body: params,
+    data: params,
   });
 }

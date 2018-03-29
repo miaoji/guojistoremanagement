@@ -4,7 +4,8 @@ import { Card, Modal, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from './index.less';
 import Filter from './Filter';
-import ModalForm from './Modal';
+import AddForm from './Form';
+import UpdateForm from './Modal';
 import List from './List';
 import { handleScanval } from '../../../utils';
 
@@ -239,7 +240,45 @@ export default class TableList extends PureComponent {
     } = this.props;
     const { scanVal, selectedRows, modalVisible, modalType, currentItem } = this.state;
 
-    const modalProps = {
+    const addProps = {
+      scanVal,
+      modalType,
+      currentItem,
+      modalVisible,
+      countryInfo,
+      packageInfo,
+      productInfo,
+      packageDis,
+      productDis,
+      getProductInfo({ packageTypeId }) {
+        dispatch({
+          type: 'outscanning/getProductInfo',
+          payload: { packageTypeId },
+        });
+      },
+      getPackageInfo: this.getPackageInfo,
+      handleScanning: this.handleScanning,
+      handleModalConfirm: this.handleModalConfirm,
+    };
+
+    const filterProps = {
+      form,
+      handleSearch: this.handleSearch,
+      handleSearchReset: this.handleSearchReset,
+    };
+
+    const listProps = {
+      data,
+      loading,
+      selectedRows,
+      handleBatchDel: this.handleBatchDel,
+      handleSelectRows: this.handleSelectRows,
+      handleTableUpdate: this.handleTableUpdate,
+      handleTableDel: this.handleTableDel,
+      handleStandardTableChange: this.handleStandardTableChange,
+    };
+
+    const updateProps = {
       scanVal,
       modalType,
       currentItem,
@@ -262,27 +301,14 @@ export default class TableList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
-    const filterProps = {
-      form,
-      handleSearch: this.handleSearch,
-      handleSearchReset: this.handleSearchReset,
-    };
-
-    const listProps = {
-      data,
-      loading,
-      selectedRows,
-      handleBatchDel: this.handleBatchDel,
-      handleSelectRows: this.handleSelectRows,
-      handleAddBtn: this.handleAddBtn,
-      handleTableUpdate: this.handleTableUpdate,
-      handleTableDel: this.handleTableDel,
-      handleStandardTableChange: this.handleStandardTableChange,
-    };
-
     return (
       <PageHeaderLayout title="">
-        <Card bordered={false}>
+        <Card title="扫描区" bordered>
+          <AddForm
+            {...addProps}
+          />
+        </Card>
+        <Card title="查询区" bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               <Filter
@@ -294,8 +320,8 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <ModalForm
-          {...modalProps}
+        <UpdateForm
+          {...updateProps}
         />
       </PageHeaderLayout>
     );

@@ -9,7 +9,7 @@ const { confirm } = Modal;
 const List = ({
   loading, data, selectedRows,
   handleBatchDel, handleStandardTableChange,
-  handleSelectRows, handleTableUpdate, handleTableDel, handleAddBtn }) => {
+  handleSelectRows, handleTableUpdate, handleTableDel }) => {
   const expandedRowRender = (record) => {
     return (
       <div>
@@ -81,9 +81,6 @@ const List = ({
   return (
     <div>
       <div className={styles.tableListOperator}>
-        <Button icon="plus" type="primary" onClick={() => handleAddBtn()}>
-          新建
-        </Button>
         {
           selectedRows.length > 0 && (
             <span>

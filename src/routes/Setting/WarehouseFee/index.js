@@ -64,9 +64,9 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleFormSubmit} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="免仓管费时间">
+            <FormItem label="免仓管费时间/天">
               {getFieldDecorator('expireTime', {
-                initialValue: expire_time,
+                initialValue: expire_time / 86400,
               })(
                 <Input
                   disabled={justRead}
