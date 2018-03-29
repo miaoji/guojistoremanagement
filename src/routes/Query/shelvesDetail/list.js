@@ -13,31 +13,35 @@ const List = ({
   const columns = [
     {
       title: '货架号',
-      dataIndex: 'customerNo',
+      dataIndex: 'shelfNo',
     },
     {
       title: '单号',
+      dataIndex: 'orderNo',
+    },
+    {
+      title: '国内单号',
       dataIndex: 'cnNo',
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: 'state',
       render: (text) => {
-        return <span>{text || '未知'}</span>;
+        return <span>{text === 0 ? '入库' : '出库'}</span>;
       },
     },
     {
       title: '入库时间',
       dataIndex: 'startTime',
       render: (text) => {
-        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '/'}</span>;
       },
     },
     {
       title: '出库时间',
       dataIndex: 'endTime',
       render: (text) => {
-        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '/'}</span>;
       },
     },
   ];
