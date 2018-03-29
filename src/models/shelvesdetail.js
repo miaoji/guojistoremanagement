@@ -30,18 +30,17 @@ export default modelExtend(pageModel, {
         currentPage: Number(payload.currentPage) || 1,
         pageSize: Number(payload.pageSize) || 10,
       });
+      console.log('data', data);
       if (data.code === 200) {
         const list = data.data.map((item) => {
-          const date = {};
-          item.operateRecords.map((value) => {
-            if (value.type === 0) {
-              date.startTime = value.scanTime;
-            } else if (value.type === 1) {
-              date.endTime = value.scanTime;
-            }
-            return value;
-          });
-          return { key: item.id, ...date, ...item };
+          const items = {};
+          if (item.operateRecord.type === 0) {
+            items.startTime = item.operateRecord.scanTime;
+          } else if (item.operateRecord.type === 1) {
+            items.endTime = item.operateRecord.scanTime;
+          }
+          items.state = item.operateRecord.type;
+          return { key: item.id, ...items, ...item };
         });
         yield put({
           type: 'setStates',
