@@ -5,6 +5,7 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import Filter from './Filter';
 import ModalForm from './Modal';
 import List from './List';
+import HeaderCreate from './HeaderCreate';
 import { handleScanval } from '../../../utils';
 
 import styles from './index.less';
@@ -215,6 +216,7 @@ export default class TableList extends PureComponent {
       form,
       handleSearch: this.handleSearch,
       handleSearchReset: this.handleSearchReset,
+      handleAddBtn: this.handleAddBtn,
     };
 
     const listProps = {
@@ -223,7 +225,6 @@ export default class TableList extends PureComponent {
       selectedRows,
       handleBatchDel: this.handleBatchDel,
       handleSelectRows: this.handleSelectRows,
-      handleAddBtn: this.handleAddBtn,
       handleTableUpdate: this.handleTableUpdate,
       handleTableDel: this.handleTableDel,
       handleStandardTableChange: this.handleStandardTableChange,
@@ -231,6 +232,9 @@ export default class TableList extends PureComponent {
 
     return (
       <PageHeaderLayout title="">
+        <Card style={{ marginBottom: '10px' }} title="创建入库信息" bordered={false}>
+          <HeaderCreate {...modalProps} />
+        </Card>
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>

@@ -3,7 +3,7 @@ import { Form, Input, Button, Row, Col } from 'antd';
 
 const FormItem = Form.Item;
 
-const Filter = ({ form, handleSearch, handleSearchReset }) => {
+const Filter = ({ form, handleSearch, handleSearchReset, handleAddBtn }) => {
   const { getFieldDecorator } = form;
   return (
     <Form onSubmit={handleSearch} layout="inline">
@@ -31,6 +31,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
             <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={handleSearchReset}>重置</Button>
+              <Button type="dashed" ghost style={{ marginLeft: 8, display: '' }} onClick={handleAddBtn}>新建</Button>
             </span>
           </div>
         </Col>

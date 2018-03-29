@@ -14,8 +14,16 @@ const ModalForm = ({
   currentItem,
   scanVal,
   handleScanning,
-  handleScanClear,
 }) => {
+  const handleCancel = () => {
+    form.setFieldsValue({
+      cnNo: undefined,
+      customerNo: undefined,
+      expressCompanyCode: undefined,
+      shelfNo: undefined,
+      weight: undefined,
+    });
+  };
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -57,7 +65,7 @@ const ModalForm = ({
             />
           </Col>
           <Col md={6} sm={24}>
-            <Button type="primary" onClick={handleScanClear}>
+            <Button type="primary" onClick={handleCancel}>
               <Icon type="close-circle-o" />清空
             </Button>
           </Col>
