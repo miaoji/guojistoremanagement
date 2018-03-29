@@ -6,16 +6,21 @@ import styles from './index.less';
 const FormItem = Form.Item;
 
 const ModalForm = ({
-  modalType,
   form,
   handleModalConfirm,
   scanVal,
   handleScanning,
-  // handleScanClear,
 }) => {
   const formItemLayout = {
     labelCol: { span: 5 },
-    wrapperCol: { span: 19 },
+    wrapperCol: { span: 16 },
+  };
+  console.log('as');
+  document.onkeydown = (e) => {
+    if (e.code === 'F2') {
+      const inp = document.querySelector('.autofocus');
+      inp.focus();
+    }
   };
   const handleCancel = () => {
     form.setFieldsValue({
@@ -50,6 +55,7 @@ const ModalForm = ({
           <Col md={8} sm={24}>
             <Input
               size="large"
+              className="autofocus"
               value={scanVal}
               autoFocus
               onChange={e => handleScanning(e, form)}
@@ -117,7 +123,7 @@ const ModalForm = ({
           )}
         </FormItem>
       </Col>
-      <Col md={8} sm={24}>
+      <Col md={8} sm={24} style={{ paddingTop: '2px' }}>
         <FormItem
           {...formItemLayout}
           label="重量/kg"
@@ -129,23 +135,18 @@ const ModalForm = ({
           )}
         </FormItem>
       </Col>
-      {
-        modalType === 'add' ?
-          (
-            <Col md={8} sm={24}>
-              <FormItem
-                {...formItemLayout}
-                label="重量锁定"
-              >
-                {form.getFieldDecorator('weightremain', {
-                  defaultChecked: false,
-                })(
-                  <Checkbox>是否锁定重量</Checkbox>
-                )}
-              </FormItem>
-            </Col>
-          ) : ''
-      }
+      <Col md={8} sm={24}>
+        <FormItem
+          {...formItemLayout}
+          label="重量锁定"
+        >
+          {form.getFieldDecorator('weightremain', {
+            defaultChecked: false,
+          })(
+            <Checkbox>是否锁定重量</Checkbox>
+          )}
+        </FormItem>
+      </Col>
     </Row>
   );
 };

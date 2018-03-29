@@ -84,7 +84,12 @@ const ModalForm = ({
   const handleOrderNo = () => {
     refreshOrderNo();
   };
-
+  document.onkeydown = (e) => {
+    if (e.code === 'F2') {
+      const inp = document.querySelector('.autofocus');
+      inp.focus();
+    }
+  };
   return (
     <div>
       <div className={styles.scannBox}>
@@ -92,8 +97,9 @@ const ModalForm = ({
           <Col md={12} sm={24}>
             <Input
               size="large"
-              value={scanVal}
+              className="autofocus"
               autoFocus
+              value={scanVal}
               onChange={e => handleScanning(e, form)}
               placeholder="扫描区"
             />
@@ -168,10 +174,10 @@ const ModalForm = ({
             label="快递公司"
           >
             {form.getFieldDecorator('expressCompanyCode', {
-             rules: [{ required: true, message: '请输入快递公司' }],
-           })(
-             <Input placeholder="请输入快递公司" />
-           )}
+              rules: [{ required: true, message: '请输入快递公司' }],
+            })(
+              <Input placeholder="请输入快递公司" />
+            )}
           </FormItem>
         </Col>
       </Row>
@@ -198,6 +204,7 @@ const ModalForm = ({
             })(
               <InputNumber
                 min={0}
+                style={{ width: '100%' }}
                 onChange={handleFreightPrice}
                 placeholder="请输入重量"
               />
@@ -261,21 +268,21 @@ const ModalForm = ({
         <Col md={8} sm={24}>
           <FormItem label="产品类型" hasFeedback {...formItemLayout}>
             {form.getFieldDecorator('productType', {
-             rules: [
-               {
-                 required: true,
-                 message: '请选择产品类型!',
-               },
-             ],
-           })(
-             <Select
-               placeholder="请选择产品类型"
-               disabled={productDis}
-               style={{ width: '100%' }}
-             >
-               {productInfo}
-             </Select>
-           )}
+              rules: [
+                {
+                  required: true,
+                  message: '请选择产品类型!',
+                },
+              ],
+            })(
+              <Select
+                placeholder="请选择产品类型"
+                disabled={productDis}
+                style={{ width: '100%' }}
+              >
+                {productInfo}
+              </Select>
+            )}
           </FormItem>
         </Col>
       </Row>
@@ -287,7 +294,7 @@ const ModalForm = ({
             label="长/cm"
           >
             {form.getFieldDecorator('length')(
-              <InputNumber min={0} placeholder="请输入长度" />
+              <InputNumber style={{ width: '100%' }} min={0} placeholder="请输入长度" />
             )}
           </FormItem>
         </Col>
@@ -297,7 +304,7 @@ const ModalForm = ({
             label="宽/cm"
           >
             {form.getFieldDecorator('wide')(
-              <InputNumber min={0} placeholder="请输入宽度" />
+              <InputNumber style={{ width: '100%' }} min={0} placeholder="请输入宽度" />
             )}
           </FormItem>
         </Col>
@@ -307,7 +314,7 @@ const ModalForm = ({
             label="高度/cm"
           >
             {form.getFieldDecorator('height')(
-              <InputNumber min={0} placeholder="请输入高度" />
+              <InputNumber style={{ width: '100%' }} min={0} placeholder="请输入高度" />
             )}
           </FormItem>
         </Col>

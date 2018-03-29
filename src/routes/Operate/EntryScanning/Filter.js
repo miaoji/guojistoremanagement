@@ -8,7 +8,7 @@ const Filter = ({ form, handleSearch, handleSearchReset, handleAddBtn }) => {
   return (
     <Form onSubmit={handleSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-        <Col md={8} sm={24}>
+        <Col md={6} sm={24}>
           <FormItem label="单号">
             {getFieldDecorator('orderNo', {
               initialValue: '',
@@ -17,7 +17,7 @@ const Filter = ({ form, handleSearch, handleSearchReset, handleAddBtn }) => {
             )}
           </FormItem>
         </Col>
-        <Col md={8} sm={24}>
+        <Col md={6} sm={24}>
           <FormItem label="货架号">
             {getFieldDecorator('shelfNo', {
               initialValue: '',
@@ -26,7 +26,16 @@ const Filter = ({ form, handleSearch, handleSearchReset, handleAddBtn }) => {
             )}
           </FormItem>
         </Col>
-        <Col md={8} sm={24}>
+        <Col md={6} sm={24}>
+          <FormItem label="客户编号">
+            {getFieldDecorator('customerNo', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入货架号" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={6} sm={24}>
           <div style={{ overflow: 'hidden' }}>
             <span style={{ float: 'right', marginBottom: 24 }}>
               <Button type="primary" htmlType="submit">查询</Button>
