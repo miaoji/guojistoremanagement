@@ -51,6 +51,7 @@ const ModalForm = ({
             <Input
               size="large"
               value={scanVal}
+              autoFocus
               onChange={e => handleScanning(e, form)}
               placeholder="扫描区"
             />

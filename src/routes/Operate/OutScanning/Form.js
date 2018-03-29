@@ -36,10 +36,15 @@ const ModalForm = ({
       form.setFieldsValue({
         cnNo: '',
       });
-      const { weightremain } = fieldsValue;
+      const { weightremain, customerremain } = fieldsValue;
       if (!weightremain) {
         form.setFieldsValue({
           weight: '',
+        });
+      }
+      if (!customerremain) {
+        form.setFieldsValue({
+          customerNo: '',
         });
       }
       handleModalConfirm(modalFormVal, 'add');
@@ -88,6 +93,7 @@ const ModalForm = ({
             <Input
               size="large"
               value={scanVal}
+              autoFocus
               onChange={e => handleScanning(e, form)}
               placeholder="扫描区"
             />
@@ -114,8 +120,6 @@ const ModalForm = ({
         <Col md={8} sm={24}>
           <Button type="primary" onClick={handleOrderNo}>刷新内单号</Button>
         </Col>
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
         <Col md={8} sm={24}>
           <FormItem
             {...formItemLayout}
@@ -128,6 +132,8 @@ const ModalForm = ({
             )}
           </FormItem>
         </Col>
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
         <Col md={8} sm={24}>
           <FormItem
             {...formItemLayout}
@@ -140,6 +146,19 @@ const ModalForm = ({
               }],
             })(
               <Input placeholder="请输入客户编码" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="客户锁定"
+          >
+            {form.getFieldDecorator('customerremain', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
             )}
           </FormItem>
         </Col>
@@ -191,7 +210,8 @@ const ModalForm = ({
             label="重量锁定"
           >
             {form.getFieldDecorator('weightremain', {
-              defaultChecked: false,
+              valuePropName: 'checked',
+              initialValue: true,
             })(
               <Checkbox />
             )}
