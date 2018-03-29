@@ -61,11 +61,11 @@ const menuData = [{
     name: '快件查询',
     path: 'expre',
   }, {
-    name: '出库查询',
-    path: 'getout',
-  }, {
     name: '入库查询',
     path: 'getinto',
+  }, {
+    name: '出库查询',
+    path: 'getout',
   }],
 }];
 

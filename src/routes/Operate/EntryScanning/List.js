@@ -7,9 +7,15 @@ import { formatDate } from '../../../utils/';
 const { confirm } = Modal;
 
 const List = ({
-  loading, data, selectedRows,
-  handleBatchDel, handleStandardTableChange,
-  handleSelectRows, handleTableUpdate, handleTableDel, handleAddBtn }) => {
+  loading,
+  data,
+  selectedRows,
+  handleBatchDel,
+  handleStandardTableChange,
+  handleSelectRows,
+  handleTableUpdate,
+  handleTableDel,
+}) => {
   const handleListDel = (record) => {
     confirm({
       title: '确定要删除这一条入库记录吗?',
@@ -62,9 +68,6 @@ const List = ({
   return (
     <div>
       <div className={styles.tableListOperator}>
-        <Button icon="plus" type="primary" onClick={() => handleAddBtn()}>
-          新建
-        </Button>
         {
           selectedRows.length > 0 && (
             <span>

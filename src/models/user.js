@@ -23,7 +23,7 @@ export default {
     *fetchCurrent(_, { call, put }) {
       const token = getToken();
       const response = yield call(queryCurrent, token);
-      if (response.code !== 200) {
+      if (response.code !== 200 && process.env.NODE_ENV !== 'development') {
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',

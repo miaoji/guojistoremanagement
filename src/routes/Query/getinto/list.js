@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
 import SmallTable from 'components/SmallTable';
+import moment from 'moment';
 import styles from './index.less';
 
 const List = ({
@@ -27,10 +28,9 @@ const List = ({
       title: '客户名称',
       dataIndex: 'customer_name',
       key: 'customer_name',
-      // sorter: true,
-      // align: 'right',
-      // render: val => `${val} 万`,
-      // needTotal: true,
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '货架号',
@@ -41,11 +41,23 @@ const List = ({
       title: '仓管费',
       dataIndex: 'cargo_charge',
       key: 'cargo_charge',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '快递公司',
       dataIndex: 'express_company_code',
       key: 'express_company_code',
+    },
+    {
+      title: '入库时间',
+      dataIndex: 'scan_time',
+      key: 'scan_time',
+      width: 180,
+      render: (text) => {
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
+      },
     },
   ];
 

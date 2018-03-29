@@ -80,6 +80,9 @@ const List = ({
       title: '邮编段',
       dataIndex: 'postcode',
       key: 'postcode',
+      render: (text) => {
+        return <span>{text || '无'}</span>;
+      },
     },
     {
       title: '创建时间',
@@ -94,11 +97,17 @@ const List = ({
       title: '操作人',
       dataIndex: 'create_user_id',
       key: 'create_user_id',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
+      render: (text) => {
+        return <span>{text || '无'}</span>;
+      },
     },
     {
       title: '操作',

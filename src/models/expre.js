@@ -21,7 +21,7 @@ export default modelExtend(pageModel, {
     modalVisible: false,
     expreModalVisible: false,
     selectedRows: [],
-    expreInfo: [<Timeline.Item key={0}>暂无没有相关物流信息</Timeline.Item>],
+    expreInfo: [<Timeline.Item key={0}>暂无相关物流信息</Timeline.Item>],
   },
 
   effects: {
