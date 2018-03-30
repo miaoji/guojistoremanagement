@@ -84,7 +84,7 @@ export default {
         message.success('添加成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('添加失败' || response.msg);
+        message.error(response.msg || '添加失败');
       }
       if (callback) callback();
     },

@@ -14,6 +14,7 @@ const List = ({
     return (
       <div>
         <p>仓管费: {record.cargo_charge}</p>
+        <p>重量: {record.weight}</p>
         <p>体积重/cm^3: {record.volume_weight}</p>
         <p>长/cm: {record.length}</p>
         <p>宽/cm: {record.wide}</p>
@@ -56,16 +57,16 @@ const List = ({
       dataIndex: 'customer_name',
     },
     {
+      title: '客户编码',
+      dataIndex: 'customer_no',
+    },
+    {
       title: '货架号',
       dataIndex: 'shelf_no',
     },
     {
       title: '快递公司',
-      dataIndex: 'express_company',
-    },
-    {
-      title: '重量',
-      dataIndex: 'weight',
+      dataIndex: 'company_name',
     },
     {
       title: '操作',

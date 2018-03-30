@@ -43,12 +43,16 @@ const List = ({
       dataIndex: 'customer_no',
     },
     {
+      title: '客户名称',
+      dataIndex: 'customer_name',
+    },
+    {
       title: '货架号',
       dataIndex: 'shelf_no',
     },
     {
-      title: '快递代码',
-      dataIndex: 'express_company_code',
+      title: '快递公司',
+      dataIndex: 'company_name',
     },
     {
       title: '重量/kg',
