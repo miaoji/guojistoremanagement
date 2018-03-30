@@ -42,7 +42,7 @@ const List = ({
       dataIndex: 'cargo_charge',
       key: 'cargo_charge',
       render: (text) => {
-        return <span>{text || '暂无'}</span>;
+        return <span>{text}</span>;
       },
     },
     {

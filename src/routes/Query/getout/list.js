@@ -46,14 +46,14 @@ const List = ({
       dataIndex: 'customer_no',
       key: 'customer_no',
     },
-    {
-      title: '仓管费',
-      dataIndex: 'cargo_charge',
-      key: 'cargo_charge',
-      render: (text) => {
-        return <span>{text || '暂无'}</span>;
-      },
-    },
+    // {
+    //   title: '仓管费',
+    //   dataIndex: 'cargo_charge',
+    //   key: 'cargo_charge',
+    //   render: (text) => {
+    //     return <span>{text || '暂无'}</span>;
+    //   },
+    // },
     {
       title: '快递费',
       dataIndex: 'express_charge',
