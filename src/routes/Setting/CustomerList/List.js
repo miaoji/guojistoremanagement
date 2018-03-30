@@ -70,11 +70,11 @@ const List = ({
       dataIndex: 'customer_postcode',
     },
     {
-      title: '充值金额',
+      title: '累计充值金额',
       dataIndex: 'total_amount',
     },
     {
-      title: '剩余金额',
+      title: '剩余可用金额',
       dataIndex: 'balance',
     },
     {
@@ -100,7 +100,7 @@ const List = ({
       key: 'operation',
       width: 100,
       render: (text, record) => {
-        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '修改' }, { key: '2', name: '删除' }, { key: '3', name: '充值' }]} />;
+        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '修改' }, { key: '2', name: '删除' }, { key: '3', name: '操作金额' }]} />;
       },
     },
   ];

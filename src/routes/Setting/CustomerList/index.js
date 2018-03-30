@@ -5,6 +5,7 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from './index.less';
 import Filter from './Filter';
 import ModalForm from './Modal';
+import RechargeModal from './RechargeModal';
 import List from './List';
 
 const { confirm } = Modal;
@@ -175,8 +176,37 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { customer: { data }, loading, form } = this.props;
+    const {
+      customer: { data, rechargeModalVisible, dbCurrentItem },
+      loading,
+      form,
+      dispatch,
+    } = this.props;
     const { selectedRows, modalVisible, modalType, currentItem } = this.state;
+    console.log('rechargeModalVisible', rechargeModalVisible);
+
+    const rechargeModalProps = {
+      currentItem: dbCurrentItem,
+      title: '充值金额修改',
+      onOk(item) {
+        console.log('item', item);
+        dispatch({
+          type: 'customer/recharge',
+          payload: {
+            ...item,
+          },
+        });
+      },
+      hideModal() {
+        dispatch({
+          type: 'customer/setStates',
+          payload: {
+            rechargeModalVisible: false,
+          },
+        });
+      },
+      modalVisible: rechargeModalVisible,
+    };
 
     const modalProps = {
       modalType,
@@ -193,6 +223,16 @@ export default class TableList extends PureComponent {
     };
 
     const listProps = {
+      handleRecharge(item) {
+        console.log('item', item);
+        dispatch({
+          type: 'customer/setStates',
+          payload: {
+            rechargeModalVisible: true,
+            dbCurrentItem: item,
+          },
+        });
+      },
       data,
       loading,
       selectedRows,
@@ -221,6 +261,7 @@ export default class TableList extends PureComponent {
         <ModalForm
           {...modalProps}
         />
+        {rechargeModalVisible && <RechargeModal {...rechargeModalProps} />}
       </PageHeaderLayout>
     );
   }

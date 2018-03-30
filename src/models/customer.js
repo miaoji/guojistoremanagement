@@ -1,10 +1,12 @@
 import { message } from 'antd';
-import { update, add, query, remove } from '../services/setting/customer';
+import { update, add, query, remove, recharge } from '../services/setting/customer';
 
 export default {
   namespace: 'customer',
 
   state: {
+    rechargeModalVisible: false,
+    dbCurrentItem: [],
     data: {
       list: [],
       pagination: {},
@@ -64,9 +66,35 @@ export default {
       }
       if (callback) callback();
     },
+    *recharge({ payload }, { call, put, select }) {
+      const id = yield select(({ customer }) => customer.dbCurrentItem.id);
+      const res = yield call(recharge, {
+        id,
+        money: payload.money,
+        type: payload.type,
+      });
+      if (res.code === 200) {
+        yield put({
+          type: 'setStates',
+          payload: {
+            rechargeModalVisible: false,
+          },
+        });
+        message.success('操作成功');
+        yield put({
+          type: 'fetch',
+        });
+      } else {
+        message.warning(res.msg || '网络连接失败');
+      }
+    },
   },
 
   reducers: {
+    setStates(state, { payload }) {
+      console.log('payload', payload);
+      return { ...state, ...payload };
+    },
     save(state, action) {
       return {
         ...state,
