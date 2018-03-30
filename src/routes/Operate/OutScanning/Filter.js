@@ -13,7 +13,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
             {getFieldDecorator('orderNo', {
               initialValue: '',
             })(
-              <Input placeholder="请输入单号" />
+              <Input placeholder="请输入单号" onPressEnter={handleSearch} />
             )}
           </FormItem>
         </Col>
@@ -22,7 +22,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
             {getFieldDecorator('shelfNo', {
               initialValue: '',
             })(
-              <Input placeholder="请输入货架号" />
+              <Input placeholder="请输入货架号" onPressEnter={handleSearch} />
             )}
           </FormItem>
         </Col>
@@ -31,7 +31,7 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
             {getFieldDecorator('customerNo', {
               initialValue: '',
             })(
-              <Input placeholder="请输入货架号" />
+              <Input placeholder="请输入客户编号" onPressEnter={handleSearch} />
             )}
           </FormItem>
         </Col>

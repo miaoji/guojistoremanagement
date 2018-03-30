@@ -55,6 +55,15 @@ const Filter = ({
             )}
           </FormItem>
         </Col>
+        <Col md={5} sm={24}>
+          <FormItem label="客户编号">
+            {getFieldDecorator('customerNo', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户编号" onPressEnter={onSearch} />
+            )}
+          </FormItem>
+        </Col>
         <Col md={9} sm={24}>
           <FormItem label="时间">
             {getFieldDecorator('createTime', { initialValue: initialCreateTime })(
@@ -64,7 +73,7 @@ const Filter = ({
         </Col>
         <Col md={5} sm={24}>
           <span className={styles.submitButtons}>
-            <Button type="success" onClick={onSearch}>查询</Button>
+            <Button type="primary" onClick={onSearch}>查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
           </span>
         </Col>

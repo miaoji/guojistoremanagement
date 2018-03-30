@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Button, Modal, Divider } from 'antd';
+import { Button, Modal } from 'antd';
 import StandardTable from 'components/StandardTable';
+import DropOption from 'components/DropOption';
 import styles from './index.less';
 import { qr } from '../../../utils/api';
 import { formatDate } from '../../../utils/';
@@ -9,9 +10,17 @@ const { confirm } = Modal;
 const queryQr = qr.query;
 
 const List = ({
-  loading, data, selectedRows,
-  handleBatchDel, handleStandardTableChange,
-  handleSelectRows, handleTableUpdate, handleTableDel, handleAddBtn }) => {
+  loading,
+  data,
+  selectedRows,
+  handleBatchDel,
+  handleStandardTableChange,
+  handleSelectRows,
+  handleTableUpdate,
+  handleTableDel,
+  handleAddBtn,
+  handleRecharge,
+}) => {
   const expandedRowRender = (record) => {
     return (
       <div>
@@ -20,13 +29,28 @@ const List = ({
       </div>
     );
   };
-  const handleListDel = (record) => {
-    confirm({
-      title: '确定要删除这一条客户吗?',
-      onOk() {
-        handleTableDel(record.id);
-      },
-    });
+  const onMenuClick = (record, e) => {
+    switch (e.key) {
+      case '1':
+        handleTableUpdate(record);
+        break;
+      case '2':
+        confirm({
+          cancelText: '取消',
+          okText: '确认删除',
+          title: '删除',
+          content: '确定要删除这一条客户吗?',
+          onOk: () => {
+            handleTableDel(record.id);
+          },
+        });
+        break;
+      case '3':
+        handleRecharge(record);
+        break;
+      default:
+        break;
+    }
   };
   const columns = [
     {
@@ -60,13 +84,9 @@ const List = ({
       render: text => <span>{formatDate('yyyy-MM-dd hh:mm', new Date(text))}</span>,
     },
     {
-      title: '操作',
+      title: '打印',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => { handleListDel(record); }} >删除</a>
-          <Divider type="vertical" />
-          <a className={styles.operateLine} onClick={() => { handleTableUpdate(record); }}>修改</a>
-          <Divider type="vertical" />
           <a
             href={`${queryQr}?width=245&height=70&barcode=${record.customer_no}`}
             target="_blank"
@@ -74,6 +94,14 @@ const List = ({
           </a>
         </Fragment>
       ),
+    },
+    {
+      title: '操作',
+      key: 'operation',
+      width: 100,
+      render: (text, record) => {
+        return <DropOption onMenuClick={e => onMenuClick(record, e)} menuOptions={[{ key: '1', name: '修改' }, { key: '2', name: '删除' }, { key: '3', name: '充值' }]} />;
+      },
     },
   ];
   return (
