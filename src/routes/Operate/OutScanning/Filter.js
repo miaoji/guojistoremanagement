@@ -9,11 +9,11 @@ const Filter = ({ form, handleSearch, handleSearchReset }) => {
     <Form onSubmit={handleSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
-          <FormItem label="单号">
+          <FormItem label="内单号">
             {getFieldDecorator('orderNo', {
               initialValue: '',
             })(
-              <Input placeholder="请输入单号" onPressEnter={handleSearch} />
+              <Input placeholder="请输入内单号" onPressEnter={handleSearch} />
             )}
           </FormItem>
         </Col>

@@ -59,7 +59,7 @@ const ModalForm = ({
               value={scanVal}
               autoFocus
               onChange={e => handleScanning(e, form)}
-              placeholder="扫描区"
+              placeholder="扫描区（F2移动鼠标焦点到框内）"
             />
           </Col>
           <Col md={8} sm={24}>

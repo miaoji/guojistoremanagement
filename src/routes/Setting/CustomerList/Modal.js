@@ -57,18 +57,6 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="客户公司"
-      >
-        {form.getFieldDecorator('customerCompany', {
-          initialValue: currentItem.customer_company,
-          rules: [{ required: true, message: '请输入客户公司' }],
-        })(
-          <Input placeholder="请输入客户公司" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
         label="客户地址"
       >
         {form.getFieldDecorator('customerAddress', {
@@ -76,6 +64,17 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
           rules: [{ required: true, message: '请输入客户地址' }],
         })(
           <Input placeholder="请输入客户地址" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="客户公司"
+      >
+        {form.getFieldDecorator('customerCompany', {
+          initialValue: currentItem.customer_company,
+        })(
+          <Input placeholder="请输入客户公司" />
         )}
       </FormItem>
       <FormItem
