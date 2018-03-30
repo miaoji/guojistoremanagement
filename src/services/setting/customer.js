@@ -1,6 +1,14 @@
 import request from '../../utils/query';
 import { customer as apiList } from '../../utils/api';
 
+export async function recharge(params) {
+  return request({
+    url: apiList.recharge,
+    method: 'post',
+    params,
+  });
+}
+
 export async function query(params) {
   return request({
     url: apiList.list,
