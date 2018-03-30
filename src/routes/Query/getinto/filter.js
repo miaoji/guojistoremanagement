@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Row, Col } from 'antd';
+import { Form, Button, Row, Col, Input } from 'antd';
 import PropTypes from 'prop-types';
 import DateRange from '../../../components/DateRange';
 import styles from './index.less';
@@ -41,6 +41,15 @@ const Filter = ({
   return (
     <Form layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col md={6} sm={24}>
+          <FormItem label="客户编号">
+            {getFieldDecorator('customerNo', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户编号" onPressEnter={onSearch} />
+            )}
+          </FormItem>
+        </Col>
         <Col md={9} sm={24}>
           <FormItem label="时间">
             {getFieldDecorator('createTime', { initialValue: initialCreateTime })(
@@ -50,7 +59,7 @@ const Filter = ({
         </Col>
         <Col md={6} sm={24}>
           <span className={styles.submitButtons}>
-            <Button type="success" onClick={onSearch}>查询</Button>
+            <Button type="primary" onClick={onSearch}>查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
           </span>
         </Col>
