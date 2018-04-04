@@ -2,6 +2,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 import lodash from 'lodash';
 import { getToken } from './authority';
+import store from '../index';
 // import router from '@/router';
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -115,6 +116,13 @@ export default function request(options) {
         });
       }
       msg = data.message || statusText;
+      if (Number(statusCode) === 401) {
+        const { dispatch } = store;
+        dispatch({
+          type: 'login/logout',
+        });
+        return;
+      }
     } else {
       statusCode = 600;
       msg = error.message || '网络错误';
