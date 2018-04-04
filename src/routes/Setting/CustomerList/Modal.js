@@ -46,7 +46,7 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
         {form.getFieldDecorator('customerMobile', {
           initialValue: currentItem.customer_mobile,
           rules: [{
-            required: true,
+            required: false,
             message: '请输入客户手机号',
             pattern: /^1\d{10}$/,
           }],
@@ -61,7 +61,7 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
       >
         {form.getFieldDecorator('customerAddress', {
           initialValue: currentItem.customer_address,
-          rules: [{ required: true, message: '请输入客户地址' }],
+          rules: [{ required: false, message: '请输入客户地址' }],
         })(
           <Input placeholder="请输入客户地址" />
         )}
@@ -85,7 +85,7 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
         {form.getFieldDecorator('totalAmount', {
           initialValue: currentItem.total_amount,
         })(
-          <InputNumber min={0} />
+          <InputNumber placeholder="请输入充值金额" style={{ width: '100%' }} min={0} />
         )}
       </FormItem>
       <FormItem
