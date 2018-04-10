@@ -15,11 +15,13 @@ const ModalForm = ({
     labelCol: { span: 5 },
     wrapperCol: { span: 16 },
   };
-  console.log('as');
   document.onkeydown = (e) => {
-    if (e.code === 'F2') {
+    if (e.keyCode === 113 || e.keyCode === 174) {
       const inp = document.querySelector('.autofocus');
       inp.focus();
+    }
+    if (e.keyCode === 187) {
+      okHandle();
     }
   };
   const handleCancel = () => {
@@ -67,7 +69,7 @@ const ModalForm = ({
               <Icon type="close-circle-o" />清空
             </Button>
             <Button size="large" type="primary" onClick={okHandle} style={{ marginLeft: '20px' }}>
-              <Icon type="check-circle-o" />创建新订单
+              <Icon type="check-circle-o" />创建新订单 (快捷键 = )
             </Button>
           </Col>
         </Row>
