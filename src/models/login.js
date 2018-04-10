@@ -49,38 +49,25 @@ export default {
         type: 'changeLoginStatus',
         payload: loginStatus,
       });
-      // Login successfully
       if (loginStatus.status === 'ok') {
-        // yield put({
-        //   type: 'user/saveCurrentUser',
-        //   payload: response.data,
-        // });
         reloadAuthorized();
         const { token } = response;
         setToken(token);
         yield put(routerRedux.push('/'));
+        // window.location.href = '/';
       }
     },
-    *logout(_, { put, select }) {
-      try {
-        // get location pathname
-        const urlParams = new URL(window.location.href);
-        const pathname = yield select(state => state.routing.location.pathname);
-        // add the parameters in the url
-        urlParams.searchParams.set('redirect', pathname);
-        window.history.replaceState(null, 'login', urlParams.href);
-      } finally {
-        yield put({
-          type: 'changeLoginStatus',
-          payload: {
-            status: false,
-            currentAuthority: 'guest',
-          },
-        });
-        delToken();
-        reloadAuthorized();
-        yield put(routerRedux.push('/user/login'));
-      }
+    *logout(_, { put }) {
+      yield put({
+        type: 'changeLoginStatus',
+        payload: {
+          status: false,
+          currentAuthority: 'guest',
+        },
+      });
+      delToken();
+      reloadAuthorized();
+      yield put(routerRedux.push('/user/login'));
     },
   },
 
