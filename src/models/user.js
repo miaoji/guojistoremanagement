@@ -29,8 +29,8 @@ export default {
           type: 'login/logout',
         });
         notification.error({
-          message: `请求错误 ${response.code}`,
-          description: response.msg,
+          message: '登录状态已过期, 请重新登录',
+          description: '登录状态提醒',
         });
       } else {
         const userInfo = Base64.encode(JSON.stringify(response.data));

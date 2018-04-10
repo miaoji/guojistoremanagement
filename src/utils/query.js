@@ -119,10 +119,11 @@ export default function request(options) {
       msg = data.message || statusText;
       console.log('msg', msg);
       if (Number(statusCode) === 401) {
-        notification.error({
-          message: '登录状态已过期, 请重新登录',
-          description: '登录状态提醒',
-        });
+        console.log('登录状态过期');
+        // notification.error({
+        //   message: '登录状态已过期, 请重新登录',
+        //   description: '登录状态提醒',
+        // });
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',
