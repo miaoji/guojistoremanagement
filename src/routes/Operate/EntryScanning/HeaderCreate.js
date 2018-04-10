@@ -18,7 +18,7 @@ const ModalForm = ({
 
   const formLockLayout = {
     labelCol: {
-      span: 10,
+      span: 12,
     },
     wrapperCol: {
       span: 2,
