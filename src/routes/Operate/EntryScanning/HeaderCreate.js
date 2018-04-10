@@ -25,14 +25,49 @@ const ModalForm = ({
     }
   };
   const handleCancel = () => {
-    form.setFieldsValue({
-      cnNo: undefined,
-      customerNo: undefined,
-      expressCompanyCode: undefined,
-      shelfNo: undefined,
-      weight: undefined,
-    });
+    const fieldsValue = { ...form.getFieldsValue() };
+    form.resetFields();
+    initValue(fieldsValue);
   };
+  const initValue = (fieldsValue) => {
+    const {
+      weight,
+      weightLock,
+      shelfNo,
+      shelfNoLock,
+      customerNo,
+      customerNoLock,
+      expressCompanyCode,
+      expressCompanyCodeLock,
+    } = fieldsValue;
+    form.setFieldsValue({
+      weightLock,
+      shelfNoLock,
+      customerNoLock,
+      expressCompanyCodeLock,
+    });
+    if (weightLock) {
+      form.setFieldsValue({
+        weight,
+      });
+    }
+    if (shelfNoLock) {
+      form.setFieldsValue({
+        shelfNo,
+      });
+    }
+    if (customerNoLock) {
+      form.setFieldsValue({
+        customerNo,
+      });
+    }
+    if (expressCompanyCodeLock) {
+      form.setFieldsValue({
+        expressCompanyCode,
+      });
+    }
+  };
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -40,12 +75,7 @@ const ModalForm = ({
       const modalFormVal = {
         ...fieldsValue,
       };
-      const { weightremain, weight } = fieldsValue;
-      if (weightremain) {
-        form.setFieldsValue({
-          weight,
-        });
-      }
+      initValue(fieldsValue);
       handleModalConfirm(modalFormVal, 'add');
     });
   };
@@ -104,6 +134,19 @@ const ModalForm = ({
       <Col md={8} sm={24}>
         <FormItem
           {...formItemLayout}
+          label="客户编码锁定"
+        >
+          {form.getFieldDecorator('customerNoLock', {
+            valuePropName: 'checked',
+            initialValue: true,
+          })(
+            <Checkbox />
+          )}
+        </FormItem>
+      </Col>
+      <Col md={8} sm={24}>
+        <FormItem
+          {...formItemLayout}
           label="快递代码"
         >
           {form.getFieldDecorator('expressCompanyCode', {
@@ -140,12 +183,39 @@ const ModalForm = ({
       <Col md={8} sm={24}>
         <FormItem
           {...formItemLayout}
+          label="快递代码锁定"
+        >
+          {form.getFieldDecorator('expressCompanyCodeLock', {
+            valuePropName: 'checked',
+            initialValue: true,
+          })(
+            <Checkbox />
+          )}
+        </FormItem>
+      </Col>
+      <Col md={8} sm={24}>
+        <FormItem
+          {...formItemLayout}
+          label="货架号锁定"
+        >
+          {form.getFieldDecorator('shelfNoLock', {
+            valuePropName: 'checked',
+            initialValue: true,
+          })(
+            <Checkbox />
+          )}
+        </FormItem>
+      </Col>
+      <Col md={8} sm={24}>
+        <FormItem
+          {...formItemLayout}
           label="重量锁定"
         >
-          {form.getFieldDecorator('weightremain', {
-            defaultChecked: false,
+          {form.getFieldDecorator('weightLock', {
+            valuePropName: 'checked',
+            initialValue: true,
           })(
-            <Checkbox>是否锁定重量</Checkbox>
+            <Checkbox />
           )}
         </FormItem>
       </Col>
