@@ -14,7 +14,7 @@ const formItemLayout = {
 };
 const formLockLayout = {
   labelCol: {
-    span: 14,
+    span: 17,
   },
   wrapperCol: {
     span: 2,

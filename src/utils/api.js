@@ -1,8 +1,9 @@
 // const APIV1 = '/api/v1';
 // const APIV2 = '/api/v2'
-let APIV4 = 'http://api.mingz-tech.com';
+let APIV4 = '';
 let APIV3 = '';
 
+APIV4 = 'http://api.mingz-tech.com';
 // 重构API
 // 线下地址
 APIV3 = 'http://192.168.231.239:8000';
