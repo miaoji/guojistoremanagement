@@ -53,8 +53,8 @@ export default {
         reloadAuthorized();
         const { token } = response;
         setToken(token);
-        yield put(routerRedux.push('/'));
-        // window.location.href = '/';
+        // yield put(routerRedux.push('/'));
+        window.location.href = '/';
       }
     },
     *logout(_, { put }) {
