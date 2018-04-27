@@ -109,14 +109,21 @@ export default function request(options) {
     if (response && response instanceof Object) {
       const { data, statusText } = response;
       statusCode = response.status;
-      if (Number(statusCode) !== 200) {
+      console.log('statusCode', statusCode);
+      if (Number(statusCode) !== 200 && Number(statusCode) !== 401) {
         notification.error({
           message: `请求错误 ${response.status}: ${response.url}`,
           description: '请求失败',
         });
       }
       msg = data.message || statusText;
+      console.log('msg', msg);
       if (Number(statusCode) === 401) {
+        console.log('登录状态过期');
+        // notification.error({
+        //   message: '登录状态已过期, 请重新登录',
+        //   description: '登录状态提醒',
+        // });
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',

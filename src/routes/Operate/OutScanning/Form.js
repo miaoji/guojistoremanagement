@@ -12,6 +12,14 @@ const formItemLayout = {
     span: 14,
   },
 };
+const formLockLayout = {
+  labelCol: {
+    span: 14,
+  },
+  wrapperCol: {
+    span: 2,
+  },
+};
 const ModalForm = ({
   orderNo,
   form,
@@ -30,29 +38,82 @@ const ModalForm = ({
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
+      form.resetFields();
       const modalFormVal = {
         ...fieldsValue,
       };
-      form.setFieldsValue({
-        cnNo: '',
-      });
-      const { weightremain, customerremain } = fieldsValue;
-      if (!weightremain) {
-        form.setFieldsValue({
-          weight: '',
-        });
-      }
-      if (!customerremain) {
-        form.setFieldsValue({
-          customerNo: '',
-        });
-      }
+      initValue(fieldsValue);
       handleModalConfirm(modalFormVal, 'add');
     });
   };
 
+  const initValue = (fieldsValue) => {
+    const {
+      customerNo,
+      customerNoLock,
+      destination,
+      destinationLock,
+      expressCompanyCode,
+      expressCompanyCodeLock,
+      packageType,
+      packageTypeLock,
+      productType,
+      productTypeLock,
+      shelfNo,
+      shelfNoLock,
+      weight,
+      weightLock,
+    } = fieldsValue;
+    form.setFieldsValue({
+      customerNoLock,
+      destinationLock,
+      expressCompanyCodeLock,
+      packageTypeLock,
+      productTypeLock,
+      shelfNoLock,
+      weightLock,
+    });
+    if (customerNoLock) {
+      form.setFieldsValue({
+        customerNo,
+      });
+    }
+    if (destinationLock) {
+      form.setFieldsValue({
+        destination,
+      });
+    }
+    if (expressCompanyCodeLock) {
+      form.setFieldsValue({
+        expressCompanyCode,
+      });
+    }
+    if (packageTypeLock) {
+      form.setFieldsValue({
+        packageType,
+      });
+    }
+    if (productTypeLock) {
+      form.setFieldsValue({
+        productType,
+      });
+    }
+    if (shelfNoLock) {
+      form.setFieldsValue({
+        shelfNo,
+      });
+    }
+    if (weightLock) {
+      form.setFieldsValue({
+        weight,
+      });
+    }
+  };
+
   const handleClear = () => {
+    const fieldsValue = { ...form.getFieldsValue() };
     form.resetFields();
+    initValue(fieldsValue);
   };
 
   const handleCountryChange = (e) => {
@@ -85,9 +146,12 @@ const ModalForm = ({
     refreshOrderNo();
   };
   document.onkeydown = (e) => {
-    if (e.code === 'F2') {
+    if (e.keyCode === 113 || e.keyCode === 174) {
       const inp = document.querySelector('.autofocus');
       inp.focus();
+    }
+    if (e.keyCode === 187) {
+      okHandle();
     }
   };
   return (
@@ -109,7 +173,7 @@ const ModalForm = ({
               <Icon type="close-circle-o" />清空
             </Button>
             <Button size="large" type="primary" onClick={okHandle} style={{ marginLeft: '20px' }}>
-              <Icon type="check-circle-o" />创建出库
+              <Icon type="check-circle-o" />创建出库 (快捷键 = )
             </Button>
           </Col>
         </Row>
@@ -143,154 +207,6 @@ const ModalForm = ({
         <Col md={8} sm={24}>
           <FormItem
             {...formItemLayout}
-            label="客户编码"
-          >
-            {form.getFieldDecorator('customerNo', {
-              rules: [{
-                required: true,
-                message: '客户编码',
-              }],
-            })(
-              <Input placeholder="请输入客户编码" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="客户锁定"
-          >
-            {form.getFieldDecorator('customerremain', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="快递公司"
-          >
-            {form.getFieldDecorator('expressCompanyCode', {
-              rules: [{ required: true, message: '请输入快递公司' }],
-            })(
-              <Input placeholder="请输入快递公司" />
-            )}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="货架号"
-          >
-            {form.getFieldDecorator('shelfNo', {
-              rules: [{ required: true, message: '请输入货架号' }],
-            })(
-              <Input placeholder="请输入货架号" />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="重量/kg"
-          >
-            {form.getFieldDecorator('weight', {
-              rules: [{ required: true, message: '请输入重量' }],
-            })(
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                onChange={handleFreightPrice}
-                placeholder="请输入重量"
-              />
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="重量锁定"
-          >
-            {form.getFieldDecorator('weightremain', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox />
-            )}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
-            label="目的地国家"
-          >
-            {form.getFieldDecorator('destination', {
-              rules: [{ required: true, message: '请输入目的地国家' }],
-            })(
-              <Select
-                placeholder="请选择目的地国家"
-                style={{ width: '100%' }}
-                onChange={handleCountryChange}
-              >
-                {countryInfo}
-              </Select>
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem label="包裹类型" hasFeedback {...formItemLayout}>
-            {form.getFieldDecorator('packageType', {
-              rules: [
-                {
-                  required: true,
-                  message: '请选择包裹类型!',
-                },
-              ],
-            })(
-              <Select
-                placeholder="请选择包裹类型"
-                disabled={packageDis}
-                style={{ width: '100%' }}
-                onChange={handlePackageChange}
-              >
-                {packageInfo}
-              </Select>
-            )}
-          </FormItem>
-        </Col>
-        <Col md={8} sm={24}>
-          <FormItem label="产品类型" hasFeedback {...formItemLayout}>
-            {form.getFieldDecorator('productType', {
-              rules: [
-                {
-                  required: true,
-                  message: '请选择产品类型!',
-                },
-              ],
-            })(
-              <Select
-                placeholder="请选择产品类型"
-                disabled={productDis}
-                style={{ width: '100%' }}
-              >
-                {productInfo}
-              </Select>
-            )}
-          </FormItem>
-        </Col>
-      </Row>
-
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
-        <Col md={8} sm={24}>
-          <FormItem
-            {...formItemLayout}
             label="长/cm"
           >
             {form.getFieldDecorator('length')(
@@ -319,6 +235,220 @@ const ModalForm = ({
           </FormItem>
         </Col>
       </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="客户编码"
+          >
+            {form.getFieldDecorator('customerNo', {
+              rules: [{
+                required: true,
+                message: '客户编码',
+              }],
+            })(
+              <Input placeholder="请输入客户编码" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="客户编码锁定"
+          >
+            {form.getFieldDecorator('customerNoLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="快递公司"
+          >
+            {form.getFieldDecorator('expressCompanyCode', {
+              rules: [{ required: true, message: '请输入快递公司' }],
+            })(
+              <Input placeholder="请输入快递公司" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="快递公司锁定"
+          >
+            {form.getFieldDecorator('expressCompanyCodeLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="货架号"
+          >
+            {form.getFieldDecorator('shelfNo', {
+              rules: [{ required: true, message: '请输入货架号' }],
+            })(
+              <Input placeholder="请输入货架号" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="货架号锁定"
+          >
+            {form.getFieldDecorator('shelfNoLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="重量/kg"
+          >
+            {form.getFieldDecorator('weight', {
+              rules: [{ required: true, message: '请输入重量' }],
+            })(
+              <InputNumber
+                min={0}
+                style={{ width: '100%', height: '33px' }}
+                onChange={handleFreightPrice}
+                placeholder="请输入重量"
+              />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="重量锁定"
+          >
+            {form.getFieldDecorator('weightLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
+        <Col md={8} sm={24}>
+          <FormItem
+            {...formItemLayout}
+            label="目的地国家"
+          >
+            {form.getFieldDecorator('destination', {
+              rules: [{ required: true, message: '请输入目的地国家' }],
+            })(
+              <Select
+                placeholder="请选择目的地国家"
+                style={{ width: '100%' }}
+                onChange={handleCountryChange}
+              >
+                {countryInfo}
+              </Select>
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="目的地国家锁定"
+          >
+            {form.getFieldDecorator('destinationLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="包裹类型" hasFeedback {...formItemLayout}>
+            {form.getFieldDecorator('packageType', {
+              rules: [
+                {
+                  required: true,
+                  message: '请选择包裹类型!',
+                },
+              ],
+            })(
+              <Select
+                placeholder="请选择包裹类型"
+                disabled={packageDis}
+                style={{ width: '100%' }}
+                onChange={handlePackageChange}
+              >
+                {packageInfo}
+              </Select>
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="包裹类型锁定"
+          >
+            {form.getFieldDecorator('packageTypeLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="产品类型" hasFeedback {...formItemLayout}>
+            {form.getFieldDecorator('productType', {
+              rules: [
+                {
+                  required: true,
+                  message: '请选择产品类型!',
+                },
+              ],
+            })(
+              <Select
+                placeholder="请选择产品类型"
+                disabled={productDis}
+                style={{ width: '100%' }}
+              >
+                {productInfo}
+              </Select>
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="产品类型锁定"
+          >
+            {form.getFieldDecorator('productTypeLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+
+
     </div>
   );
 };
