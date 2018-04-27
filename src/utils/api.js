@@ -48,6 +48,8 @@ export const customer = {
   update: `${APIV3}/api/customer/edit`,
   remove: `${APIV3}/api/customer/del`,
   recharge: `${APIV3}/api/customer/deal_balance`,
+  detail: `${APIV3}/api/customer/list_detail`,
+  batch: `${APIV3}/api/customer/list_batch`,
 };
 
 // 仓管费
