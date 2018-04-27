@@ -54,7 +54,7 @@ export default {
         message.success('添加成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('添加失败' || response.msg);
+        message.error(response.msg || '当前网络无法使用');
       }
       if (callback) callback();
     },
@@ -64,7 +64,7 @@ export default {
         message.success('删除成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('删除失败' || response.msg);
+        message.error(response.msg || '当前网络无法使用');
       }
       if (callback) callback();
     },
@@ -74,7 +74,7 @@ export default {
         message.success('更新成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('更新失败' || response.msg);
+        message.error(response.msg || '当前网络无法使用');
       }
       if (callback) callback();
     },
