@@ -66,6 +66,9 @@ const menuData = [{
   }, {
     name: '出库查询',
     path: 'getout',
+  }, {
+    name: '客户查询',
+    path: 'customer',
   }],
 }];
 

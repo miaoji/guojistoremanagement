@@ -143,6 +143,14 @@ export const getRouterData = (app) => {
     '/query/getinto': {
       component: dynamicWrapper(app, ['getinto'], () => import('../routes/Query/getinto')),
     },
+    // 客户查询-子页 detail
+    '/query/customer': {
+      component: dynamicWrapper(app, ['customerdetail'], () => import('../routes/Query/customer')),
+    },
+    // 客户查询-子页 batch
+    '/query/customerbatch': {
+      component: dynamicWrapper(app, ['customerbatch'], () => import('../routes/Query/customerbatch')),
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
