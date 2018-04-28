@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactPlayer from 'react-player';
 import { connect } from 'dva';
 import { Card, Modal, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
@@ -247,6 +248,7 @@ export default class TableList extends PureComponent {
         orderNo,
         shelNoCount,
         shelNoOption,
+        musicPlay,
       },
       loading,
       form,
@@ -331,8 +333,22 @@ export default class TableList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    const musicProps = {
+      url: 'http://cdnringuc.shoujiduoduo.com/ringres/all/a24/516/3374516.aac',
+      playing: musicPlay,
+      onEnded() {
+        console.log('1');
+        dispatch({
+          type: 'outscanning/stopMusic',
+        });
+      },
+    };
+
     return (
       <PageHeaderLayout title="">
+        <div style={{ height: '0px', overflow: 'hidden' }}>
+          <ReactPlayer {...musicProps} />
+        </div>
         <Card title="扫描区" bordered>
           <AddForm
             {...addProps}

@@ -26,6 +26,7 @@ export default {
     shelNoOption: [],
     packageDis: true,
     productDis: true,
+    musicPlay: false,
   },
 
   effects: {
@@ -169,6 +170,7 @@ export default {
       const data = yield call(getOrderNo);
       const source = data.data;
       if (data.code === 200 && source) {
+        yield put({ type: 'setStates', payload: { musicPlay: true } });
         yield put({
           type: 'setStates',
           payload: {
@@ -280,6 +282,9 @@ export default {
     },
     setStates(state, { payload }) {
       return { ...state, ...payload };
+    },
+    stopMusic(state, { payload }) {
+      return { ...state, ...payload, musicPlay: false };
     },
   },
 };
