@@ -92,7 +92,6 @@ export default {
 
   reducers: {
     setStates(state, { payload }) {
-      console.log('payload', payload);
       return { ...state, ...payload };
     },
     save(state, action) {

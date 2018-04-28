@@ -35,15 +35,12 @@ export default class TableList extends PureComponent {
     const {
       location,
       shelvesdetail: { data, list, total, modalVisible, modalType, currentItem },
-      user,
       loading,
       dispatch,
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
-
-    console.log('user', user);
     const filterProps = {
       handleFormReset() {
         const query = queryUrl(location.search);
@@ -127,7 +124,6 @@ export default class TableList extends PureComponent {
         });
       },
       onChange(pagination, filtersArg, sorter) {
-        console.log('filtersArg', filtersArg);
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };
           newObj[key] = getValue(filtersArg[key]);

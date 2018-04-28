@@ -85,8 +85,6 @@ export default class TableList extends PureComponent {
         formValues: values,
       });
 
-      console.log('values', values);
-
       dispatch({
         type: 'expressCompany/fetch',
         payload: values,

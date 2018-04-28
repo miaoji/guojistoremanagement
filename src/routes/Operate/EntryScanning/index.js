@@ -198,10 +198,11 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { entryscanning: { data, entryCount }, loading, form } = this.props;
+    const { entryscanning: { data, entryCount, shelNoOption }, loading, form } = this.props;
     const { selectedRows, modalVisible, modalType, currentItem, scanVal } = this.state;
 
     const modalProps = {
+      shelNoOption,
       entryCount,
       scanVal,
       modalType,

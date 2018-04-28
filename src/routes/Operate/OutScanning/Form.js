@@ -23,6 +23,9 @@ const formLockLayout = {
 const ModalForm = ({
   orderNo,
   form,
+  shelNoOption,
+  shelNoCount,
+  onShelfChange,
   outOrderCount,
   outBatchCount,
   scanVal,
@@ -138,15 +141,20 @@ const ModalForm = ({
   const handleFreightPrice = () => {
     const { destination, packageType, productType, weight } = form.getFieldsValue();
     if (destination && packageType && productType && weight) {
-      console.log('price can be defined destination', destination);
-      console.log('price can be defined', packageType);
-      console.log('price can be defined', productType);
+      console.info('price can be defined destination', destination);
+      console.info('price can be defined', packageType);
+      console.info('price can be defined', productType);
     }
   };
 
   const handleOrderNo = () => {
     refreshOrderNo();
   };
+
+  const handleShelfNoChange = (e) => {
+    onShelfChange({ shelfNo: e });
+  };
+
   document.onkeydown = (e) => {
     if (e.keyCode === 113 || e.keyCode === 174) {
       const inp = document.querySelector('.autofocus');
@@ -301,7 +309,9 @@ const ModalForm = ({
             {form.getFieldDecorator('shelfNo', {
               rules: [{ required: true, message: '请输入货架号' }],
             })(
-              <Input placeholder="请输入货架号" />
+              <Select showSearch style={{ width: '100%' }} onChange={handleShelfNoChange} placeholder="请选择货架号">
+                {shelNoOption}
+              </Select>
             )}
           </FormItem>
         </Col>
@@ -448,11 +458,16 @@ const ModalForm = ({
             )}
           </FormItem>
         </Col>
+      </Row>
+      <Row>
         <Col md={6} sm={24}>
-          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>国内单号出库数：{outOrderCount} 件</div>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>货架上剩余 {shelNoCount} 件</div>
         </Col>
         <Col md={6} sm={24}>
-          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库批次数： {outBatchCount} 件</div>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库国内单号数 {outOrderCount} 件</div>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库批次数 {outBatchCount} 件</div>
         </Col>
       </Row>
 

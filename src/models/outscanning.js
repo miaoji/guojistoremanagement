@@ -1,6 +1,7 @@
 import React from 'react';
 import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { query as queryShelfInfo } from '../services/query/shelves';
 import { getOrderNo } from '../services/api';
 import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
 import { storage } from '../utils';
@@ -15,18 +16,21 @@ export default {
       list: [],
       pagination: {},
     },
+    shelNoCount: 0,
     outOrderCount: '0',
     outBatchCount: '0',
     orderNo: '',
     countryInfo: [],
     productInfo: [],
     packageInfo: [],
+    shelNoOption: [],
     packageDis: true,
     productDis: true,
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
+      yield put({ type: 'getShelNo' });
       /* eslint-disable no-param-reassign */
       if (!payload) {
         payload = {
@@ -65,7 +69,6 @@ export default {
         weight: Number(payload.weight),
       };
       const { orderNo } = yield select(_ => _.outscanning);
-      console.log('order', orderNo);
       const priceData = yield call(freightprice, priceOptions);
       const { finalPrice } = priceData.data;
       const response = yield call(add, {
@@ -92,7 +95,6 @@ export default {
       if (response.code === 200) {
         storage({ type: 'set', key: 'outOrderCount', val: outOrderCount + 1 });
         const storageOrderNo = storage({ key: 'orderNo' });
-        console.log('outBatchCount', outBatchCount);
         if (orderNo !== storageOrderNo || outBatchCount === 0) {
           storage({ type: 'set', key: 'outBatchCount', val: outBatchCount + 1 });
         }
@@ -115,7 +117,6 @@ export default {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      console.log('payload', payload);
       const priceOptions = {
         countryId: Number(payload.destination.split('/')[0]),
         packageTypeId: Number(payload.packageType.split('/')[0]),
@@ -152,7 +153,6 @@ export default {
     *initOrderNo(_, { put }) {
       const orderNo = window.localStorage.getItem('orderno');
       if (orderNo) {
-        console.log('orderNo', orderNo);
         yield put({
           type: 'setStates',
           payload: {
@@ -237,6 +237,34 @@ export default {
         });
       } else {
         message.warning('您选择的包裹类型没有对应的产品类型,请创建');
+      }
+    },
+    *getShelNoCount({ payload }, { call, put }) {
+      const data = yield call(queryShelfInfo, payload);
+      if (data.code === 200 && data.data && data.data.length > 0) {
+        const shelNoCount = data.data[0].in - data.data[0].out;
+        yield put({
+          type: 'setStates',
+          payload: {
+            shelNoCount,
+          },
+        });
+      }
+    },
+    *getShelNo(_, { call, put }) {
+      const data = yield call(queryShelfInfo, { currentPage: 1, pageSize: 10000 });
+      if (data.code === 200 && data.data && data.data.length > 0) {
+        const options = data.data.map((items) => {
+          return <Option key={items.shelf_no}>{items.shelf_no}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            shelNoOption: options,
+          },
+        });
+      } else {
+        message.warning('网络延迟, 请刷新');
       }
     },
   },

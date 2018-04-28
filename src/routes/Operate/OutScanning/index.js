@@ -102,8 +102,6 @@ export default class TableList extends PureComponent {
         formValues: values,
       });
 
-      console.log('values', values);
-
       dispatch({
         type: 'outscanning/fetch',
         payload: values,
@@ -201,12 +199,19 @@ export default class TableList extends PureComponent {
     });
     const formVal = handleScanval(val);
     if (!formVal) {
-      console.log('false');
+      console.info('false');
     } else {
+      if (formVal.shelfNo) {
+        this.props.dispatch({
+          type: 'outscanning/getShelNoCount',
+          payload: {
+            shelfNo: formVal.shelfNo,
+          },
+        });
+      }
       form.setFieldsValue(formVal);
       if (formVal.destination) {
         const countryId = Number(formVal.destination.split('/')[0]);
-        console.log('countryId', countryId);
         this.getPackageInfo({ countryId });
         form.setFieldsValue({
           packageType: undefined,
@@ -240,6 +245,8 @@ export default class TableList extends PureComponent {
         packageDis,
         productDis,
         orderNo,
+        shelNoCount,
+        shelNoOption,
       },
       loading,
       form,
@@ -248,11 +255,13 @@ export default class TableList extends PureComponent {
     const { scanVal, selectedRows, modalVisible, modalType, currentItem } = this.state;
 
     const addProps = {
+      shelNoCount,
       orderNo,
       outOrderCount,
       outBatchCount,
       scanVal,
       modalType,
+      shelNoOption,
       currentItem,
       modalVisible,
       countryInfo,
@@ -260,6 +269,12 @@ export default class TableList extends PureComponent {
       productInfo,
       packageDis,
       productDis,
+      onShelfChange(shelfNo) {
+        dispatch({
+          type: 'outscanning/getShelNoCount',
+          payload: shelfNo,
+        });
+      },
       getProductInfo({ packageTypeId }) {
         dispatch({
           type: 'outscanning/getProductInfo',
@@ -271,8 +286,8 @@ export default class TableList extends PureComponent {
           type: 'outscanning/getOrderNo',
         });
       },
-      getPackageInfo: this.getPackageInfo,
       handleScanning: this.handleScanning,
+      getPackageInfo: this.getPackageInfo,
       handleModalConfirm: this.handleModalConfirm,
     };
 

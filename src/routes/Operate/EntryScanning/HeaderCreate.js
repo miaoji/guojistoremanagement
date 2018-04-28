@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Form, Icon, Input, InputNumber, Checkbox } from 'antd';
+import { Row, Col, Button, Form, Icon, Input, InputNumber, Checkbox, Select } from 'antd';
 
 import styles from './index.less';
 
@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 
 const ModalForm = ({
   form,
+  shelNoOption,
   entryCount,
   handleModalConfirm,
   scanVal,
@@ -191,9 +192,11 @@ const ModalForm = ({
             label="货架号"
           >
             {form.getFieldDecorator('shelfNo', {
-              rules: [{ required: true, message: '请输入货架号' }],
+              rules: [{ required: true, message: '请选择货架号' }],
             })(
-              <Input placeholder="请输入货架号" />
+              <Select showSearch style={{ width: '100%' }} placeholder="请选择货架号" >
+                {shelNoOption}
+              </Select>
             )}
           </FormItem>
         </Col>

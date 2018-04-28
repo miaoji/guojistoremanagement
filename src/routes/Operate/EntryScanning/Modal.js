@@ -41,7 +41,6 @@ const ModalForm = ({
           });
         }
       }
-      console.log('modalFormVal', modalFormVal);
       handleModalConfirm(modalFormVal, modalType);
     });
   };

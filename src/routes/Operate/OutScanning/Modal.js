@@ -54,7 +54,6 @@ const ModalForm = ({
 
   const handleCountryChange = (e) => {
     const countryId = Number(e.split('/')[0]);
-    console.log('countryId', countryId);
     getPackageInfo({ countryId });
     form.setFieldsValue({
       packageType: undefined,
@@ -73,9 +72,9 @@ const ModalForm = ({
   const handleFreightPrice = () => {
     const { destination, packageType, productType, weight } = form.getFieldsValue();
     if (destination && packageType && productType && weight) {
-      console.log('price can be defined destination', destination);
-      console.log('price can be defined', packageType);
-      console.log('price can be defined', productType);
+      console.info('price can be defined destination', destination);
+      console.info('price can be defined', packageType);
+      console.info('price can be defined', productType);
     }
   };
 

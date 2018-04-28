@@ -27,7 +27,6 @@ export default modelExtend(pageModel, {
       pageSize: 10,
     } }, { call, put }) {
       const feeRes = yield call(feeQuery);
-      console.log('feeRes', feeRes);
       const data = yield call(query, {
         ...payload,
         currentPage: Number(payload.currentPage) || 1,

@@ -106,7 +106,6 @@ export default class TableList extends PureComponent {
 
     const listProps = {
       handleRecharge(item) {
-        console.log('item', item);
         dispatch({
           type: 'customerdetail/setStates',
           payload: {

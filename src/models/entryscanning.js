@@ -1,12 +1,17 @@
-import { message } from 'antd';
+import React from 'react';
+import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { query as queryShelfInfo } from '../services/query/shelves';
 import { storage } from '../utils';
+
+const { Option } = Select;
 
 export default {
   namespace: 'entryscanning',
 
   state: {
     entryCount: 0,
+    shelNoOption: [],
     data: {
       list: [],
       pagination: {},
@@ -15,6 +20,7 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
+      yield put({ type: 'getShelNo' });
       /* eslint-disable no-param-reassign */
       if (!payload) {
         payload = {
@@ -85,9 +91,28 @@ export default {
       }
       if (callback) callback();
     },
+    *getShelNo(_, { call, put }) {
+      const data = yield call(queryShelfInfo, { currentPage: 1, pageSize: 10000 });
+      if (data.code === 200 && data.data && data.data.length > 0) {
+        const options = data.data.map((items) => {
+          return <Option key={items.shelf_no}>{items.shelf_no}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            shelNoOption: options,
+          },
+        });
+      } else {
+        message.warning('网络延迟, 请刷新');
+      }
+    },
   },
 
   reducers: {
+    setStates(state, { payload }) {
+      return { ...state, ...payload };
+    },
     save(state, action) {
       return {
         ...state,

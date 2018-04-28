@@ -86,8 +86,6 @@ export default class TableList extends PureComponent {
         formValues: values,
       });
 
-      console.log('values', values);
-
       dispatch({
         type: 'customer/fetch',
         payload: values,
@@ -183,13 +181,11 @@ export default class TableList extends PureComponent {
       dispatch,
     } = this.props;
     const { selectedRows, modalVisible, modalType, currentItem } = this.state;
-    console.log('rechargeModalVisible', rechargeModalVisible);
 
     const rechargeModalProps = {
       currentItem: dbCurrentItem,
       title: '充值金额修改',
       onOk(item) {
-        console.log('item', item);
         dispatch({
           type: 'customer/recharge',
           payload: {
@@ -224,7 +220,6 @@ export default class TableList extends PureComponent {
 
     const listProps = {
       handleRecharge(item) {
-        console.log('item', item);
         dispatch({
           type: 'customer/setStates',
           payload: {

@@ -13,7 +13,6 @@ const List = ({
   showExpreModal,
 }) => {
   const handleExpreClick = (record) => {
-    console.log('record', record);
     showExpreModal({ num: record.cn_no, company: record.express_company_code, source: 'php' });
   };
   const columns = [
