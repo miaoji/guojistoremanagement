@@ -30,7 +30,6 @@ export default modelExtend(pageModel, {
         currentPage: Number(payload.currentPage) || 1,
         pageSize: Number(payload.pageSize) || 10,
       });
-      console.log('data', data);
       if (data.code === 200) {
         const list = data.data.map((item) => {
           const items = {};

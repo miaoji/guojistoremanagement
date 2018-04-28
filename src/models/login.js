@@ -3,6 +3,7 @@ import { routerRedux } from 'dva/router';
 import { accountLogin } from '../services/api';
 import { setAuthority, setToken, delToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
+import { storage } from '../utils';
 
 export default {
   namespace: 'login',
@@ -58,6 +59,7 @@ export default {
       }
     },
     *logout(_, { put }) {
+      storage({ type: 'clear' });
       yield put({
         type: 'changeLoginStatus',
         payload: {

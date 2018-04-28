@@ -23,6 +23,8 @@ const formLockLayout = {
 const ModalForm = ({
   orderNo,
   form,
+  outOrderCount,
+  outBatchCount,
   scanVal,
   handleScanning,
   handleModalConfirm,
@@ -445,6 +447,12 @@ const ModalForm = ({
               <Checkbox />
             )}
           </FormItem>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>国内单号出库数：{outOrderCount} 件</div>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库批次数： {outBatchCount} 件</div>
         </Col>
       </Row>
 

@@ -232,6 +232,8 @@ export default class TableList extends PureComponent {
     const {
       outscanning: {
         data,
+        outOrderCount,
+        outBatchCount,
         countryInfo,
         packageInfo,
         productInfo,
@@ -247,6 +249,8 @@ export default class TableList extends PureComponent {
 
     const addProps = {
       orderNo,
+      outOrderCount,
+      outBatchCount,
       scanVal,
       modalType,
       currentItem,

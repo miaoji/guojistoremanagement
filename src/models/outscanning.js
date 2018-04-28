@@ -3,6 +3,7 @@ import { message, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
 import { getOrderNo } from '../services/api';
 import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
+import { storage } from '../utils';
 
 const { Option } = Select;
 
@@ -14,6 +15,8 @@ export default {
       list: [],
       pagination: {},
     },
+    outOrderCount: '0',
+    outBatchCount: '0',
     orderNo: '',
     countryInfo: [],
     productInfo: [],
@@ -40,15 +43,21 @@ export default {
         ...payload,
         total,
       };
+      const outOrderCount = storage({ key: 'outOrderCount' }) || '0';
+      const outBatchCount = storage({ key: 'outBatchCount' }) || '0';
       yield put({
         type: 'save',
         payload: {
           list: data,
           pagination,
+          outOrderCount,
+          outBatchCount,
         },
       });
     },
     *add({ payload, callback }, { call, put, select }) {
+      const outOrderCount = Number(storage({ key: 'outOrderCount' }));
+      const outBatchCount = Number(storage({ key: 'outBatchCount' }));
       const priceOptions = {
         countryId: Number(payload.destination.split('/')[0]),
         packageTypeId: Number(payload.packageType.split('/')[0]),
@@ -81,6 +90,13 @@ export default {
         },
       });
       if (response.code === 200) {
+        storage({ type: 'set', key: 'outOrderCount', val: outOrderCount + 1 });
+        const storageOrderNo = storage({ key: 'orderNo' });
+        console.log('outBatchCount', outBatchCount);
+        if (orderNo !== storageOrderNo || outBatchCount === 0) {
+          storage({ type: 'set', key: 'outBatchCount', val: outBatchCount + 1 });
+        }
+        storage({ type: 'set', key: 'orderNo', val: orderNo });
         message.success('添加成功');
         yield put({ type: 'fetch' });
       } else {
@@ -230,6 +246,8 @@ export default {
       return {
         ...state,
         data: action.payload,
+        outOrderCount: action.payload.outOrderCount,
+        outBatchCount: action.payload.outBatchCount,
       };
     },
     setStates(state, { payload }) {

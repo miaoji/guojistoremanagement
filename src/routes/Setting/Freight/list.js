@@ -129,7 +129,7 @@ const List = ({
         columns={columns}
         onSelectRow={onSelectRow}
         onChange={onChange}
-        total={30}
+        // total={30}
       />
     </div>
   );

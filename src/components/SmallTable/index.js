@@ -68,6 +68,9 @@ class SmallTable extends PureComponent {
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
+      showTotal(total) {
+        return `共 ${total} 条`;
+      },
       ...pagination,
     };
 
@@ -94,7 +97,7 @@ class SmallTable extends PureComponent {
                         {item.render ? item.render(item.total) : item.total}
                       </span>
                     </span>
-                    )
+                  )
                   )
                 }
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>

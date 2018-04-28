@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 
 const ModalForm = ({
   form,
+  entryCount,
   handleModalConfirm,
   scanVal,
   handleScanning,
@@ -111,6 +112,9 @@ const ModalForm = ({
               <Button size="large" type="primary" onClick={okHandle} style={{ marginLeft: '20px' }}>
                 <Icon type="check-circle-o" />创建新订单 (快捷键 = )
               </Button>
+            </Col>
+            <Col>
+              <div style={{ fontSize: '20px', lineHeight: '40px' }}>本次入库件数： {entryCount} 件</div>
             </Col>
           </Row>
         </div>

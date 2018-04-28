@@ -127,16 +127,19 @@ export default class TableList extends PureComponent {
         });
       },
       onChange(pagination, filtersArg, sorter) {
+        console.log('filtersArg', filtersArg);
         const filters = Object.keys(filtersArg).reduce((obj, key) => {
           const newObj = { ...obj };
           newObj[key] = getValue(filtersArg[key]);
           return newObj;
         }, {});
+        const query = queryUrl(location.search);
         const params = {
           currentPage: pagination.current,
           pageSize: pagination.pageSize,
           ...formValues,
           ...filters,
+          ...query,
         };
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;

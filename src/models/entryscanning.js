@@ -1,10 +1,12 @@
 import { message } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { storage } from '../utils';
 
 export default {
   namespace: 'entryscanning',
 
   state: {
+    entryCount: 0,
     data: {
       list: [],
       pagination: {},
@@ -29,15 +31,19 @@ export default {
         ...payload,
         total,
       };
+      const entryCount = storage({ type: 'get', key: 'entryCount' }) || 0;
       yield put({
         type: 'save',
         payload: {
           list: data,
           pagination,
+          entryCount,
         },
       });
     },
     *add({ payload, callback }, { call, put }) {
+      const entryCount = Number(storage({ type: 'get', key: 'entryCount' }));
+
       const response = yield call(add, {
         data: {
           customerNo: payload.customerNo,
@@ -51,6 +57,7 @@ export default {
         },
       });
       if (response.code === 200) {
+        storage({ type: 'set', key: 'entryCount', val: entryCount + 1 });
         message.success('添加成功');
         yield put({ type: 'fetch' });
       } else {
@@ -85,6 +92,7 @@ export default {
       return {
         ...state,
         data: action.payload,
+        entryCount: action.payload.entryCount,
       };
     },
   },
