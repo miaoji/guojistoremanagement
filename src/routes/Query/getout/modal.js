@@ -49,7 +49,7 @@ const Modalbox = ({
           ],
         })(<Input placeholder="请输入单号" />)}
       </FormItem>
-      <FormItem label="单号" hasFeedback {...formItemLayout}>
+      <FormItem label="快递公司" hasFeedback {...formItemLayout}>
         {getFieldDecorator('expressCompanyCodeEn', {
           initialValue: item.express_company_code_en,
           rules: [

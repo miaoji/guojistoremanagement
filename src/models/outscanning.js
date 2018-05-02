@@ -1,5 +1,5 @@
 import React from 'react';
-import { message, Select } from 'antd';
+import { message, notification, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
 import { query as queryShelfInfo } from '../services/query/shelves';
 import { getOrderNo } from '../services/api';
@@ -100,10 +100,15 @@ export default {
           storage({ type: 'set', key: 'outBatchCount', val: outBatchCount + 1 });
         }
         storage({ type: 'set', key: 'orderNo', val: orderNo });
-        message.success('添加成功');
+        yield put({ type: 'setStates', payload: { musicPlay: true } });
+        notification.success({
+          message: '添加成功',
+        });
         yield put({ type: 'fetch' });
       } else {
-        message.error(response.msg || '添加失败');
+        notification.warning({
+          message: '添加失败',
+        });
       }
       if (callback) callback();
     },
@@ -170,7 +175,6 @@ export default {
       const data = yield call(getOrderNo);
       const source = data.data;
       if (data.code === 200 && source) {
-        yield put({ type: 'setStates', payload: { musicPlay: true } });
         yield put({
           type: 'setStates',
           payload: {
@@ -255,7 +259,11 @@ export default {
     },
     *getShelNo(_, { call, put }) {
       const data = yield call(queryShelfInfo, { currentPage: 1, pageSize: 10000 });
-      if (data.code === 200 && data.data && data.data.length > 0) {
+      if (data.code === 200) {
+        if (data.data && data.data.length === 0) {
+          message.warning('当前没有货架号,请添加货架号后进行入库操作');
+          return;
+        }
         const options = data.data.map((items) => {
           return <Option key={items.shelf_no}>{items.shelf_no}</Option>;
         });
@@ -266,7 +274,7 @@ export default {
           },
         });
       } else {
-        message.warning('网络延迟, 请刷新');
+        message.warning(data.msg || '网络延迟, 请刷新');
       }
     },
   },

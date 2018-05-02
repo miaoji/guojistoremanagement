@@ -48,7 +48,13 @@ const List = ({
       title: '剩余件数',
       dataIndex: 'surplus',
       render: (text, record) => {
-        return <span>{Number(record.in) - Number(record.out)}</span>;
+        return (
+          <span>
+            {(Number(record.in) - Number(record.out)) > 0
+              ? (Number(record.in) - Number(record.out))
+              : 0}
+          </span>
+        );
       },
     },
     {

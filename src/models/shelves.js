@@ -42,8 +42,8 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        notification.success({
-          message: data.msg,
+        notification.warning({
+          message: data.msg || '当前网络无法使用',
         });
       }
     },

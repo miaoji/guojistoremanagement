@@ -349,12 +349,12 @@ export default class TableList extends PureComponent {
         <div style={{ height: '0px', overflow: 'hidden' }}>
           <ReactPlayer {...musicProps} />
         </div>
-        <Card title="扫描区" bordered>
+        <Card style={{ marginBottom: '10px' }} title="出库扫描" bordered={false}>
           <AddForm
             {...addProps}
           />
         </Card>
-        <Card title="查询区" bordered={false}>
+        <Card title="" bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               <Filter
