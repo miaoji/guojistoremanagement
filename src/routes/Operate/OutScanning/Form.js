@@ -156,12 +156,16 @@ const ModalForm = ({
   };
 
   document.onkeydown = (e) => {
+    console.log('eeeeee', e.keyCode);
     if (e.keyCode === 113 || e.keyCode === 174) {
       const inp = document.querySelector('.autofocus');
       inp.focus();
     }
     if (e.keyCode === 187) {
       okHandle();
+    }
+    if (e.keyCode === 115) {
+      handleOrderNo();
     }
   };
   return (
@@ -198,7 +202,7 @@ const ModalForm = ({
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <Button type="primary" onClick={handleOrderNo}>刷新内单号</Button>
+          <Button type="primary" onClick={handleOrderNo}>刷新内单号 (快捷键 F4 )</Button>
         </Col>
         <Col md={8} sm={24}>
           <FormItem
