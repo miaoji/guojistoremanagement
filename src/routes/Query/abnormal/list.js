@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
 import SmallTable from 'components/SmallTable';
+import moment from 'moment';
 import styles from './index.less';
 
 const List = ({
@@ -52,9 +53,17 @@ const List = ({
       render: (text) => {
         const Text = {
           0: '正常',
-          1: '不正常',
+          1: '异常',
         };
         return <span>{Text[text]}</span>;
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'gmt_create',
+      key: 'gmt_create',
+      render: (text) => {
+        return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
       },
     },
   ];
