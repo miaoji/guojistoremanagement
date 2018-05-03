@@ -151,6 +151,10 @@ export const getRouterData = (app) => {
     '/query/customerbatch': {
       component: dynamicWrapper(app, ['customerbatch'], () => import('../routes/Query/customerbatch')),
     },
+    // 异常件查询
+    '/query/abnormal': {
+      component: dynamicWrapper(app, ['abnormal'], () => import('../routes/Query/abnormal')),
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

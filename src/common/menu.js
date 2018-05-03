@@ -69,6 +69,9 @@ const menuData = [{
   }, {
     name: '客户查询',
     path: 'customer',
+  }, {
+    name: '异常件查询',
+    path: 'abnormal',
   }],
 }];
 

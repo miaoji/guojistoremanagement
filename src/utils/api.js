@@ -6,8 +6,8 @@ let APIV3 = '';
 APIV4 = 'http://api.mingz-tech.com';
 // 重构API
 // 线下地址
-APIV3 = 'http://192.168.231.239:8000';
-// APIV3 = 'http://192.168.231.237:8080';
+// APIV3 = 'http://192.168.231.239:8000';
+APIV3 = 'http://192.168.231.237:8080';
 // 正式地址(生产)
 // APIV3 = 'http://wmsapi.mingz-tech.com';
 
@@ -137,4 +137,8 @@ export const token = {
 // 目的地国家管理
 export const country = {
   list: `${APIV3}/api/country/list`,
+};
+
+export const abnormal = {
+  list: `${APIV3}/api/cargo/getUnusual`,
 };
