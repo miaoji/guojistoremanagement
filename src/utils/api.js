@@ -6,7 +6,9 @@ let APIV3 = '';
 APIV4 = 'http://api.mingz-tech.com';
 // 重构API
 // 线下地址
-APIV3 = 'http://192.168.231.239:8000';
+// APIV3 = 'http://192.168.231.239:8000';
+// 张涛线下地址
+APIV3 = 'http://192.168.231.237:8080';
 // 正式地址(生产)
 // APIV3 = 'http://wmsapi.mingz-tech.com';
 
@@ -39,6 +41,11 @@ export const cargo = {
   add: `${APIV3}/api/cargo/add`,
   update: `${APIV3}/api/cargo/edit`,
   remove: `${APIV3}/api/cargo/del`,
+  getUnusual: `${APIV3}/api/cargo/getUnusual`,
+};
+
+export const unusual = {
+  add: `${APIV3}/api/cargo/add`,
 };
 
 // 客户信息

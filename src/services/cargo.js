@@ -33,3 +33,11 @@ export async function remove(params) {
     data: params,
   });
 }
+
+export async function queryUsual(params) {
+  return request({
+    url: apiList.getUnusual,
+    method: 'POST',
+    data: params,
+  });
+}

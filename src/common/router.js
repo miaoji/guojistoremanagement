@@ -106,6 +106,9 @@ export const getRouterData = (app) => {
     '/operate/outbound-scanning': {
       component: dynamicWrapper(app, ['outscanning'], () => import('../routes/Operate/OutScanning')),
     },
+    '/operate/unusual-scanning': {
+      component: dynamicWrapper(app, ['unusualscanning'], () => import('../routes/Operate/UnusualScanning')),
+    },
     '/setting/customer': {
       component: dynamicWrapper(app, ['customer'], () => import('../routes/Setting/CustomerList')),
     },

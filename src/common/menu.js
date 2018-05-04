@@ -25,6 +25,9 @@ const menuData = [{
   }, {
     name: '出库扫描',
     path: 'outbound-scanning',
+  }, {
+    name: '异常件操作',
+    path: 'unusual-scanning',
   }],
 }, {
   name: '基础数据设置',
