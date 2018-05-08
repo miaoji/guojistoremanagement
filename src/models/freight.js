@@ -83,7 +83,6 @@ export default modelExtend(pageModel, {
       }
     },
     *update({ payload }, { call, put, select }) {
-      console.log('啊啊啊', payload);
       const currentItem = yield select(({ freight }) => freight.currentItem);
       const tmp = {};
       for (const item in payload) {

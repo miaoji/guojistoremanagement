@@ -13,6 +13,8 @@ const List = ({
   const expandedRowRender = (record) => {
     return (
       <div>
+        <p>客户名称: {record.customer_name}</p>
+        <p>渠道商名称: {record.distributor_name}</p>
         <p>仓管费: {record.cargo_charge}</p>
         <p>重量: {record.weight}</p>
         <p>体积重/cm^3: {record.volume_weight}</p>
@@ -36,13 +38,17 @@ const List = ({
       dataIndex: 'order_no',
     },
     {
+      title: '国内单号',
+      dataIndex: 'cn_no',
+    },
+    {
+      title: '客户编码',
+      dataIndex: 'customer_no',
+    },
+    {
       title: '扫描时间',
       dataIndex: 'gmt_create',
       render: text => <span>{formatDate('yyyy-MM-dd hh:mm:ss', new Date(text))}</span>,
-    },
-    {
-      title: '国内单号',
-      dataIndex: 'cn_no',
     },
     {
       title: '目的地国家',
@@ -51,14 +57,6 @@ const List = ({
     {
       title: '快递费',
       dataIndex: 'express_charge',
-    },
-    {
-      title: '客户名称',
-      dataIndex: 'customer_name',
-    },
-    {
-      title: '客户编码',
-      dataIndex: 'customer_no',
     },
     {
       title: '货架号',

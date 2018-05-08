@@ -1,98 +1,128 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card } from 'antd';
+import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
 import Filter from './filter';
-import { queryUrl } from '../../../utils';
 
 import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ shelvesdetail, user, loading }) => ({
-  shelvesdetail,
-  user,
-  loading: loading.models.shelvesdetail,
+@connect(({ distributor, loading }) => ({
+  distributor,
+  loading: loading.models.distributor,
 }))
+@Form.create()
 export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
   }
   componentDidMount() {
     const { dispatch, location } = this.props;
-    const query = queryUrl(location.search);
     dispatch({
-      type: 'shelvesdetail/query',
-      payload: {
-        ...query,
-      },
+      type: 'distributor/query',
+      payload: location.query,
     });
   }
 
   render() {
     const {
+      form,
       location,
-      shelvesdetail: { data, list, total, modalVisible, modalType, currentItem },
+      distributor: {
+        countryInfo,
+        productInfo,
+        packageInfo,
+        data,
+        list,
+        total,
+        modalVisible,
+        modalType,
+        currentItem,
+        packageDis,
+        productDis,
+      },
       loading,
       dispatch,
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
+
     const filterProps = {
+      filter: {
+        ...location.query,
+      },
       handleFormReset() {
-        const query = queryUrl(location.search);
         dispatch({
-          type: 'shelvesdetail/query',
-          payload: {
-            ...query,
-          },
+          type: 'distributor/query',
+          payload: {},
         });
       },
       handleSearch(values) {
-        const query = queryUrl(location.search);
         dispatch({
-          type: 'shelvesdetail/query',
-          payload: {
-            ...values,
-            ...query,
-          },
+          type: 'distributor/query',
+          payload: values,
         });
       },
       showModal() {
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'distributor/getCountryInfo',
+        });
+        dispatch({
+          type: 'distributor/setStates',
           payload: {
             modalVisible: true,
             modalType: 'create',
             currentItem: {},
+            packageDis: true,
+            productDis: true,
           },
         });
       },
+      form,
     };
 
     const modalProps = {
-      item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
-      onOk(item) {
+      item: modalType === 'create' ? {} : currentItem,
+      countryInfo,
+      productInfo,
+      packageInfo,
+      modalVisible,
+      packageDis,
+      productDis,
+      modalType,
+      title: modalType === 'create' ? '新建渠道商' : '修改渠道商',
+      onOk(val) {
         dispatch({
-          type: `shelvesdetail/${modalType}`,
+          type: `distributor/${modalType}`,
           payload: {
-            ...item,
+            ...val,
           },
         });
       },
       hideModal() {
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'distributor/setStates',
           payload: {
             modalVisible: false,
           },
         });
       },
-      modalVisible,
+      getPackageInfo(val) {
+        dispatch({
+          type: 'distributor/getPackageInfo',
+          payload: val,
+        });
+      },
+      getProductInfo(val) {
+        dispatch({
+          type: 'distributor/getProductInfo',
+          payload: val,
+        });
+      },
     };
 
     const listProps = {
@@ -102,13 +132,26 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
+      onDelete(id) {
+        dispatch({
+          type: 'distributor/remove',
+          payload: {
+            id,
+          },
+        });
+      },
       showModal(item) {
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'distributor/getCountryInfo',
+        });
+        dispatch({
+          type: 'distributor/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'updata',
+            modalType: 'update',
             currentItem: item,
+            packageDis: true,
+            productDis: true,
           },
         });
       },
@@ -117,7 +160,7 @@ export default class TableList extends PureComponent {
           selectedRows: rows,
         });
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'distributor/setStates',
           payload: {
             selectedRows: [...rows],
           },
@@ -129,19 +172,17 @@ export default class TableList extends PureComponent {
           newObj[key] = getValue(filtersArg[key]);
           return newObj;
         }, {});
-        const query = queryUrl(location.search);
         const params = {
           currentPage: pagination.current,
           pageSize: pagination.pageSize,
           ...formValues,
           ...filters,
-          ...query,
         };
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
         dispatch({
-          type: 'shelvesdetail/query',
+          type: 'distributor/query',
           payload: params,
         });
       },
@@ -150,7 +191,7 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'shelvesdetail/remove',
+              type: 'distributor/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
@@ -174,9 +215,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

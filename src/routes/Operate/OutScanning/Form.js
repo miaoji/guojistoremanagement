@@ -23,6 +23,11 @@ const formLockLayout = {
 const ModalForm = ({
   orderNo,
   form,
+  shelNoOption,
+  shelNoCount,
+  onShelfChange,
+  outOrderCount,
+  outBatchCount,
   scanVal,
   handleScanning,
   handleModalConfirm,
@@ -63,6 +68,8 @@ const ModalForm = ({
       shelfNoLock,
       weight,
       weightLock,
+      distributorId,
+      distributorLock,
     } = fieldsValue;
     form.setFieldsValue({
       customerNoLock,
@@ -72,6 +79,7 @@ const ModalForm = ({
       productTypeLock,
       shelfNoLock,
       weightLock,
+      distributorLock,
     });
     if (customerNoLock) {
       form.setFieldsValue({
@@ -108,6 +116,11 @@ const ModalForm = ({
         weight,
       });
     }
+    if (distributorLock) {
+      form.setFieldsValue({
+        distributorId,
+      });
+    }
   };
 
   const handleClear = () => {
@@ -136,22 +149,31 @@ const ModalForm = ({
   const handleFreightPrice = () => {
     const { destination, packageType, productType, weight } = form.getFieldsValue();
     if (destination && packageType && productType && weight) {
-      console.log('price can be defined destination', destination);
-      console.log('price can be defined', packageType);
-      console.log('price can be defined', productType);
+      console.info('price can be defined destination', destination);
+      console.info('price can be defined', packageType);
+      console.info('price can be defined', productType);
     }
   };
 
   const handleOrderNo = () => {
     refreshOrderNo();
   };
+
+  const handleShelfNoChange = (e) => {
+    onShelfChange({ shelfNo: e });
+  };
+
   document.onkeydown = (e) => {
+    console.log('eeeeee', e.keyCode);
     if (e.keyCode === 113 || e.keyCode === 174) {
       const inp = document.querySelector('.autofocus');
       inp.focus();
     }
     if (e.keyCode === 187) {
       okHandle();
+    }
+    if (e.keyCode === 115) {
+      handleOrderNo();
     }
   };
   return (
@@ -188,7 +210,7 @@ const ModalForm = ({
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <Button type="primary" onClick={handleOrderNo}>刷新内单号</Button>
+          <Button type="primary" onClick={handleOrderNo}>刷新内单号 (快捷键 F4 )</Button>
         </Col>
         <Col md={8} sm={24}>
           <FormItem
@@ -267,19 +289,19 @@ const ModalForm = ({
         <Col md={8} sm={24}>
           <FormItem
             {...formItemLayout}
-            label="快递公司"
+            label="出口派送"
           >
             {form.getFieldDecorator('expressCompanyCode', {
-              rules: [{ required: true, message: '请输入快递公司' }],
+              rules: [{ required: true, message: '请输入出口派送渠道' }],
             })(
-              <Input placeholder="请输入快递公司" />
+              <Input placeholder="请输入出口派送" />
             )}
           </FormItem>
         </Col>
         <Col md={4} sm={24}>
           <FormItem
             {...formLockLayout}
-            label="快递公司锁定"
+            label="出口派送锁定"
           >
             {form.getFieldDecorator('expressCompanyCodeLock', {
               valuePropName: 'checked',
@@ -299,7 +321,9 @@ const ModalForm = ({
             {form.getFieldDecorator('shelfNo', {
               rules: [{ required: true, message: '请输入货架号' }],
             })(
-              <Input placeholder="请输入货架号" />
+              <Select showSearch style={{ width: '100%' }} onChange={handleShelfNoChange} placeholder="请选择货架号">
+                {shelNoOption}
+              </Select>
             )}
           </FormItem>
         </Col>
@@ -413,6 +437,8 @@ const ModalForm = ({
             )}
           </FormItem>
         </Col>
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }} align="middle">
         <Col md={8} sm={24}>
           <FormItem label="产品类型" hasFeedback {...formItemLayout}>
             {form.getFieldDecorator('productType', {
@@ -445,6 +471,37 @@ const ModalForm = ({
               <Checkbox />
             )}
           </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="渠道商" hasFeedback {...formItemLayout}>
+            {form.getFieldDecorator('distributorId', {})(
+              <Input placeholder="请填入渠道商" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="渠道商锁定"
+          >
+            {form.getFieldDecorator('distributorLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
+            )}
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>货架上剩余 {shelNoCount} 件</div>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库国内单号数 {outOrderCount} 件</div>
+        </Col>
+        <Col md={6} sm={24}>
+          <div style={{ fontSize: '20px', lineHeight: '40px', textAlign: 'center' }}>出库批次数 {outBatchCount} 件</div>
         </Col>
       </Row>
 

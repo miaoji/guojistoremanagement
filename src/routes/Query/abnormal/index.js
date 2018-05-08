@@ -1,69 +1,62 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card } from 'antd';
+import { Card, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import List from './list';
 import Modal from './modal';
 import Filter from './filter';
-import { queryUrl } from '../../../utils';
 
 import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ shelvesdetail, user, loading }) => ({
-  shelvesdetail,
-  user,
-  loading: loading.models.shelvesdetail,
+@connect(({ abnormal, loading }) => ({
+  abnormal,
+  loading: loading.models.abnormal,
 }))
+@Form.create()
 export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch, location } = this.props;
-    const query = queryUrl(location.search);
+    const { dispatch } = this.props;
     dispatch({
-      type: 'shelvesdetail/query',
-      payload: {
-        ...query,
-      },
+      type: 'abnormal/query',
     });
   }
 
   render() {
     const {
+      form,
       location,
-      shelvesdetail: { data, list, total, modalVisible, modalType, currentItem },
+      abnormal: { data, expressList, list, total, modalVisible, modalType, currentItem },
       loading,
       dispatch,
+      // selectedRows = [],
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
     const filterProps = {
+      filter: {
+        ...location.query,
+      },
       handleFormReset() {
-        const query = queryUrl(location.search);
         dispatch({
-          type: 'shelvesdetail/query',
-          payload: {
-            ...query,
-          },
+          type: 'abnormal/query',
+          payload: {},
         });
       },
       handleSearch(values) {
-        const query = queryUrl(location.search);
         dispatch({
-          type: 'shelvesdetail/query',
-          payload: {
-            ...values,
-            ...query,
-          },
+          type: 'abnormal/query',
+          payload: values,
         });
       },
       showModal() {
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'abnormal/setStates',
           payload: {
             modalVisible: true,
             modalType: 'create',
@@ -71,14 +64,16 @@ export default class TableList extends PureComponent {
           },
         });
       },
+      form,
     };
 
     const modalProps = {
       item: currentItem,
-      title: modalType === 'create' ? '新建规则' : '修改规则',
+      expressList,
+      title: modalType === 'create' ? '新建规则' : '回填转单号',
       onOk(item) {
         dispatch({
-          type: `shelvesdetail/${modalType}`,
+          type: `abnormal/${modalType}`,
           payload: {
             ...item,
           },
@@ -86,7 +81,7 @@ export default class TableList extends PureComponent {
       },
       hideModal() {
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'abnormal/setStates',
           payload: {
             modalVisible: false,
           },
@@ -102,22 +97,12 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
-      showModal(item) {
-        dispatch({
-          type: 'shelvesdetail/setStates',
-          payload: {
-            modalVisible: true,
-            modalType: 'updata',
-            currentItem: item,
-          },
-        });
-      },
       onSelectRow(rows) {
         global.setState({
           selectedRows: rows,
         });
         dispatch({
-          type: 'shelvesdetail/setStates',
+          type: 'abnormal/setStates',
           payload: {
             selectedRows: [...rows],
           },
@@ -129,19 +114,17 @@ export default class TableList extends PureComponent {
           newObj[key] = getValue(filtersArg[key]);
           return newObj;
         }, {});
-        const query = queryUrl(location.search);
         const params = {
           currentPage: pagination.current,
           pageSize: pagination.pageSize,
           ...formValues,
           ...filters,
-          ...query,
         };
         if (sorter.field) {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
         dispatch({
-          type: 'shelvesdetail/query',
+          type: 'abnormal/query',
           payload: params,
         });
       },
@@ -150,7 +133,7 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'shelvesdetail/remove',
+              type: 'abnormal/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
@@ -174,9 +157,7 @@ export default class TableList extends PureComponent {
             <List {...listProps} />
           </div>
         </Card>
-        <Modal
-          {...modalProps}
-        />
+        {modalVisible && <Modal {...modalProps} />}
       </PageHeaderLayout>
     );
   }

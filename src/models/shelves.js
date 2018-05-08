@@ -42,16 +42,14 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        notification.success({
-          message: data.msg,
+        notification.warning({
+          message: data.msg || '当前网络无法使用',
         });
       }
     },
 
     *create({ payload }, { call, put }) {
-      console.log('payload', payload);
       const data = yield call(create, payload);
-      console.log('data', data);
       if (data.code === 200) {
         notification.success({
           message: '货架号新增成功',
@@ -71,10 +69,8 @@ export default modelExtend(pageModel, {
     },
 
     *updata({ payload }, { call, put, select }) {
-      console.log('payload', payload);
       const currentItem = yield select(({ shelves }) => shelves.currentItem);
       const res = yield call(updata, { ...payload, id: currentItem.id });
-      console.log('res', res);
       if (res.code === 200) {
         notification.success({
           message: '货架号修改成功',
@@ -94,7 +90,6 @@ export default modelExtend(pageModel, {
     },
 
     *remove({ payload }, { call, put }) {
-      console.log('payload', payload);
       const res = yield call(remove, [payload.id]);
       if (res.code === 200) {
         yield put({ type: 'query' });

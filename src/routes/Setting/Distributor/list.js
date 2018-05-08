@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Modal } from 'antd';
 import SmallTable from 'components/SmallTable';
 import DropOption from 'components/DropOption';
+import { qr } from '../../../utils/api';
+
+const queryQr = qr.query;
 
 const { confirm } = Modal;
 const List = ({
@@ -37,52 +40,19 @@ const List = ({
   };
   const columns = [
     {
-      title: '目的地国家',
-      dataIndex: 'country_cn',
-      key: 'country_cn',
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: '包裹类型',
-      dataIndex: 'name_cn',
-      key: 'name_cn',
+      title: '渠道商名称',
+      dataIndex: 'distributor_name',
+      key: 'distributor_name',
     },
     {
-      title: '产品类型',
-      dataIndex: 'product_name',
-      key: 'product_name',
-    },
-    {
-      title: '首重价格',
-      dataIndex: 'init_price',
-      key: 'init_price',
-    },
-    {
-      title: '首重重量',
-      dataIndex: 'init_weight',
-      key: 'init_weight',
-    },
-    {
-      title: '续重价格',
-      dataIndex: 'stepping_price',
-      key: 'stepping_price',
-    },
-    {
-      title: '步进重量',
-      dataIndex: 'stepping_weight',
-      key: 'stepping_weight',
-    },
-    {
-      title: '燃油附加费',
-      dataIndex: 'fuel_charge',
-      key: 'fuel_charge',
-    },
-    {
-      title: '邮编段',
-      dataIndex: 'postcode',
-      key: 'postcode',
-      render: (text) => {
-        return <span>{text || '无'}</span>;
-      },
+      title: '编码',
+      dataIndex: 'distributor_code',
+      key: 'distributor_code',
     },
     {
       title: '创建时间',
@@ -94,20 +64,24 @@ const List = ({
       },
     },
     {
-      title: '操作人',
-      dataIndex: 'create_user_id',
-      key: 'create_user_id',
-      render: (text) => {
-        return <span>{text || '暂无'}</span>;
-      },
-    },
-    {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
       render: (text) => {
         return <span>{text || '无'}</span>;
       },
+    },
+    {
+      title: '打印',
+      render: (text, record) => (
+        <Fragment>
+          <a
+            href={`${queryQr}?width=245&height=70&barcode=QD_${record.id}`}
+            target="_blank"
+          >打印编码
+          </a>
+        </Fragment>
+      ),
     },
     {
       title: '操作',

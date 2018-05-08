@@ -126,6 +126,10 @@ export const getRouterData = (app) => {
     '/setting/freight': {
       component: dynamicWrapper(app, ['freight'], () => import('../routes/Setting/Freight')),
     },
+    // 渠道商配置
+    '/setting/distributor': {
+      component: dynamicWrapper(app, ['distributor'], () => import('../routes/Setting/Distributor')),
+    },
     // 货架查询
     '/query/shelves': {
       component: dynamicWrapper(app, ['shelves'], () => import('../routes/Query/shelves')),
@@ -153,6 +157,10 @@ export const getRouterData = (app) => {
     // 客户查询-子页 batch
     '/query/customerbatch': {
       component: dynamicWrapper(app, ['customerbatch'], () => import('../routes/Query/customerbatch')),
+    },
+    // 异常件查询
+    '/query/abnormal': {
+      component: dynamicWrapper(app, ['abnormal'], () => import('../routes/Query/abnormal')),
     },
   };
   // Get name from ./menu.js or just set it in the router data.

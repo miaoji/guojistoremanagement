@@ -8,7 +8,6 @@ const Modalbox = ({
   hideModal,
   title,
 }) => {
-  console.log('expreInfo', expreInfo);
   return (
     <Modal
       className={styles.expreModal}

@@ -48,6 +48,9 @@ const menuData = [{
   }, {
     name: '运费配置',
     path: 'freight',
+  }, {
+    name: '渠道商配置',
+    path: 'distributor',
   }],
 }, {
   name: '查询统计',
@@ -72,6 +75,9 @@ const menuData = [{
   }, {
     name: '客户查询',
     path: 'customer',
+  }, {
+    name: '异常件查询',
+    path: 'abnormal',
   }],
 }];
 

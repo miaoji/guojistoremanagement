@@ -1,10 +1,9 @@
 import modelExtend from 'dva-model-extend';
-// import { notification } from 'antd';
 import { pageModel } from './common';
-import { query } from '../services/query/shelvesdetail';
+import { query } from '../services/query/abnormal';
 
 export default modelExtend(pageModel, {
-  namespace: 'shelvesdetail',
+  namespace: 'abnormal',
 
   state: {
     list: [],
@@ -17,6 +16,7 @@ export default modelExtend(pageModel, {
     modalType: 'create',
     modalVisible: false,
     selectedRows: [],
+    expressList: [],
   },
 
   effects: {
@@ -32,14 +32,7 @@ export default modelExtend(pageModel, {
       });
       if (data.code === 200) {
         const list = data.data.map((item) => {
-          const items = {};
-          if (item.operateRecord.type === 0) {
-            items.startTime = item.operateRecord.scanTime;
-          } else if (item.operateRecord.type === 1) {
-            items.endTime = item.operateRecord.scanTime;
-          }
-          items.state = item.operateRecord.type;
-          return { key: item.id, ...items, ...item };
+          return { key: item.id, ...item };
         });
         yield put({
           type: 'setStates',

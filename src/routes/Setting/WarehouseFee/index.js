@@ -45,7 +45,6 @@ export default class TableList extends PureComponent {
         type: 'warehouseFee/update',
         payload: values,
         callback: () => {
-          console.log(111);
           _.setState({
             justRead: true,
           });

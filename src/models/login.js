@@ -3,6 +3,7 @@ import { routerRedux } from 'dva/router';
 import { accountLogin } from '../services/api';
 import { setAuthority, setToken, delToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
+import { storage } from '../utils';
 
 export default {
   namespace: 'login',
@@ -53,11 +54,12 @@ export default {
         reloadAuthorized();
         const { token } = response;
         setToken(token);
-        yield put(routerRedux.push('/'));
-        // window.location.href = '/';
+        // yield put(routerRedux.push('/'));
+        window.location.href = '/';
       }
     },
     *logout(_, { put }) {
+      storage({ type: 'clear' });
       yield put({
         type: 'changeLoginStatus',
         payload: {

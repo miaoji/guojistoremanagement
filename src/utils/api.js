@@ -144,3 +144,17 @@ export const token = {
 export const country = {
   list: `${APIV3}/api/country/list`,
 };
+
+export const abnormal = {
+  list: `${APIV3}/api/cargo/getUnusual`,
+};
+
+
+// 渠道商信息
+export const distributor = {
+  list: `${APIV3}/api/distributor/list`,
+  add: `${APIV3}/api/distributor/add`,
+  remove: `${APIV3}/api/distributor/del`,
+  show: `${APIV3}/api/distributor/get`,
+  edit: `${APIV3}/api/distributor/edit`,
+};

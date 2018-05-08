@@ -1,8 +1,10 @@
 import React from 'react';
-import { message, Select } from 'antd';
+import { message, notification, Select } from 'antd';
 import { update, add, query, remove } from '../services/cargo';
+import { query as queryShelfInfo } from '../services/query/shelves';
 import { getOrderNo } from '../services/api';
 import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
+import { storage } from '../utils';
 
 const { Option } = Select;
 
@@ -14,16 +16,22 @@ export default {
       list: [],
       pagination: {},
     },
+    shelNoCount: 0,
+    outOrderCount: '0',
+    outBatchCount: '0',
     orderNo: '',
     countryInfo: [],
     productInfo: [],
     packageInfo: [],
+    shelNoOption: [],
     packageDis: true,
     productDis: true,
+    musicPlay: false,
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
+      yield put({ type: 'getShelNo' });
       /* eslint-disable no-param-reassign */
       if (!payload) {
         payload = {
@@ -40,15 +48,21 @@ export default {
         ...payload,
         total,
       };
+      const outOrderCount = storage({ key: 'outOrderCount' }) || '0';
+      const outBatchCount = storage({ key: 'outBatchCount' }) || '0';
       yield put({
         type: 'save',
         payload: {
           list: data,
           pagination,
+          outOrderCount,
+          outBatchCount,
         },
       });
     },
     *add({ payload, callback }, { call, put, select }) {
+      const outOrderCount = Number(storage({ key: 'outOrderCount' }));
+      const outBatchCount = Number(storage({ key: 'outBatchCount' }));
       const priceOptions = {
         countryId: Number(payload.destination.split('/')[0]),
         packageTypeId: Number(payload.packageType.split('/')[0]),
@@ -56,7 +70,6 @@ export default {
         weight: Number(payload.weight),
       };
       const { orderNo } = yield select(_ => _.outscanning);
-      console.log('order', orderNo);
       const priceData = yield call(freightprice, priceOptions);
       const { finalPrice } = priceData.data;
       const response = yield call(add, {
@@ -75,16 +88,28 @@ export default {
           wide: payload.wide,
           expressCharge: finalPrice,
           volumeWeight: payload.volumeWeight,
+          distributorId: payload.distributorId,
         },
         params: {
           type: 1,
         },
       });
       if (response.code === 200) {
-        message.success('添加成功');
+        storage({ type: 'set', key: 'outOrderCount', val: outOrderCount + 1 });
+        const storageOrderNo = storage({ key: 'orderNo' });
+        if (orderNo !== storageOrderNo || outBatchCount === 0) {
+          storage({ type: 'set', key: 'outBatchCount', val: outBatchCount + 1 });
+        }
+        storage({ type: 'set', key: 'orderNo', val: orderNo });
+        yield put({ type: 'setStates', payload: { musicPlay: true } });
+        notification.success({
+          message: '添加成功',
+        });
         yield put({ type: 'fetch' });
       } else {
-        message.error(response.msg || '添加失败');
+        notification.warning({
+          message: '添加失败',
+        });
       }
       if (callback) callback();
     },
@@ -94,12 +119,11 @@ export default {
         message.success('删除成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('删除失败' || response.msg);
+        message.error(response.msg || '当前网络无法使用');
       }
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      console.log('payload', payload);
       const priceOptions = {
         countryId: Number(payload.destination.split('/')[0]),
         packageTypeId: Number(payload.packageType.split('/')[0]),
@@ -129,14 +153,13 @@ export default {
         message.success('更新成功');
         yield put({ type: 'fetch' });
       } else {
-        message.error('更新失败' || response.msg);
+        message.error(response.msg || '当前网络无法使用');
       }
       if (callback) callback();
     },
     *initOrderNo(_, { put }) {
       const orderNo = window.localStorage.getItem('orderno');
       if (orderNo) {
-        console.log('orderNo', orderNo);
         yield put({
           type: 'setStates',
           payload: {
@@ -223,6 +246,38 @@ export default {
         message.warning('您选择的包裹类型没有对应的产品类型,请创建');
       }
     },
+    *getShelNoCount({ payload }, { call, put }) {
+      const data = yield call(queryShelfInfo, payload);
+      if (data.code === 200 && data.data && data.data.length > 0) {
+        const shelNoCount = data.data[0].in - data.data[0].out;
+        yield put({
+          type: 'setStates',
+          payload: {
+            shelNoCount,
+          },
+        });
+      }
+    },
+    *getShelNo(_, { call, put }) {
+      const data = yield call(queryShelfInfo, { currentPage: 1, pageSize: 10000 });
+      if (data.code === 200) {
+        if (data.data && data.data.length === 0) {
+          message.warning('当前没有货架号,请添加货架号后进行入库操作');
+          return;
+        }
+        const options = data.data.map((items) => {
+          return <Option key={items.shelf_no}>{items.shelf_no}</Option>;
+        });
+        yield put({
+          type: 'setStates',
+          payload: {
+            shelNoOption: options,
+          },
+        });
+      } else {
+        message.warning(data.msg || '网络延迟, 请刷新');
+      }
+    },
   },
 
   reducers: {
@@ -230,10 +285,15 @@ export default {
       return {
         ...state,
         data: action.payload,
+        outOrderCount: action.payload.outOrderCount,
+        outBatchCount: action.payload.outBatchCount,
       };
     },
     setStates(state, { payload }) {
       return { ...state, ...payload };
+    },
+    stopMusic(state, { payload }) {
+      return { ...state, ...payload, musicPlay: false };
     },
   },
 };

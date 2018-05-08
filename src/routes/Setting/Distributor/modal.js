@@ -1,28 +1,28 @@
 import React from 'react';
-import { Form, Input, Modal, Select } from 'antd';
+import { Form, Input, Modal } from 'antd';
+import styles from './index.less';
 
 const FormItem = Form.Item;
 const formItemLayout = {
+  className: styles.medalItem,
   labelCol: {
-    span: 6,
+    span: 7,
   },
   wrapperCol: {
-    span: 14,
+    span: 15,
   },
 };
 const Modalbox = ({
-  item = {},
+  item,
   modalVisible,
-  expressList,
-  form: {
-    validateFields,
-    getFieldDecorator,
-    // resetFields,
-    getFieldsValue,
-  },
   onOk,
   hideModal,
   title,
+  form: {
+    validateFields,
+    getFieldDecorator,
+    getFieldsValue,
+  },
 }) => {
   const handleOk = () => {
     validateFields((errors) => {
@@ -36,29 +36,35 @@ const Modalbox = ({
       onOk(data);
     });
   };
+
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
-      <FormItem label="单号" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('expressCompanyEn', {
-          initialValue: item.express_company_en,
+      <FormItem label="名称" hasFeedback {...formItemLayout}>
+        {getFieldDecorator('distributor_name', {
+          initialValue: item.distributor_name,
           rules: [
             {
               required: true,
-              message: '请输入单号!',
+              message: '请添加渠道商名称!',
             },
           ],
-        })(<Input placeholder="请输入单号" />)}
+        })(<Input placeholder="请添加渠道商名称" />)}
       </FormItem>
-      <FormItem label="快递公司" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('expressCompanyCodeEn', {
-          initialValue: item.express_company_code_en,
+      <FormItem label="编码" hasFeedback {...formItemLayout}>
+        {getFieldDecorator('distributor_code', {
+          initialValue: item.distributor_code,
           rules: [
             {
               required: true,
-              message: '请输入单号!',
+              message: '请输入编码信息!',
             },
           ],
-        })(<Select showSearch style={{ width: '100%' }} placeholder="请输入单号" >{expressList}</Select>)}
+        })(<Input placeholder="请输入编码信息" />)}
+      </FormItem>
+      <FormItem label="备注" hasFeedback {...formItemLayout}>
+        {getFieldDecorator('remark', {
+          initialValue: item.remark,
+        })(<Input placeholder="请输入备注信息" />)}
       </FormItem>
     </Modal>
   );

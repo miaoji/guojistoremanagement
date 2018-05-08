@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactPlayer from 'react-player';
 import { connect } from 'dva';
 import { Card, Modal, Form } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
@@ -198,10 +199,22 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { entryscanning: { data }, loading, form } = this.props;
+    const {
+      entryscanning: {
+        data,
+        entryCount,
+        shelNoOption,
+        musicPlay,
+      },
+      loading,
+      form,
+      dispatch,
+    } = this.props;
     const { selectedRows, modalVisible, modalType, currentItem, scanVal } = this.state;
 
     const modalProps = {
+      shelNoOption,
+      entryCount,
       scanVal,
       modalType,
       currentItem,
@@ -230,9 +243,23 @@ export default class TableList extends PureComponent {
       handleStandardTableChange: this.handleStandardTableChange,
     };
 
+    const musicProps = {
+      url: 'http://cdnringuc.shoujiduoduo.com/ringres/all/a24/516/3374516.aac',
+      playing: musicPlay,
+      onEnded() {
+        console.log('1');
+        dispatch({
+          type: 'outscanning/stopMusic',
+        });
+      },
+    };
+
     return (
       <PageHeaderLayout title="">
-        <Card style={{ marginBottom: '10px' }} title="创建入库信息" bordered={false}>
+        <div style={{ height: '0px', overflow: 'hidden' }}>
+          <ReactPlayer {...musicProps} />
+        </div>
+        <Card style={{ marginBottom: '10px' }} title="入库扫描" bordered={false}>
           <HeaderCreate {...modalProps} />
         </Card>
         <Card bordered={false}>

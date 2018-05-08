@@ -12,69 +12,59 @@ const List = ({
   onSelectRow,
   onChange,
   handleMenuClick,
-  showModal,
 }) => {
-  // const handleUpdata = (record) => {
-  //   showModal(record);
-  // };
   const columns = [
-    {
-      title: '单号',
-      dataIndex: 'order_no',
-      key: 'order_no',
-    },
     {
       title: '国内单号',
       dataIndex: 'cn_no',
       key: 'cn_no',
-    },
-    {
-      title: '国际单号',
-      dataIndex: 'express_company_en',
-      key: 'express_company_en',
       render: (text) => {
         return <span>{text || '暂无'}</span>;
       },
     },
     {
-      title: '目的地国家',
-      dataIndex: 'destination',
-      key: 'destination',
-    },
-    {
-      title: '客户编号',
+      title: '客户编码',
       dataIndex: 'customer_no',
       key: 'customer_no',
-    },
-    {
-      title: '快递费',
-      dataIndex: 'express_charge',
-      key: 'express_charge',
       render: (text) => {
         return <span>{text || '暂无'}</span>;
       },
     },
     {
-      title: '重量',
-      dataIndex: 'weight',
-      key: 'weight',
+      title: '货架号',
+      dataIndex: 'shelf_no',
+      key: 'shelf_no',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
-      title: '出库时间',
-      dataIndex: 'scan_time',
-      key: 'scan_time',
-      width: 180,
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
+      render: (text) => {
+        return <span>{text || '无'}</span>;
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text) => {
+        const Text = {
+          0: '正常',
+          1: '异常',
+        };
+        return <span>{Text[text]}</span>;
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'gmt_create',
+      key: 'gmt_create',
       render: (text) => {
         return <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '未知时间'}</span>;
       },
-    },
-    {
-      title: '操作',
-      render: (text, record) => (
-        <span className={styles.button} onClick={() => showModal(record)}>
-          回填转单号
-        </span>
-      ),
     },
   ];
 

@@ -58,18 +58,14 @@ export default modelExtend(pageModel, {
 
     *updata({ payload }, { call, put, select }) {
       const id = yield select(({ getout }) => getout.currentItem.id);
-      console.log('id', id);
       const newpayload = payload;
       delete newpayload.key;
-      console.log('payload', payload);
       if (payload.expressCompanyCodeEn && payload.expressCompanyCodeEn.split('/-/').length > 0) {
         const expressCompanyCodeEn = payload.expressCompanyCodeEn.split('/-/');
         [newpayload.expressCompanyCodeEn] = expressCompanyCodeEn;
       }
-      console.log('newpayload', newpayload);
       newpayload.id = id;
       const res = yield call(updata, newpayload);
-      console.log('res', res);
       if (res.code === 200) {
         notification.success({
           message: '添加成功',
