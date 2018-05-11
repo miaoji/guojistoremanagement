@@ -37,6 +37,9 @@ const menuData = [{
     name: '客户信息管理',
     path: 'customer',
   }, {
+    name: '客户编码类型配置',
+    path: 'customer-type',
+  }, {
     name: '仓管费配置',
     path: 'warehouse-fee',
   }, {

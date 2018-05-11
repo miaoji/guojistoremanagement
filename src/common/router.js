@@ -122,6 +122,10 @@ export const getRouterData = (app) => {
     '/setting/country': {
       component: dynamicWrapper(app, ['country'], () => import('../routes/Setting/Country')),
     },
+    // 目的地国家管理
+    '/setting/customer-type': {
+      component: dynamicWrapper(app, ['customerType'], () => import('../routes/Setting/CustomerType')),
+    },
     // 运费配置
     '/setting/freight': {
       component: dynamicWrapper(app, ['freight'], () => import('../routes/Setting/Freight')),

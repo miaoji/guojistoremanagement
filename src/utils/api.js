@@ -8,9 +8,9 @@ APIV4 = 'http://api.mingz-tech.com';
 // 线下地址
 // APIV3 = 'http://192.168.231.239:8000';
 // 张涛线下地址
-APIV3 = 'http://192.168.231.237:8080';
+// APIV3 = 'http://192.168.231.237:8080';
 // 正式地址(生产)
-// APIV3 = 'http://wmsapi.mingz-tech.com';
+APIV3 = 'http://wmsapi.mingz-tech.com';
 
 // 生产环境时api固定为线上url
 if (process.env.NODE_ENV !== 'development') {
