@@ -158,3 +158,8 @@ export const distributor = {
   show: `${APIV3}/api/distributor/get`,
   edit: `${APIV3}/api/distributor/edit`,
 };
+
+// 客户编码规则
+export const customerType = {
+  list: `${APIV3}/api/freight/list`,
+};

@@ -151,11 +151,15 @@ export default class TableList extends PureComponent {
   }
 
   handleAddBtn = () => {
+    const { dispatch } = this.props;
     this.setState({
       currentItem: {},
     });
     this.handleModalVisible(true);
     this.handleModalType('add');
+    dispatch({
+      type: 'customer/getCustomerTypeOption',
+    });
   }
 
   handleTableUpdate = (record) => {
@@ -175,7 +179,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const {
-      customer: { data, rechargeModalVisible, dbCurrentItem },
+      customer: { data, rechargeModalVisible, dbCurrentItem, customerTypeOption },
       loading,
       form,
       dispatch,
@@ -206,6 +210,7 @@ export default class TableList extends PureComponent {
 
     const modalProps = {
       modalType,
+      customerTypeOption,
       currentItem,
       modalVisible,
       handleModalConfirm: this.handleModalConfirm,

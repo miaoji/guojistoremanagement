@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, InputNumber, Modal } from 'antd';
 import styles from './index.less';
 
 // const { Option } = Select;
@@ -58,7 +58,8 @@ const Modalbox = ({
           rules: [
             {
               required: true,
-              message: '请输入前缀!',
+              pattern: /^[0-9a-zA-Z]*$/,
+              message: '请输入有效前缀!',
             },
           ],
         })(<Input placeholder="请输入前缀" />)}
@@ -72,7 +73,7 @@ const Modalbox = ({
               message: '请输入位数!',
             },
           ],
-        })(<Input placeholder="请输入位数" />)}
+        })(<InputNumber style={{ width: '100%' }} placeholder="请输入位数" />)}
       </FormItem>
       <FormItem label="备注" hasFeedback {...formItemLayout}>
         {getFieldDecorator('remark', {

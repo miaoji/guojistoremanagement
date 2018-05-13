@@ -1,10 +1,17 @@
 import React from 'react';
-import { Form, Input, Modal, InputNumber } from 'antd';
+import { Form, Input, Modal, InputNumber, Select } from 'antd';
 
 const FormItem = Form.Item;
 
-const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
-  handleModalVisible, currentItem }) => {
+const ModalForm = ({
+  modalVisible,
+  modalType,
+  form,
+  handleModalConfirm,
+  handleModalVisible,
+  currentItem,
+  customerTypeOption,
+}) => {
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -18,7 +25,7 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
       handleModalConfirm(modalFormVal, modalType);
     });
   };
-  const title = modalType === 'add' ? '新建' : '修改';
+  const title = modalType === 'add' ? '新建客户信息' : '修改客户信息';
   return (
     <Modal
       title={`${title}用户`}
@@ -36,6 +43,14 @@ const ModalForm = ({ modalVisible, modalType, form, handleModalConfirm,
           rules: [{ required: true, message: '请输入客户名称' }],
         })(
           <Input placeholder="请输入客户名称" />
+        )}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="客户类型" style={{ display: modalType === 'add' ? 'block' : 'none' }}>
+        {form.getFieldDecorator('customerTyoe', {
+          initialValue: currentItem.customer_type,
+          rules: [{ required: true, message: '请选择客户类型' }],
+        })(
+          <Select style={{ width: '100%' }} placeholder="请选择客户类型">{customerTypeOption}</Select>
         )}
       </FormItem>
       <FormItem

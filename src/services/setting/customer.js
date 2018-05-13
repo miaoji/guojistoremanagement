@@ -1,5 +1,5 @@
 import request from '../../utils/query';
-import { customer as apiList } from '../../utils/api';
+import { customer as apiList, customerType } from '../../utils/api';
 
 export async function recharge(params) {
   return request({
@@ -38,5 +38,16 @@ export async function remove(params) {
     url: apiList.remove,
     method: 'delete',
     data: params,
+  });
+}
+
+export async function getCustomerTypeOption() {
+  return request({
+    url: customerType.list,
+    method: 'post',
+    data: {
+      currentPage: 1,
+      pageSize: 10000000,
+    },
   });
 }

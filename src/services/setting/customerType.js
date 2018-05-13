@@ -1,9 +1,9 @@
-import { freight } from '../../utils/api';
+import { customerType } from '../../utils/api';
 import request from '../../utils/query';
 // 运费信息
 export async function query(params) {
   return request({
-    url: freight.list,
+    url: customerType.list,
     method: 'post',
     data: params,
   });
@@ -11,7 +11,7 @@ export async function query(params) {
 // 新增运费信息
 export async function create(params) {
   return request({
-    url: freight.add,
+    url: customerType.add,
     method: 'post',
     data: params,
   });
@@ -19,7 +19,7 @@ export async function create(params) {
 // 修改运费信息
 export async function update(params) {
   return request({
-    url: freight.edit,
+    url: customerType.edit,
     method: 'post',
     data: params,
   });
@@ -27,7 +27,7 @@ export async function update(params) {
 // 删除运费信息
 export async function remove(params) {
   return request({
-    url: freight.del,
+    url: customerType.del,
     method: 'delete',
     data: params.ids,
   });
@@ -35,7 +35,7 @@ export async function remove(params) {
 // 国家信息
 export async function countrylist(params) {
   return request({
-    url: freight.countrylist,
+    url: customerType.countrylist,
     method: 'get',
     params,
   });
@@ -44,7 +44,7 @@ export async function countrylist(params) {
 export async function packagelist(params) {
   return request({
     // url: 'http://api.mingz-tech.com/api/packageType/getPackageTypeByCountry',
-    url: freight.packagelist,
+    url: customerType.packagelist,
     method: 'post',
     data: params,
   });
@@ -53,7 +53,7 @@ export async function packagelist(params) {
 export async function productlist(params) {
   return request({
     // url: 'http://api.mingz-tech.com/api/productType/getProductByPackage',
-    url: freight.productlist,
+    url: customerType.productlist,
     method: 'post',
     data: params,
   });
@@ -62,7 +62,7 @@ export async function productlist(params) {
 // 获取运费
 export async function freightprice(params) {
   return request({
-    url: freight.freightprice,
+    url: customerType.freightprice,
     method: 'post',
     data: params,
   });
