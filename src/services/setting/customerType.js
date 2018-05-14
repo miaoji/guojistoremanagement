@@ -1,6 +1,6 @@
 import { customerType } from '../../utils/api';
 import request from '../../utils/query';
-// 运费信息
+// 客户类型（客户编码的编码规则）
 export async function query(params) {
   return request({
     url: customerType.list,
@@ -8,7 +8,7 @@ export async function query(params) {
     data: params,
   });
 }
-// 新增运费信息
+// 新增客户类型（客户编码的编码规则）
 export async function create(params) {
   return request({
     url: customerType.add,
@@ -16,7 +16,7 @@ export async function create(params) {
     data: params,
   });
 }
-// 修改运费信息
+// 修改客户类型（客户编码的编码规则）
 export async function update(params) {
   return request({
     url: customerType.edit,
@@ -24,7 +24,7 @@ export async function update(params) {
     data: params,
   });
 }
-// 删除运费信息
+// 删除客户类型（客户编码的编码规则）
 export async function remove(params) {
   return request({
     url: customerType.del,
@@ -32,38 +32,4 @@ export async function remove(params) {
     data: params.ids,
   });
 }
-// 国家信息
-export async function countrylist(params) {
-  return request({
-    url: customerType.countrylist,
-    method: 'get',
-    params,
-  });
-}
-// 包裹类型信息
-export async function packagelist(params) {
-  return request({
-    // url: 'http://api.mingz-tech.com/api/packageType/getPackageTypeByCountry',
-    url: customerType.packagelist,
-    method: 'post',
-    data: params,
-  });
-}
-// 产品类型信息
-export async function productlist(params) {
-  return request({
-    // url: 'http://api.mingz-tech.com/api/productType/getProductByPackage',
-    url: customerType.productlist,
-    method: 'post',
-    data: params,
-  });
-}
 
-// 获取运费
-export async function freightprice(params) {
-  return request({
-    url: customerType.freightprice,
-    method: 'post',
-    data: params,
-  });
-}

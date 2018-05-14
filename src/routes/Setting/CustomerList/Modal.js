@@ -50,7 +50,7 @@ const ModalForm = ({
           initialValue: currentItem.customer_type,
           rules: [{ required: true, message: '请选择客户类型' }],
         })(
-          <Select style={{ width: '100%' }} placeholder="请选择客户类型">{customerTypeOption}</Select>
+          <Select showSearch style={{ width: '100%' }} placeholder="请选择客户类型">{customerTypeOption}</Select>
         )}
       </FormItem>
       <FormItem

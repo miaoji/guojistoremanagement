@@ -1,6 +1,7 @@
 import React from 'react';
 import { message, Select } from 'antd';
-import { update, add, query, remove, recharge, getCustomerTypeOption } from '../services/setting/customer';
+import { update, add, query, remove, recharge } from '../services/setting/customer';
+import { query as getCustomerTypeOption } from '../services/setting/customerType';
 
 const { Option } = Select;
 export default {
@@ -97,11 +98,11 @@ export default {
     },
 
     *getCustomerTypeOption(_, { call, put }) {
-      const data = yield call(getCustomerTypeOption);
+      const data = yield call(getCustomerTypeOption, { currentPage: 1, pageSize: 10000000 });
       console.log('data123123123', data);
       if (data.code === 200 && data.data && data.data.length) {
         const options = data.data.map((items) => {
-          return <Option key={items.id}>{items.country_cn}</Option>;
+          return <Option key={items.rule_name}>{items.rule_name}</Option>;
         });
         yield put({
           type: 'setStates',

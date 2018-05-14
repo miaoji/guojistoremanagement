@@ -44,7 +44,7 @@ const Filter = ({
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
           <FormItem label="名称">
-            {getFieldDecorator('country')(
+            {getFieldDecorator('ruleName')(
               <Input placeholder="按名称搜索" onPressEnter={onSearch} />
             )}
           </FormItem>

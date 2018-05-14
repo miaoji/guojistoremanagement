@@ -38,18 +38,18 @@ const List = ({
   const columns = [
     {
       title: '名称',
-      dataIndex: 'country_cn',
-      key: 'country_cn',
+      dataIndex: 'rule_name',
+      key: 'rule_name',
     },
     {
       title: '前缀',
-      dataIndex: 'name_cn',
-      key: 'name_cn',
+      dataIndex: 'rule_prefix',
+      key: 'rule_prefix',
     },
     {
       title: '位数',
-      dataIndex: 'product_name',
-      key: 'product_name',
+      dataIndex: 'rule_digit',
+      key: 'rule_digit',
     },
     {
       title: '创建时间',

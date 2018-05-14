@@ -64,10 +64,16 @@ const List = ({
     {
       title: '客户手机号',
       dataIndex: 'customer_mobile',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '客户邮编',
       dataIndex: 'customer_postcode',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '累计充值金额',

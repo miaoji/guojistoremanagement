@@ -42,8 +42,8 @@ const Modalbox = ({
   return (
     <Modal title={title} visible={modalVisible} onOk={handleOk} onCancel={() => hideModal()}>
       <FormItem label="规则名称" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('stepping_price', {
-          initialValue: item.stepping_price,
+        {getFieldDecorator('ruleName', {
+          initialValue: item.rule_name,
           rules: [
             {
               required: true,
@@ -53,8 +53,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入规则名称" />)}
       </FormItem>
       <FormItem label="前缀" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('stepping_weight', {
-          initialValue: item.stepping_weight,
+        {getFieldDecorator('rulePrefix', {
+          initialValue: item.rule_prefix,
           rules: [
             {
               required: true,
@@ -65,8 +65,8 @@ const Modalbox = ({
         })(<Input placeholder="请输入前缀" />)}
       </FormItem>
       <FormItem label="位数" hasFeedback {...formItemLayout}>
-        {getFieldDecorator('fuel_charge', {
-          initialValue: item.fuel_charge,
+        {getFieldDecorator('ruleDigit', {
+          initialValue: item.rule_digit,
           rules: [
             {
               required: true,
