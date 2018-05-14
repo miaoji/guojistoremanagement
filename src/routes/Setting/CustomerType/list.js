@@ -25,7 +25,7 @@ const List = ({
           cancelText: '取消',
           okText: '确认删除',
           title: '删除',
-          content: '你确定要删除这一条运费信息吗?',
+          content: '你确定要删除这一条规则吗?',
           onOk: () => {
             onDelete(record.id);
           },

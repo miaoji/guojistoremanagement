@@ -46,9 +46,12 @@ const ModalForm = ({
         )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="客户类型" style={{ display: modalType === 'add' ? 'block' : 'none' }}>
-        {form.getFieldDecorator('customerTyoe', {
+        {form.getFieldDecorator('ruleTypeId', {
           initialValue: currentItem.customer_type,
-          rules: [{ required: true, message: '请选择客户类型' }],
+          rules: [{
+            required: modalType === 'add',
+            message: '请选择客户类型',
+          }],
         })(
           <Select showSearch style={{ width: '100%' }} placeholder="请选择客户类型">{customerTypeOption}</Select>
         )}

@@ -42,7 +42,9 @@ export default {
     },
 
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(add, payload);
+      console.log('payload', payload);
+      const { ruleTypeId } = payload;
+      const response = yield call(add, { ...payload, ruleTypeId: Number(ruleTypeId.split('///')[0]) });
       if (response.code === 200) {
         message.success('添加成功');
         yield put({ type: 'fetch' });
@@ -102,7 +104,8 @@ export default {
       console.log('data123123123', data);
       if (data.code === 200 && data.data && data.data.length) {
         const options = data.data.map((items) => {
-          return <Option key={items.rule_name}>{items.rule_name}</Option>;
+          const value = `${items.id}///${items.rule_name}`;
+          return <Option key={value}>{items.rule_name}</Option>;
         });
         yield put({
           type: 'setStates',
