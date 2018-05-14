@@ -5,7 +5,6 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from './index.less';
 import Filter from './Filter';
 import List from './List';
-import { handleFields } from '../../../utils/time';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
@@ -20,6 +19,10 @@ export default class TableList extends PureComponent {
   };
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'customerdetail/fetch',
+    });
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -48,48 +51,6 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleSearchReset = () => {
-    const { form, dispatch } = this.props;
-    form.resetFields();
-    this.setState({
-      formValues: {},
-    });
-    dispatch({
-      type: 'customerdetail/fetch',
-      payload: {},
-    });
-  }
-
-  handleSearch = (e) => {
-    e.preventDefault();
-
-    const { dispatch, form } = this.props;
-
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-
-      let item = {};
-
-      const values = {
-        ...fieldsValue,
-      };
-
-      if (!values.createTime) {
-        item = values;
-      }
-      item = handleFields(values);
-
-      this.setState({
-        formValues: item,
-      });
-
-      dispatch({
-        type: 'customerdetail/fetch',
-        payload: item,
-      });
-    });
-  }
-
   render() {
     const {
       customerdetail: { data },
@@ -99,9 +60,22 @@ export default class TableList extends PureComponent {
     } = this.props;
 
     const filterProps = {
+      filter: {
+        ...location.query,
+      },
+      handleFormReset() {
+        dispatch({
+          type: 'customerdetail/fetch',
+          payload: {},
+        });
+      },
+      handleSearch(values) {
+        dispatch({
+          type: 'customerdetail/fetch',
+          payload: values,
+        });
+      },
       form,
-      handleSearch: this.handleSearch,
-      handleSearchReset: this.handleSearchReset,
     };
 
     const listProps = {

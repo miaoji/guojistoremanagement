@@ -54,7 +54,7 @@ export default modelExtend(pageModel, {
           },
         });
       } else {
-        notification.waring({
+        notification.warn({
           message: data.msg || '无法与服务器建立有效连接',
         });
       }
@@ -78,7 +78,7 @@ export default modelExtend(pageModel, {
           type: 'query',
         });
       } else {
-        notification.waring({
+        notification.warn({
           message: res.msg || '无法与服务器建立有效连接',
         });
       }
@@ -96,7 +96,7 @@ export default modelExtend(pageModel, {
           message: '删除成功',
         });
       } else {
-        notification.waring({
+        notification.warn({
           message: res.msg || '无法与服务器建立有效连接',
         });
       }
