@@ -39,6 +39,12 @@ export default modelExtend(pageModel, {
     },
 
     *create({ payload }, { call, put }) {
+      if ((payload.ruleDigit - payload.rulePrefix.length) < 6) {
+        return notification.warn({
+          message: '警告 ！',
+          description: '您当前定义的规则的位数过短,请增加位数,建议总位数减去前缀的位数大于6',
+        });
+      }
       const data = yield call(create, payload);
       if (data.code === 200) {
         notification.success({
@@ -60,6 +66,12 @@ export default modelExtend(pageModel, {
       }
     },
     *update({ payload }, { call, put, select }) {
+      if ((payload.ruleDigit - payload.rulePrefix.length) < 6) {
+        return notification.warn({
+          message: '警告 ！',
+          description: '您当前定义的规则的位数过短,请增加位数,建议总位数减去前缀的位数大于6',
+        });
+      }
       const newpayload = { ...payload };
       const currentItem = yield select(({ customerType }) => customerType.currentItem);
       delete newpayload.key;

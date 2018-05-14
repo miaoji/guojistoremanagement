@@ -45,6 +45,9 @@ const List = ({
       title: '客户手机号',
       dataIndex: 'customer_mobile',
       key: 'customer_mobile',
+      render: (text) => {
+        return <span>{text || '暂无'}</span>;
+      },
     },
     {
       title: '操作',

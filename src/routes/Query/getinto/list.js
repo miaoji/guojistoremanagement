@@ -15,11 +15,6 @@ const List = ({
 }) => {
   const columns = [
     {
-      title: '单号',
-      dataIndex: 'order_no',
-      key: 'order_no',
-    },
-    {
       title: '客户编码',
       dataIndex: 'customer_no',
       key: 'customer_no',
