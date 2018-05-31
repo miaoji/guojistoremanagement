@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col, Button, Form, Icon, Input, InputNumber, Checkbox, Select } from 'antd';
-
+import { Row, Col, Button, Form, Icon, Input, InputNumber, Checkbox, Select, Radio } from 'antd';
 import styles from './index.less';
 
+const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 
 const ModalForm = ({
@@ -48,6 +48,8 @@ const ModalForm = ({
       shelfNoLock,
       customerNo,
       customerNoLock,
+      parcelTypes,
+      parcelTypesLock,
       expressCompanyCode,
       expressCompanyCodeLock,
     } = fieldsValue;
@@ -57,6 +59,11 @@ const ModalForm = ({
       customerNoLock,
       expressCompanyCodeLock,
     });
+    if (parcelTypesLock) {
+      form.setFieldsValue({
+        parcelTypes,
+      });
+    }
     if (weightLock) {
       form.setFieldsValue({
         weight,
@@ -128,6 +135,35 @@ const ModalForm = ({
               rules: [{ required: true, message: '请输入单号' }],
             })(
               <Input placeholder="请输入单号" />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={6} sm={24} >
+          <FormItem
+            {...formItemLayout}
+            label="包裹类型"
+          >
+            {form.getFieldDecorator('parcelTypes', {
+              initialValue: 0,
+              rules: [{ required: true, message: '选择包裹类型' }],
+            })(
+              <RadioGroup>
+                <Radio value={0}>普货</Radio>
+                <Radio value={1}>特货</Radio>
+              </RadioGroup>
+            )}
+          </FormItem>
+        </Col>
+        <Col md={4} sm={24}>
+          <FormItem
+            {...formLockLayout}
+            label="类型锁定"
+          >
+            {form.getFieldDecorator('parcelTypesLock', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox />
             )}
           </FormItem>
         </Col>
