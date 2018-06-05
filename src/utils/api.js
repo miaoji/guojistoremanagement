@@ -38,9 +38,14 @@ export const common = {
 export const cargo = {
   list: `${APIV3}/api/cargo/list`,
   add: `${APIV3}/api/cargo/add`,
-  update: `${APIV3}/api/cargo/edit`,
+  // 合单修改接口
+  update: `${APIV3}/api/orderInfo/updateByPrimaryKey`,
   remove: `${APIV3}/api/cargo/del`,
   getUnusual: `${APIV3}/api/cargo/getUnusual`,
+  // 获取所有好合单的订单
+  getOrderDetail: `${APIV3}/api/orderInfo/getOrderDetail`,
+  // cnNo
+  getOrderNo: `${APIV3}/api/orderInfo/getOrderNo`,
 };
 
 export const unusual = {
@@ -165,3 +170,4 @@ export const customerType = {
   del: `${APIV3}/api/ruletype/del`,
   edit: `${APIV3}/api/ruletype/edit`,
 };
+

@@ -1,13 +1,10 @@
-import React from 'react';
 import modelExtend from 'dva-model-extend';
-import { Select, notification } from 'antd';
+import { notification } from 'antd';
 import { pageModel } from './common';
-import { query, queryExpressList, updata } from '../services/query/getout';
-
-const { Option } = Select;
+import { getOrderDetail, update } from '../services/cargo';
 
 export default modelExtend(pageModel, {
-  namespace: 'getout',
+  namespace: 'cargo',
 
   state: {
     list: [],
@@ -29,7 +26,7 @@ export default modelExtend(pageModel, {
       currentPage: 1,
       pageSize: 10,
     } }, { call, put }) {
-      const data = yield call(query, {
+      const data = yield call(getOrderDetail, {
         ...payload,
         currentPage: Number(payload.currentPage) || 1,
         pageSize: Number(payload.pageSize) || 10,
@@ -57,18 +54,13 @@ export default modelExtend(pageModel, {
     },
 
     *updata({ payload }, { call, put, select }) {
-      const id = yield select(({ getout }) => getout.currentItem.id);
+      const id = yield select(({ cargo }) => cargo.currentItem.ID);
       const newpayload = payload;
-      delete newpayload.key;
-      if (payload.expressCompanyCodeEn && payload.expressCompanyCodeEn.split('/-/').length > 0) {
-        const expressCompanyCodeEn = payload.expressCompanyCodeEn.split('/-/');
-        [newpayload.expressCompanyCodeEn] = expressCompanyCodeEn;
-      }
       newpayload.id = id;
-      const res = yield call(updata, newpayload);
+      const res = yield call(update, newpayload);
       if (res.code === 200) {
         notification.success({
-          message: '添加成功',
+          message: '修改成功',
         });
         yield put({
           type: 'setStates',
@@ -78,22 +70,6 @@ export default modelExtend(pageModel, {
         });
         yield put({
           type: 'query',
-        });
-      }
-    },
-
-    *getExpressList(_, { call, put }) {
-      const res = yield call(queryExpressList);
-      if (res.code === 200 && res.data) {
-        const options = res.data.map((items) => {
-          const val = `${items.company_code}/-/${items.id}/-/${items.company_name}`;
-          return <Option key={val}>{items.company_name}</Option>;
-        });
-        yield put({
-          type: 'setStates',
-          payload: {
-            expressList: options,
-          },
         });
       }
     },

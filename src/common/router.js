@@ -109,6 +109,9 @@ export const getRouterData = (app) => {
     '/operate/unusual-scanning': {
       component: dynamicWrapper(app, ['unusualscanning'], () => import('../routes/Operate/UnusualScanning')),
     },
+    '/operate/cargo': {
+      component: dynamicWrapper(app, ['cargo'], () => import('../routes/Operate/Cargo')),
+    },
     '/setting/customer': {
       component: dynamicWrapper(app, ['customer'], () => import('../routes/Setting/CustomerList')),
     },

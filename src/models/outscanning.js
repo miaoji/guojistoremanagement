@@ -4,7 +4,7 @@ import { update, add, query, remove } from '../services/cargo';
 import { query as queryShelfInfo } from '../services/query/shelves';
 import { getOrderNo } from '../services/api';
 import { countrylist, productlist, packagelist, freightprice } from '../services/setting/freight';
-import { storage } from '../utils';
+import { storage, queryUrl } from '../utils';
 
 const { Option } = Select;
 
@@ -158,7 +158,8 @@ export default {
       if (callback) callback();
     },
     *initOrderNo(_, { put }) {
-      const orderNo = window.localStorage.getItem('orderno');
+      const queryData = queryUrl(window.location.href);
+      const orderNo = queryData.orderNo || window.localStorage.getItem('orderno');
       if (orderNo) {
         yield put({
           type: 'setStates',

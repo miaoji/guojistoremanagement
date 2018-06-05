@@ -9,7 +9,6 @@ const FormItem = Form.Item;
 const Filter = ({
   handleFormReset,
   handleSearch,
-  showModal,
   form: {
     getFieldDecorator,
     getFieldsValue,
@@ -42,10 +41,19 @@ const Filter = ({
   return (
     <Form layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-        <Col md={6} sm={24}>
-          <FormItem label="名称">
-            {getFieldDecorator('ruleName')(
-              <Input placeholder="按名称搜索" onPressEnter={onSearch} />
+        <Col md={5} sm={24}>
+          <FormItem label="内单号">
+            {getFieldDecorator('orderNo')(
+              <Input placeholder="按内单号搜索" onPressEnter={onSearch} />
+            )}
+          </FormItem>
+        </Col>
+        <Col md={5} sm={24}>
+          <FormItem label="客户编号">
+            {getFieldDecorator('customerNo', {
+              initialValue: '',
+            })(
+              <Input placeholder="请输入客户编号" onPressEnter={onSearch} />
             )}
           </FormItem>
         </Col>
@@ -56,13 +64,10 @@ const Filter = ({
             )}
           </FormItem>
         </Col>
-        <Col md={6} sm={24}>
+        <Col md={5} sm={24}>
           <span className={styles.submitButtons}>
             <Button type="primary" onClick={onSearch}>查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={onFormReset}>重置</Button>
-            <Button style={{ marginLeft: 8 }} type="primary" onClick={() => showModal()}>
-              新建
-            </Button>
           </span>
         </Col>
       </Row>
@@ -73,7 +78,6 @@ const Filter = ({
 Filter.propTypes = {
   handleFormReset: PropTypes.func.isRequired,
   handleSearch: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Filter);

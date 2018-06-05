@@ -28,6 +28,9 @@ const menuData = [{
   }, {
     name: '异常件操作',
     path: 'unusual-scanning',
+  }, {
+    name: '合单查看',
+    path: 'cargo',
   }],
 }, {
   name: '基础数据设置',

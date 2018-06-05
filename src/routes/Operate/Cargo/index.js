@@ -10,9 +10,9 @@ import styles from './index.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-@connect(({ customerType, loading }) => ({
-  customerType,
-  loading: loading.models.customerType,
+@connect(({ cargo, loading }) => ({
+  cargo,
+  loading: loading.models.cargo,
 }))
 @Form.create()
 export default class TableList extends PureComponent {
@@ -20,10 +20,9 @@ export default class TableList extends PureComponent {
     selectedRows: [],
   }
   componentDidMount() {
-    const { dispatch, location } = this.props;
+    const { dispatch } = this.props;
     dispatch({
-      type: 'customerType/query',
-      payload: location.query,
+      type: 'cargo/query',
     });
   }
 
@@ -31,40 +30,32 @@ export default class TableList extends PureComponent {
     const {
       form,
       location,
-      customerType: {
-        data,
-        list,
-        total,
-        modalVisible,
-        modalType,
-        currentItem,
-      },
+      cargo: { data, list, total, modalVisible, modalType, currentItem },
       loading,
       dispatch,
     } = this.props;
     const { selectedRows } = this.state;
     const global = this;
     const formValues = {};
-
     const filterProps = {
       filter: {
         ...location.query,
       },
       handleFormReset() {
         dispatch({
-          type: 'customerType/query',
+          type: 'cargo/query',
           payload: {},
         });
       },
       handleSearch(values) {
         dispatch({
-          type: 'customerType/query',
+          type: 'cargo/query',
           payload: values,
         });
       },
       showModal() {
         dispatch({
-          type: 'customerType/setStates',
+          type: 'cargo/setStates',
           payload: {
             modalVisible: true,
             modalType: 'create',
@@ -75,29 +66,6 @@ export default class TableList extends PureComponent {
       form,
     };
 
-    const modalProps = {
-      item: modalType === 'create' ? {} : currentItem,
-      modalVisible,
-      modalType,
-      title: modalType === 'create' ? '新建客户类型编码规则' : '修改客户类型编码规则',
-      onOk(val) {
-        dispatch({
-          type: `customerType/${modalType}`,
-          payload: {
-            ...val,
-          },
-        });
-      },
-      hideModal() {
-        dispatch({
-          type: 'customerType/setStates',
-          payload: {
-            modalVisible: false,
-          },
-        });
-      },
-    };
-
     const listProps = {
       selectedRows,
       loading,
@@ -105,20 +73,12 @@ export default class TableList extends PureComponent {
         list,
         pagination: { ...data.pagination, total },
       },
-      onDelete(id) {
-        dispatch({
-          type: 'customerType/remove',
-          payload: {
-            id,
-          },
-        });
-      },
       showModal(item) {
         dispatch({
-          type: 'customerType/setStates',
+          type: 'cargo/setStates',
           payload: {
             modalVisible: true,
-            modalType: 'update',
+            modalType: 'updata',
             currentItem: item,
           },
         });
@@ -128,7 +88,7 @@ export default class TableList extends PureComponent {
           selectedRows: rows,
         });
         dispatch({
-          type: 'customerType/setStates',
+          type: 'cargo/setStates',
           payload: {
             selectedRows: [...rows],
           },
@@ -150,7 +110,7 @@ export default class TableList extends PureComponent {
           params.sorter = `${sorter.field}_${sorter.order}`;
         }
         dispatch({
-          type: 'customerType/query',
+          type: 'cargo/query',
           payload: params,
         });
       },
@@ -159,7 +119,7 @@ export default class TableList extends PureComponent {
         switch (e.key) {
           case 'remove':
             dispatch({
-              type: 'customerType/remove',
+              type: 'cargo/remove',
               payload: {
                 no: selectedRows.map(row => row.no).join(','),
               },
@@ -171,6 +131,28 @@ export default class TableList extends PureComponent {
             break;
         }
       },
+    };
+
+    const modalProps = {
+      item: currentItem,
+      title: modalType === 'create' ? '新建规则' : '修改合单',
+      onOk(item) {
+        dispatch({
+          type: `cargo/${modalType}`,
+          payload: {
+            ...item,
+          },
+        });
+      },
+      hideModal() {
+        dispatch({
+          type: 'cargo/setStates',
+          payload: {
+            modalVisible: false,
+          },
+        });
+      },
+      modalVisible,
     };
 
     return (
