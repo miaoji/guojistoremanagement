@@ -70,11 +70,13 @@ const Modalbox = ({
               message: '请输入合单状态!',
             },
           ],
-        })(<RadioGroup>
-          <Radio value={0}>未合单</Radio>
-          <Radio value={1}>已合单</Radio>
-        </RadioGroup>)
-      }
+        })(
+          <RadioGroup>
+            <Radio value={0}>未合单</Radio>
+            <Radio value={1}>已合单</Radio>
+          </RadioGroup>
+        )
+        }
       </FormItem>
     </Modal>
   );

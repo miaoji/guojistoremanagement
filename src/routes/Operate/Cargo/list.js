@@ -36,6 +36,7 @@ const List = ({
   const expandedRowRender = (record) => {
     const { orderDetailList } = record;
     const arr = [];
+    /* eslint no-plusplus: 'off' */
     for (let index = 0; index < orderDetailList.length; index++) {
       const element = orderDetailList[index];
       const arrItem = [];
