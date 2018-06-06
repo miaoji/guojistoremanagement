@@ -109,7 +109,7 @@ class SmallTable extends PureComponent {
         </div>
         <Table
           loading={loading}
-          rowKey={record => record.key}
+          rowKey={record => record.key || record.id || record.ID}
           // rowSelection={rowSelection}
           dataSource={list}
           columns={columns}

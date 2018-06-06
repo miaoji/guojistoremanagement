@@ -38,7 +38,7 @@ const fetch = (options) => {
     url,
     auth = true,
     token,
-    timeout = 1000,
+    timeout = 5000,
   } = options;
 
   const cloneData = lodash.cloneDeep(data);
