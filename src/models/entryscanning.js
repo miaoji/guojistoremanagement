@@ -50,7 +50,6 @@ export default {
     },
     *add({ payload, callback }, { call, put }) {
       const entryCount = Number(storage({ type: 'get', key: 'entryCount' }));
-
       const response = yield call(add, {
         data: {
           customerNo: payload.customerNo,
@@ -58,6 +57,7 @@ export default {
           cnNo: payload.cnNo,
           shelfNo: payload.shelfNo,
           weight: payload.weight,
+          parcelTypes: payload.parcelTypes,
         },
         params: {
           type: 0,
