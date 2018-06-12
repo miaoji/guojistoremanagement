@@ -1,7 +1,8 @@
 import React from 'react';
 import { message, notification, Select } from 'antd';
-import { update, add, query, remove } from '../services/cargo';
+import { update, add, query, remove, cargoSendMessage } from '../services/cargo';
 import { query as queryShelfInfo } from '../services/query/shelves';
+import { getToken } from '../services/token';
 import { storage } from '../utils';
 
 const { Option } = Select;
@@ -21,6 +22,12 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
+      const token = yield call(getToken, {
+        timestamp: '1522112875223',
+        nonceStr: '35077935fccf407e69262e04c2120539',
+        sign: '2207bcfbee4bf9f7dd31247ca49c504b',
+      });
+      window.localStorage.setItem('mztoken', token.repldata);
       yield put({ type: 'getShelNo' });
       /* eslint-disable no-param-reassign */
       if (!payload) {
@@ -64,6 +71,7 @@ export default {
         },
       });
       if (response.code === 200) {
+        yield call(cargoSendMessage, { cnNo: payload.cnNo, customerNo: payload.customerNo });
         yield put({ type: 'setStates', payload: { musicPlay: true } });
         storage({ type: 'set', key: 'entryCount', val: entryCount + 1 });
         notification.success({

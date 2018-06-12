@@ -58,3 +58,12 @@ export async function getOrderNo({ data, params }) {
     params,
   });
 }
+
+export async function cargoSendMessage(data) {
+  return request({
+    url: apiList.cargoSendMessage,
+    method: 'get',
+    mztoken: true,
+    data,
+  });
+}
