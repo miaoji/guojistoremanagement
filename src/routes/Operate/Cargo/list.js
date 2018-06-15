@@ -56,11 +56,11 @@ const List = ({
   };
 
   const columns = [
-    {
-      title: '批次号',
-      dataIndex: 'BATCH',
-      key: 'BATCH',
-    },
+    // {
+    //   title: '批次号',
+    //   dataIndex: 'BATCH',
+    //   key: 'BATCH',
+    // },
     {
       title: '内单号',
       dataIndex: 'ORDER_NO',

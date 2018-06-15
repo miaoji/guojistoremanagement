@@ -2,22 +2,20 @@
 // const APIV2 = '/api/v2'
 let APIV4 = '';
 let APIV3 = '';
-let APIV5 = '';
 
 APIV4 = 'http://api.mingz-tech.com';
 
 // 线下地址
-APIV3 = 'http://192.168.231.239:8000';
-APIV5 = 'http://192.168.231.239:8078';
+// APIV3 = 'http://192.168.231.239:8000';
+// APIV4 = 'http://192.168.231.239:8078';
 
 // 正式地址(生产)
-// APIV3 = 'http://wmsapi.mingz-tech.com';
+APIV3 = 'http://wmsapi.mingz-tech.com';
 
 // 生产环境时api固定为线上url
 if (process.env.NODE_ENV !== 'development') {
   APIV3 = 'http://wmsapi.mingz-tech.com';
   APIV4 = 'http://api.mingz-tech.com';
-  APIV5 = 'http://api.mingz-tech.com';
 }
 
 export const login = {
@@ -49,7 +47,7 @@ export const cargo = {
   getOrderDetail: `${APIV3}/api/orderInfo/getOrderDetail`,
   // cnNo
   getOrderNo: `${APIV3}/api/orderInfo/getOrderNo`,
-  cargoSendMessage: `${APIV5}/api/orderInfo/CargoSendMessage`,
+  cargoSendMessage: `${APIV4}/api/orderInfo/CargoSendMessage`,
 };
 
 export const unusual = {
