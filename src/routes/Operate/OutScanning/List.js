@@ -13,14 +13,14 @@ const List = ({
   const expandedRowRender = (record) => {
     return (
       <div>
-        <p>客户名称: {record.customer_name}</p>
-        <p>渠道商名称: {record.distributor_name}</p>
-        <p>仓管费: {record.cargo_charge}</p>
-        <p>重量: {record.weight}</p>
-        <p>体积重/cm^3: {record.volume_weight}</p>
-        <p>长/cm: {record.length}</p>
-        <p>宽/cm: {record.wide}</p>
-        <p>高/cm: {record.height}</p>
+        <p>客户名称: {record.customer_name || '暂无记录'}</p>
+        <p>渠道商名称: {record.distributor_name || '暂无记录'}</p>
+        <p>仓管费: {record.cargo_charge || '暂无记录'}</p>
+        <p>重量: {record.weight || '暂无记录'}</p>
+        <p>体积重/cm^3: {record.volume_weight || '暂无记录'}</p>
+        <p>长/cm: {record.length || '暂无记录'}</p>
+        <p>宽/cm: {record.wide || '暂无记录'}</p>
+        <p>高/cm: {record.height || '暂无记录'}</p>
       </div>
     );
   };

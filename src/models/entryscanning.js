@@ -64,7 +64,9 @@ export default {
         },
       });
       if (response.code === 200) {
-        yield call(cargoSendMessage, { cnNo: payload.cnNo, customerNo: payload.customerNo });
+        if (response.statuInfo === 1) {
+          yield call(cargoSendMessage, { cnNo: payload.cnNo, customerNo: payload.customerNo });
+        }
         yield put({ type: 'setStates', payload: { musicPlay: true } });
         storage({ type: 'set', key: 'entryCount', val: entryCount + 1 });
         notification.success({
@@ -73,7 +75,7 @@ export default {
         yield put({ type: 'fetch' });
       } else {
         notification.warning({
-          message: '添加失败',
+          message: response.msg,
         });
       }
       if (callback) callback();

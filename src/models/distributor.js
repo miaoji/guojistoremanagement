@@ -40,8 +40,8 @@ export default modelExtend(pageModel, {
 
     *create({ payload }, { call, put }) {
       const source = {
-        distributor_name: payload.distributor_name,
-        distributor_code: payload.distributor_code,
+        distributorName: payload.distributor_name,
+        distributorCode: payload.distributor_code,
         remark: payload.remark,
       };
       const data = yield call(create, source);
